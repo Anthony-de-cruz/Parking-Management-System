@@ -1,3 +1,4 @@
 #### Editors ####
-.idea/*
+.idea/
 .obsidian/
+*.code-workspace
