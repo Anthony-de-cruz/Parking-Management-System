@@ -1,8 +1,9 @@
 # Parking-Management-System
-## Features:
+## Features
 - Booking
 - Navigation
-## Stack:
+- ...
+## Stack
 - Node.js
 - PostgreSQL
 - Docker
