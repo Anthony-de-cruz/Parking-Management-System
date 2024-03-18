@@ -1,0 +1,2 @@
+CREATE VIEW Admin AS
+    SELECT
