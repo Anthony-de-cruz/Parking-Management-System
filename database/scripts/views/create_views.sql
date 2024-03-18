@@ -1,2 +1,4 @@
+-- !PLpgSQL
+
 CREATE VIEW Admin AS
     SELECT

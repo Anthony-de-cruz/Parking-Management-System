@@ -1,3 +1,5 @@
+-- !PLpgSQL
+
 -- REBUILD Script
 -- NUCLEAR BOMB
 DROP TABLE IF EXISTS "ParkingSpace";
