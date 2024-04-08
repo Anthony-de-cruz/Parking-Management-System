@@ -8,6 +8,13 @@
 - PostgreSQL
 - Docker
 
+## Database documentation:
+### Setup and Overview:
+[/database/README.md](/database/README.md)
+
+### Schema:
+Todo
+
 ### Docker
 [docker in 100 seconds](https://www.youtube.com/watch?v=Gjnup-PuquQ)
 
