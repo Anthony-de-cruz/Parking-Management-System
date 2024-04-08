@@ -10,7 +10,7 @@ DROP TABLE IF EXISTS "User";
 
 CREATE Table "User"
 (
-    userID   INTEGER,
+    userID   SERIAL,
     username VARCHAR(20) NOT NULL,
     password VARCHAR(20) NOT NULL,
     email    VARCHAR(30) NOT NULL,
@@ -20,7 +20,7 @@ CREATE Table "User"
 CREATE Table "Vehicle"
 (
     registration VARCHAR(7),
-    userID       INTEGER NOT NULL,
+    userID       SERIAL NOT NULL,
     PRIMARY KEY (registration),
     FOREIGN KEY (userID) REFERENCES "User" (userID)
         ON DELETE CASCADE
@@ -28,16 +28,16 @@ CREATE Table "Vehicle"
 
 CREATE Table "Carpark"
 (
-    carparkID INTEGER,
+    carparkID SERIAL,
     name      VARCHAR(20) NOT NULL UNIQUE,
     PRIMARY KEY (carparkID)
 );
 
 CREATE Table "ParkingSpace"
 (
-    parkingSpaceID INTEGER,
-    carparkID      INTEGER NOT NULL,
-    gps            POINT   NOT NULL,
+    parkingSpaceID SERIAL,
+    carparkID      SERIAL NOT NULL,
+    gps            POINT  NOT NULL,
     occupied       BOOLEAN DEFAULT false,
     registration   VARCHAR(7),
     PRIMARY KEY (parkingSpaceID),
@@ -49,8 +49,8 @@ CREATE Table "ParkingSpace"
 
 CREATE Table "Booking"
 (
-    bookingID      INTEGER,
-    parkingSpaceID INTEGER        NOT NULL,
+    bookingID      SERIAL,
+    parkingSpaceID SERIAL         NOT NULL,
     registration   CHAR(7)        NOT NULL,
     start          TIMESTAMP      NOT NULL,
     finish         TIMESTAMP      NOT NULL,
