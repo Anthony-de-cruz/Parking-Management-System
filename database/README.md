@@ -91,14 +91,14 @@ postgres=# \q
 Alternatively, you can add the query directly in the connection command:
 
 ```sh
-$ psql -h <hostname> -p <port> -U <username> -d <database_name> -c 'your_query'
+$ psql -h <hostname> -p <port> -U <username> -d <database_name> -c '<your_query>'
 ```
 
 Which, in our case, would be:
 
 ```sh
 $ psql -h 0.0.0.0 -p 5432 -U postgres -d postgres -c 'SELECT * FROM "User";'
-Password for user postgres:
+Password for user postgres: <password> (which is literally 'password')
  userid | username | password  |    email
 --------+----------+-----------+-------------
       1 | bob      | password  | bob@bob.bob
