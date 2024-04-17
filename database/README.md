@@ -1,20 +1,8 @@
 # The Database
 
-The DB is to be run with `docker-compose`. To be used with the `pg` node package.
-
 # Startup
 
-### Linux/MacOS
-
-```sh
-$ docker-compose up
-```
-
-### Windows
-
-Just use the Docker GUI, download and documentation below.
-
-https://docs.docker.com/desktop/
+See main doc Build and Run
 
 # Connect
 
