@@ -1,5 +1,24 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  header
+    img.logo(src="../images/Designer.png", alt="Company Logo")
+    div.company-name CarpPark
+    div.account-balance Account Balance: $XXXX.XX
+
+  div.container
+    nav
+      a.navigation-link(href="#") Home
+      a.navigation-link(href="#") Create Booking
+      a.navigation-link(href="#") Manage Booking
+      a.navigation-link(href="#") Add Balance
+      a.navigation-link(href="/login") Login
+
+    div.main-content
+      h1 Welcome to CarpPark
+      p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      img(src="https://www.kelburneconstruction.co.uk/wp-content/uploads/2015/09/Kel-003-GSK-Carpark.jpg", alt="Parking")
+
+    div.main-content
+      img(src="https://www.kelburneconstruction.co.uk/wp-content/uploads/2015/09/Kel-003-GSK-Carpark.jpg", alt="Parking")
+      img(src="https://www.kelburneconstruction.co.uk/wp-content/uploads/2015/09/Kel-003-GSK-Carpark.jpg", alt="Parking")
