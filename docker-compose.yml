@@ -1,10 +1,12 @@
 version: "3"
 services:
   node:
+    container_name: pms-node
     build: node/
     ports:
       - "8080:8080"
   db:
+    container_name: pms-db
     image: postgres
     restart: always
     ports:
