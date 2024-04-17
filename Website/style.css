@@ -1,6 +1,9 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
+  width: 60%;
+  margin: 0 auto;
+  background-color: #ddd8ce;
 }
 
 header {
@@ -51,6 +54,8 @@ nav {
   text-align: center;
   flex-grow: 1;
   background-color: #FFFCF2;
+  flex-direction: column;
+  display: flex;
 }
 
 .main-content img {
