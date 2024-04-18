@@ -3,6 +3,9 @@ services:
   node:
     container_name: pms-node
     build: node/
+    volumes:
+      - ./node:/node
+      - /node/node_modules # Remove this if you have pure JS dependencies
     ports:
       - "8080:8080"
   db:
