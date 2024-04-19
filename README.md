@@ -33,11 +33,11 @@ In the root directory, run:
 $ docker compose up --build
 ```
 
+Note that `docker-compose` is outdated, though still shows up on a lot of tutorials/guides. Use `docker compose` instead.
+
 Which should result in output similar to this trimmed down reading:
 
 ```sh
-PS C:\Users\antho\OneDrive\Documents\GitHub\Parking-Management-System> docker compose up --build
-[+] Running 15/1
  ✔ db 14 layers [⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿]      0B/0B      Pulled                                                                                                                                                           17.1s
  => [node 1/5] FROM docker.io/library/node:20@sha256:844b41cf784f66d7920fd673f7af54ca7b81e289985edc6cd864e7d05e0d133c                                                                                             46.5s
                     ~ a bunch of stuff
@@ -78,14 +78,17 @@ CONTAINER ID   IMAGE                            COMMAND                  CREATED
 c0e6040f0a19   parking-management-system-node   "docker-entrypoint.s…"   About a minute ago   Up 6 seconds   0.0.0.0:8080->8080/tcp   parking-management-system-node-1
 ```
 
-Alternatively, you can do all this in the Docker GUI.
+Alternatively, you can do all this in the Docker GUI or even in your editor using the right extensions.
 
-## Database documentation:
+## Database documentation
 
-### Overview:
+### Overview
 
 [/database/README.md](/database/README.md)
 
-### Schema:
+### Schema
 
 Todo docs
+
+## Development notes
+- Node is setup with nodemon, so things should update as you make changes, without you needing to rebuild anything.
