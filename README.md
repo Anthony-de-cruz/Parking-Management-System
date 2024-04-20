@@ -1,6 +1,10 @@
-# Parking-Management-System
+# Parking-Management-System 
+<p align=center>
+ <img src="/node/public/images/Designer.png" alt="FISH" width="300" height="300">
+</p>
 
 ### Features
+
 
 - Booking
 - Navigation
