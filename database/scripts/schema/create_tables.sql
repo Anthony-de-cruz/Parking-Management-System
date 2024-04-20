@@ -1,14 +1,6 @@
--- !PLpgSQL
+-- !psql
 
--- REBUILD Script
--- NUCLEAR BOMB
-DROP TABLE IF EXISTS "Booking";
-DROP TABLE IF EXISTS "ParkingSpace";
-DROP TABLE IF EXISTS "Carpark";
-DROP TABLE IF EXISTS "Vehicle";
-DROP TABLE IF EXISTS "User";
-
-CREATE Table "User"
+CREATE TABLE IF NOT EXISTS "User"
 (
     userID   SERIAL,
     username VARCHAR(20) NOT NULL,
@@ -17,7 +9,7 @@ CREATE Table "User"
     PRIMARY KEY (userID)
 );
 
-CREATE Table "Vehicle"
+CREATE TABLE IF NOT EXISTS "Vehicle"
 (
     registration VARCHAR(7),
     userID       SERIAL NOT NULL,
@@ -26,14 +18,14 @@ CREATE Table "Vehicle"
         ON DELETE CASCADE
 );
 
-CREATE Table "Carpark"
+CREATE TABLE IF NOT EXISTS "Carpark"
 (
     carparkID SERIAL,
     name      VARCHAR(20) NOT NULL UNIQUE,
     PRIMARY KEY (carparkID)
 );
 
-CREATE Table "ParkingSpace"
+CREATE TABLE IF NOT EXISTS "ParkingSpace"
 (
     parkingSpaceID SERIAL,
     carparkID      SERIAL NOT NULL,
@@ -47,7 +39,7 @@ CREATE Table "ParkingSpace"
         ON DELETE RESTRICT
 );
 
-CREATE Table "Booking"
+CREATE TABLE IF NOT EXISTS "Booking"
 (
     bookingID      SERIAL,
     parkingSpaceID SERIAL         NOT NULL,
