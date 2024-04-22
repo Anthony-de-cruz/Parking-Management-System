@@ -31,8 +31,6 @@ async function checkLogin(username, password) {
     'SELECT password FROM "User" WHERE username = \'' + username + "';",
   );
 
-  console.log(result.rows[0].password);
-
   if (password === result.rows[0].password) {
     return true;
   }
