@@ -14,3 +14,5 @@ VALUES ('doggo', 2);
 
 INSERT INTO "Carpark" (name)
 VALUES ('main parking lot');
+
+SELECT password FROM "User" WHERE username = 'bob';
