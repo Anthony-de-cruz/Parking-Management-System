@@ -90,3 +90,6 @@ form input[type="month"] {
   margin-bottom: 10px;
   box-sizing: border-box; 
 }
+.navigation-link:hover {
+  color: #0A8754; /* Darker color for text when hovered */
+}
