@@ -62,3 +62,31 @@ nav {
   max-width: 100%;
   height: auto;
 }
+
+input[type="text"],
+input[type="number"],
+input[type="month"] {
+  padding: 10px;
+  width: 300px;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+form {
+  width: 300px;
+  margin: 0 auto; 
+}
+
+form label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+form input[type="text"],
+form input[type="number"],
+form input[type="month"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-sizing: border-box; 
+}
