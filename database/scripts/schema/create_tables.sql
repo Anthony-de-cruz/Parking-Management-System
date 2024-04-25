@@ -2,19 +2,19 @@
 
 CREATE TABLE IF NOT EXISTS "User"
 (
-    userID   SERIAL,
     username VARCHAR(20) NOT NULL,
     password VARCHAR(20) NOT NULL,
     email    VARCHAR(30) NOT NULL,
-    PRIMARY KEY (userID)
+    isAdmin  BOOL        NOT NULL,
+    PRIMARY KEY (username)
 );
 
 CREATE TABLE IF NOT EXISTS "Vehicle"
 (
     registration VARCHAR(7),
-    userID       SERIAL NOT NULL,
+    username       SERIAL NOT NULL,
     PRIMARY KEY (registration),
-    FOREIGN KEY (userID) REFERENCES "User" (userID)
+    FOREIGN KEY (username) REFERENCES "User" (username)
         ON DELETE CASCADE
 );
 
