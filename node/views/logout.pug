@@ -15,10 +15,9 @@ block content
       a.navigation-link(href='/add-balance') Add Balance
       a.navigation-link(href='/logout') Logout
     .main-content
-      label(for='date') Select Date:
-      input#date(type='date' name='date')
-      label(for='time') Select Time:
-      input#time(type='time' name='time')
-      input(type='submit' value='Submit')
-      p Available times:
-      // This is where you would add the available times based on their inputs
+      h2 Logout
+      p Are you sure you want to logout?
+      form(action='logout.php' method='post')
+        input(type='submit' value='Logout')
+      // Wehn they click the submit button it should make it so they logout and are redirected to the login page
+

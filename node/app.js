@@ -12,6 +12,9 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var loginRouter = require("./routes/login");
 var createBookingRouter = require("./routes/createBooking");
+var logoutRouter = require("./routes/logout");
+var addBalanceRouter = require("./routes/addBalance");
+var manageBookingRouter = require("./routes/manageBooking");
 
 var app = express();
 
@@ -26,7 +29,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
 
-// db
+// TEMPORARY - quickly test the db
 async function pokeDB() {
   const result = await query('SELECT * FROM "User";');
   console.log(result.rows);
@@ -39,6 +42,9 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/login", loginRouter);
 app.use("/create-booking", createBookingRouter);
+app.use("/logout", logoutRouter);
+app.use("/add-balance", addBalanceRouter);
+app.use("/manage-booking", manageBookingRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

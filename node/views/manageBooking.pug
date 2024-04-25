@@ -15,10 +15,15 @@ block content
       a.navigation-link(href='/add-balance') Add Balance
       a.navigation-link(href='/logout') Logout
     .main-content
-      label(for='date') Select Date:
-      input#date(type='date' name='date')
-      label(for='time') Select Time:
-      input#time(type='time' name='time')
-      input(type='submit' value='Submit')
-      p Available times:
-      // This is where you would add the available times based on their inputs
+      table
+        thead
+          // I have set the foundations for the table just need to implement the users data from the database and write it out underneath in the table headings
+          tr
+            th Booking ID
+            th Customer Name
+            th Date
+            th Time
+            th Status
+            th Modify
+        tbody
+          tr
