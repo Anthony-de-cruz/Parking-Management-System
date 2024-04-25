@@ -1,0 +1,22 @@
+extends layout
+
+block header
+  header
+    img.logo(src='Designer.png' alt='Company Logo')
+    .company-name CarpPark - Logout
+    .account-balance Account Balance: $XXXX.XX
+
+block content
+  .container
+    nav
+      a.navigation-link(href='PMS HomePage.html') Home
+      a.navigation-link(href='PMS Create Booking.html') Create Booking
+      a.navigation-link(href='PMS Manage Booking.html') Manage Booking
+      a.navigation-link(href='PMS AddBalance.html') Add Balance
+      a.navigation-link(href='PMS Logout.html') Logout
+    .main-content
+      h2 Logout
+      p Are you sure you want to logout?
+      form(action='#' method='post')
+        input(type='submit' value='Logout')
+      // Wehn they click the submit button it should make it so they logout and are redirected to the login page

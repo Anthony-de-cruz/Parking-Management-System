@@ -6,7 +6,7 @@ const { query } = databaseManager;
 
 /* GET login. */
 router.get("/", function (req, res, next) {
-  res.render("login", { loginResult: "" });
+  res.render("login", { title: "Login", loginResult: "" });
 });
 
 router.post("/", async (req, res, next) => {
