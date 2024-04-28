@@ -1,44 +1,13 @@
 # The Database
 
-Useful documentation: https://hub.docker.com/_/postgres
-
-# Startup
-
-See main doc Build and Run
-
-# Connect
-
-Default IPv4: `0.0.0.0`, Port: `5432`
-
+### Useful Documentation
+https://hub.docker.com/_/postgres
+https://node-postgres.com/
 ## Interaction
 
 ### Node
 
 The `pg` library does the heavy lifting.
-
-Excerpt from the documentation:
-
-#### Installation
-
-```sh
-$ npm install pg
-```
-
-#### Usage
-
-```js
-import pg from "pg";
-const { Client } = pg;
-const client = new Client();
-await client.connect();
-
-const res = await client.query("SELECT $1::text as message", ["Hello world!"]);
-console.log(res.rows[0].message); // Hello world!
-await client.end();
-```
-
-https://node-postgres.com/
-
 ### GUIs
 
 Most editors, like VSCode, have Postgres extensions. They should work well, but I'd recommend using a dedicated editor like DataGrip or pgAdmin 4.
@@ -95,3 +64,19 @@ Password for user postgres: <password> (which is literally 'password')
       2 | job      | password2 | job@bob.bob
 (2 rows)
 ```
+
+# Schema
+
+### Objectives
+#### User
+- View, create, update and delete their account. 
+- View, create, update and delete their registered vehicles.
+- View, create, update and delete their bookings.
+- View car parks and spaces.
+- View booking timetable.
+#### Admin
+- View, create, update and delete accounts.
+- View, create, update and delete registered vehicles.
+- View, create, update and delete bookings.
+- View, create, update and delete car parks and spaces.
+- View, create, update and delete bookings.
