@@ -1,26 +1,26 @@
 -- !PLpgSQL
 
-INSERT INTO "User" (username, password, email, isAdmin)
+INSERT INTO app_user (username, password, email, is_admin)
 VALUES ('bob', 'password', 'bob@bob.bob', FALSE);
 
-INSERT INTO "User" (username, password, email, isAdmin)
+INSERT INTO app_user (username, password, email, is_admin)
 VALUES ('job', 'password2', 'job@bob.bob', FALSE);
 
-INSERT INTO "User" (username, password, email, isadmin)
+INSERT INTO app_user (username, password, email, is_admin)
 VALUES ('BigDave5', 'big', 'wheey@email.com', TRUE);
 
-INSERT INTO "Vehicle" (registration, owner)
+INSERT INTO vehicle (registration, owner_username)
 VALUES ('EEG', 'bob');
 
-INSERT INTO "Vehicle" (registration, owner)
+INSERT INTO vehicle (registration, owner_username)
 VALUES ('AS3 ISD', 'bob');
 
-INSERT INTO "Carpark" (name)
+INSERT INTO carpark (name)
 VALUES ('main parking lot');
 
 SELECT password
-FROM "User"
+FROM app_user
 WHERE username = 'bob';
 SELECT password
-FROM "User"
+FROM app_user
 WHERE username = 'BigDave5';

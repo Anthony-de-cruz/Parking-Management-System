@@ -1,55 +1,55 @@
 -- !psql
 
-CREATE TABLE IF NOT EXISTS "User"
+CREATE TABLE IF NOT EXISTS app_user
 (
     username VARCHAR(20) NOT NULL,
     password VARCHAR(20) NOT NULL,
     email    VARCHAR(30) NOT NULL,
-    isAdmin  BOOL        NOT NULL,
+    is_admin BOOL        NOT NULL,
     PRIMARY KEY (username)
 );
 
-CREATE TABLE IF NOT EXISTS "Vehicle"
+CREATE TABLE IF NOT EXISTS vehicle
 (
-    registration VARCHAR(7),
-    owner     VARCHAR(20) NOT NULL,
+    registration   VARCHAR(7),
+    owner_username VARCHAR(20) NOT NULL,
     PRIMARY KEY (registration),
-    FOREIGN KEY (owner) REFERENCES "User" (username)
+    FOREIGN KEY (owner_username) REFERENCES app_user (username)
         ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS "Carpark"
+CREATE TABLE IF NOT EXISTS carpark
 (
-    carparkID SERIAL,
-    name      VARCHAR(20) NOT NULL UNIQUE,
-    PRIMARY KEY (carparkID)
+    carpark_id SERIAL,
+    name       VARCHAR(20) NOT NULL UNIQUE,
+    PRIMARY KEY (carpark_id)
 );
 
-CREATE TABLE IF NOT EXISTS "ParkingSpace"
+CREATE TABLE IF NOT EXISTS parking_space
 (
-    parkingSpaceID SERIAL,
-    carparkID      SERIAL NOT NULL,
-    gps            POINT  NOT NULL,
-    occupied       BOOLEAN DEFAULT false,
-    registration   VARCHAR(7),
-    PRIMARY KEY (parkingSpaceID),
-    FOREIGN KEY (carparkID) REFERENCES "Carpark" (carparkID)
+    parking_space_id SERIAL,
+    carpark_id       SERIAL NOT NULL,
+    gps              POINT  NOT NULL,
+    occupied         BOOLEAN DEFAULT false,
+    registration     VARCHAR(7),
+    PRIMARY KEY (parking_space_id),
+    FOREIGN KEY (carpark_id) REFERENCES carpark (carpark_id)
         ON DELETE RESTRICT,
-    FOREIGN KEY (registration) REFERENCES "Vehicle" (registration)
+    FOREIGN KEY (registration) REFERENCES vehicle (registration)
         ON DELETE RESTRICT
 );
 
-CREATE TABLE IF NOT EXISTS "Booking"
+CREATE TABLE IF NOT EXISTS booking
 (
-    bookingID      SERIAL,
-    parkingSpaceID SERIAL         NOT NULL,
-    registration   CHAR(7)        NOT NULL,
-    start          TIMESTAMP      NOT NULL,
-    finish         TIMESTAMP      NOT NULL,
-    charge         DECIMAL(19, 4) NOT NULL,
-    PRIMARY KEY (bookingID),
-    FOREIGN KEY (parkingSpaceID) REFERENCES "ParkingSpace" (parkingSpaceID)
+    booking_id       SERIAL,
+    parking_space_id SERIAL         NOT NULL,
+    registration     CHAR(7)        NOT NULL,
+    start            TIMESTAMP      NOT NULL,
+    finish           TIMESTAMP      NOT NULL,
+    charge           DECIMAL(19, 4) NOT NULL,
+    PRIMARY KEY (booking_id),
+    FOREIGN KEY (parking_space_id) REFERENCES parking_space (parking_space_id)
         ON DELETE RESTRICT,
-    FOREIGN KEY (registration) REFERENCES "Vehicle" (registration)
+    FOREIGN KEY (registration) REFERENCES vehicle (registration)
         ON DELETE RESTRICT
 );
