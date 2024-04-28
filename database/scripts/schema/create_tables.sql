@@ -12,9 +12,9 @@ CREATE TABLE IF NOT EXISTS "User"
 CREATE TABLE IF NOT EXISTS "Vehicle"
 (
     registration VARCHAR(7),
-    username       SERIAL NOT NULL,
+    owner     VARCHAR(20) NOT NULL,
     PRIMARY KEY (registration),
-    FOREIGN KEY (username) REFERENCES "User" (username)
+    FOREIGN KEY (owner) REFERENCES "User" (username)
         ON DELETE CASCADE
 );
 
