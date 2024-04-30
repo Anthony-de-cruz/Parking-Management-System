@@ -71,7 +71,27 @@ BEGIN
 END;
 $$;
 
+
+
 CREATE TRIGGER record_balance_change
 BEFORE UPDATE OF balance ON app_user
 FOR EACH ROW
 EXECUTE FUNCTION record_balance_change();
+
+CREATE OR REPLACE FUNCTION refund_booking()
+    LANGUAGE plpgsql
+AS
+$$
+DECLARE
+    charge INTEGER;
+BEGIN
+--     UPDATE app_user
+--     SET balance = balance + charge
+--     WHERE OLD.registration = app_user.username
+END;
+$$;
+
+CREATE TRIGGER refund_booking_deletion
+    AFTER DELETE ON booking
+    FOR EACH ROW
+    EXECUTE FUNCTION refund_booking();

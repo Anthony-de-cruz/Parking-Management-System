@@ -9,7 +9,8 @@ CREATE OR REPLACE PROCEDURE create_booking(
     LANGUAGE plpgsql AS
 $$
 DECLARE
-    charge INTEGER;
+    charge             INTEGER;
+    new_transaction_id INTEGER;
 BEGIN
     -- Atomic transactions
     -- Calculate charge
@@ -22,11 +23,16 @@ BEGIN
     UPDATE app_user
     SET balance = balance - charge
     FROM vehicle
-    WHERE app_user.username = vehicle.owner_username AND
-          vehicle.registration = registration_in;
+    WHERE app_user.username = vehicle.owner_username
+      AND vehicle.registration = registration_in;
 
+    -- Get the generated transaction
+    SELECT MAX(transaction_id)
+    FROM transaction
+    INTO new_transaction_id;
 
     -- Create booking
-
+    INSERT INTO booking (parking_space_id, registration, start, finish, transaction_id)
+    VALUES (parking_space_id_in, registration_in, start_in, finish_in, new_transaction_id);
 END;
 $$;

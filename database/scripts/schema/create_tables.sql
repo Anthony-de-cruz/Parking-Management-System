@@ -2,11 +2,12 @@
 
 CREATE TABLE IF NOT EXISTS app_user
 (
-    username VARCHAR(20) NOT NULL,
-    password VARCHAR(20) NOT NULL,
-    email    VARCHAR(30) NOT NULL,
-    is_admin BOOL        NOT NULL,
-    balance  INTEGER DEFAULT 0,
+    username  VARCHAR(20) NOT NULL,
+    password  VARCHAR(20) NOT NULL,
+    email     VARCHAR(30) NOT NULL,
+    is_admin  BOOL        NOT NULL,
+    is_banned BOOL        NOT NULL,
+    balance   INTEGER DEFAULT 0,
     PRIMARY KEY (username)
 );
 
@@ -22,9 +23,9 @@ CREATE TABLE IF NOT EXISTS vehicle
 CREATE TABLE IF NOT EXISTS carpark
 (
     carpark_id   SERIAL,
-    name         VARCHAR(20) NOT NULL UNIQUE,
-    booking_cost DECIMAL(19, 4)     NOT NULL,
-    gps                   POINT  NOT NULL,
+    name         VARCHAR(20)    NOT NULL UNIQUE,
+    booking_cost INTEGER NOT NULL,
+    gps          POINT          NOT NULL,
     PRIMARY KEY (carpark_id)
 );
 
@@ -46,7 +47,7 @@ CREATE TABLE IF NOT EXISTS transaction
 (
     transaction_id SERIAL,
     username       VARCHAR(20)    NOT NULL,
-    amount         DECIMAL(19, 4) NOT NULL,
+    amount         INTEGER NOT NULL,
     timestamp      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (transaction_id),
     FOREIGN KEY (username) REFERENCES app_user (username)
@@ -56,7 +57,7 @@ CREATE TABLE IF NOT EXISTS transaction
 CREATE TABLE IF NOT EXISTS booking
 (
     booking_id       SERIAL,
-    parking_space_id SERIAL    NOT NULL,
+    parking_space_id INTEGER   NOT NULL,
     registration     CHAR(7)   NOT NULL,
     start            TIMESTAMP NOT NULL,
     finish           TIMESTAMP NOT NULL,

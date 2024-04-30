@@ -1,13 +1,17 @@
 -- !PLpgSQL
 
-INSERT INTO app_user (username, password, email, is_admin)
-VALUES ('bob', 'password', 'bob@bob.bob', FALSE);
+INSERT INTO app_user (username, password, email, is_admin, is_banned)
+VALUES ('bob', 'password', 'bob@bob.bob', FALSE, FALSE);
 
-INSERT INTO app_user (username, password, email, is_admin)
-VALUES ('job', 'password2', 'job@bob.bob', FALSE);
+UPDATE app_user
+SET balance = balance + 500
+WHERE username = 'bob';
 
-INSERT INTO app_user (username, password, email, is_admin)
-VALUES ('BigDave5', 'big', 'wheey@email.com', TRUE);
+INSERT INTO app_user (username, password, email, is_admin, is_banned)
+VALUES ('job', 'password2', 'job@bob.bob', FALSE, FALSE);
+
+INSERT INTO app_user (username, password, email, is_admin, is_banned)
+VALUES ('BigDave5', 'big', 'wheey@email.com', TRUE, FALSE);
 
 INSERT INTO vehicle (registration, owner_username)
 VALUES ('EEG', 'bob');
@@ -35,17 +39,5 @@ VALUES ('side parking lot', 400, '(100, 20)');
 --
 -- INSERT INTO booking (parking_space_id, registration, start, finish)
 -- VALUES (1, '123', '01-01-2044 00:10', '01-01-2044 00:20');
-
-
-UPDATE app_user
-SET balance = balance + 500
-WHERE username = 'bob';
-
-SELECT password
-FROM app_user
-WHERE username = 'bob';
-SELECT password
-FROM app_user
-WHERE username = 'BigDave5';
 
 CALL create_booking(1, 'EEG', '01-01-2044 00:00', '01-01-2044 00:10');
