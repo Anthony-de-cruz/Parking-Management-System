@@ -18,13 +18,13 @@ pg_ctl -o "-c listen_addresses='localhost'" -w restart
 echo "init-db.sh: Executing initialisation scripts"
 
 # Execute SQL scripts
-# echo "init-db.sh: Creating tables"
-# psql -v ON_ERROR_STOP=1 -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -f /scripts/schema/create_tables.sql
-# echo "init-db.sh: Creating triggers"
-# psql -v ON_ERROR_STOP=1 -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -f /scripts/schema/create_triggers.sql
-# echo "init-db.sh: Creating procedures"
-# psql -v ON_ERROR_STOP=1 -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -f /scripts/schema/create_procedures.sql
-# echo "init-db.sh: Seeding tables"
-# psql -v ON_ERROR_STOP=1 -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -f /scripts/seed_data/initial_data.sql
+echo "init-db.sh: Creating tables"
+psql -v ON_ERROR_STOP=1 -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -f /scripts/schema/create_tables.sql
+echo "init-db.sh: Creating triggers"
+psql -v ON_ERROR_STOP=1 -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -f /scripts/schema/create_triggers.sql
+echo "init-db.sh: Creating procedures"
+#psql -v ON_ERROR_STOP=1 -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -f /scripts/schema/create_procedures.sql
+#echo "init-db.sh: Seeding tables"
+psql -v ON_ERROR_STOP=1 -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -f /scripts/seed_data/initial_data.sql
 
 echo "init-db.sh: Database initialisation complete"
