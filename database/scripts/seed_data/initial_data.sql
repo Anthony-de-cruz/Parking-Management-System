@@ -17,29 +17,29 @@ UPDATE app_user
 SET balance = balance + 600
 WHERE username = 'job';
 
-INSERT INTO carpark (name, hourly_fare, gps)
-VALUES ('main parking lot', 200, '(50, 20)');
+INSERT INTO carpark (name, hourly_fare)
+VALUES ('main parking lot', 200);
 
-INSERT INTO parking_space (carpark_id, gps)
-VALUES (1, '(50, 20)');
+INSERT INTO parking_space (carpark_id, latitude, longitude)
+VALUES (1, 30, 20);
 
-INSERT INTO parking_space (carpark_id, gps)
-VALUES (1, '(50, 30)');
+INSERT INTO parking_space (carpark_id, latitude, longitude)
+VALUES (1, 30, 25);
 
-INSERT INTO parking_space (carpark_id, gps)
-VALUES (1, '(60, 60)');
+INSERT INTO parking_space (carpark_id, latitude, longitude)
+VALUES (1, 30, 21.0);
 
-INSERT INTO carpark (name, hourly_fare, gps)
-VALUES ('side parking lot', 300, '(100, 20)');
+INSERT INTO carpark (name, hourly_fare)
+VALUES ('side parking lot', 300);
 
-INSERT INTO parking_space (carpark_id, gps)
-VALUES (2, '(10, 20)');
+INSERT INTO parking_space (carpark_id, latitude, longitude)
+VALUES (2, 30.0, 22.0);
 
-INSERT INTO parking_space (carpark_id, gps)
-VALUES (2, '(50, 69)');
+INSERT INTO parking_space (carpark_id, latitude, longitude)
+VALUES (2, 20.0, 22.0);
 
-INSERT INTO parking_space (carpark_id, gps)
-VALUES (2, '(1, 20)');
+INSERT INTO parking_space (carpark_id, latitude, longitude)
+VALUES (2, 20.0, 21.0);
 
 INSERT INTO booking (parking_space_id, booking_username, start, finish)
 VALUES (2, 'bob', '2044-01-01 00:10', '2044-01-01 00:20');

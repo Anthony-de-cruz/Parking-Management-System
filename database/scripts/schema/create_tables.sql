@@ -48,7 +48,6 @@ CREATE TABLE IF NOT EXISTS carpark
     name        VARCHAR(20) NOT NULL UNIQUE,
     hourly_fare INTEGER     NOT NULL
         CHECK (hourly_fare > 0),
-    gps         POINT       NOT NULL,
     PRIMARY KEY (carpark_id)
 );
 
@@ -56,7 +55,8 @@ CREATE TABLE IF NOT EXISTS parking_space
 (
     parking_space_id  SERIAL,
     carpark_id        SERIAL NOT NULL,
-    gps               POINT  NOT NULL,
+    latitude          FLOAT  NOT NULL,
+    longitude         FLOAT  NOT NULL,
     blocked           BOOLEAN DEFAULT false,
     occupant_username VARCHAR(20),
     PRIMARY KEY (parking_space_id),
