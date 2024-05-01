@@ -27,10 +27,11 @@ router.post("/", async (req, res, next) => {
 });
 
 async function checkLogin(username, password) {
+  const params = [username];
   const result = await query(
-    'SELECT password FROM "User" WHERE username = \'' + username + "';",
+    "SELECT password FROM app_user WHERE username = $1;",
+    params,
   );
-
   if (password === result.rows[0].password) {
     return true;
   }

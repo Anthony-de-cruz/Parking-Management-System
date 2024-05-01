@@ -27,7 +27,8 @@ app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
 
 // db
 async function pokeDB() {
-  const result = await query('SELECT * FROM "User";');
+  console.log("EXECUTING TEST QUERY");
+  const result = await query("SELECT * FROM app_user;");
   console.log(result.rows);
 }
 
