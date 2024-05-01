@@ -7,7 +7,6 @@ CREATE OR REPLACE FUNCTION calculate_booking_deposit(
 )
     RETURNS INTEGER
     LANGUAGE plpgsql
-    IMMUTABLE
 AS
 $$
 DECLARE
@@ -18,7 +17,13 @@ BEGIN
     FROM carpark cp
              JOIN parking_space ps ON
         cp.carpark_id = ps.carpark_id
-    WHERE ps.carpark_id = parking_space_id_in;
+    WHERE ps.parking_space_id = parking_space_id_in;
+
+
+    IF rate ISNULL THEN
+        RAISE EXCEPTION 'Parking space not found.';
+    END IF;
+
     -- Calculate hourly rate
     RETURN CEIL(EXTRACT(EPOCH FROM (finish_in - start_in)) / 3600) * rate;
 END ;

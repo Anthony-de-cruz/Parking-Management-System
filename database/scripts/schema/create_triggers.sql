@@ -45,7 +45,7 @@ BEGIN
             NEW.start,
             NEW.finish,
             NEW.parking_space_id);
-
+    RAISE NOTICE 'hi %', new_deposit;
     UPDATE app_user
     SET balance = balance - new_deposit
     WHERE app_user.username = NEW.booking_username;
@@ -136,11 +136,30 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE TRIGGER balance_change_trigger
+CREATE OR REPLACE TRIGGER balance_change
     BEFORE UPDATE OF balance
     ON app_user
     FOR EACH ROW
 EXECUTE FUNCTION record_balance_change();
+
+
+CREATE OR REPLACE FUNCTION record_balance_on_insert()
+    RETURNS TRIGGER
+    LANGUAGE plpgsql
+AS
+$$
+BEGIN
+    INSERT INTO transaction (transactor_username, amount)
+    VALUES (NEW.username, NEW.balance);
+    RETURN NEW;
+END;
+$$;
+
+CREATE OR REPLACE TRIGGER record_balance_on_insert
+    AFTER INSERT
+    ON app_user
+    FOR EACH ROW
+EXECUTE FUNCTION record_balance_on_insert();
 
 
 CREATE OR REPLACE FUNCTION validate_transaction()
