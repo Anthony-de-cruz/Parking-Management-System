@@ -1,0 +1,29 @@
+extends layout
+
+block header
+  header
+    img.logo(src='images/Designer.png' alt='Company Logo')
+    .company-name CarpPark - Home
+    .account-balance Account Balance: $XXXX.XX
+
+block content
+  .container
+    nav
+      a.navigation-link(href='/') Home
+      a.navigation-link(href='/create-booking') Create Booking
+      a.navigation-link(href='/manage-booking') Manage Booking
+      a.navigation-link(href='/add-balance') Add Balance
+      a.navigation-link(href='/logout') Logout
+    .main-content
+      table
+        thead
+          // I have set the foundations for the table just need to implement the users data from the database and write it out underneath in the table headings
+          tr
+            th Booking ID
+            th Customer Name
+            th Date
+            th Time
+            th Status
+            th Modify
+        tbody
+          tr

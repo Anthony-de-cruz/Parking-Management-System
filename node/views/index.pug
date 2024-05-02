@@ -1,24 +1,30 @@
 extends layout
 
-block content
+block header
   header
-    img.logo(src="../images/Designer.png", alt="Company Logo")
-    div.company-name CarpPark
-    div.account-balance Account Balance: $XXXX.XX
+    img.logo(src='images/Designer.png' alt='Company Logo')
+    .company-name CarpPark - Home
+    .account-balance Account Balance: $XXXX.XX
 
-  div.container
+block content
+  .container
     nav
-      a.navigation-link(href="#") Home
-      a.navigation-link(href="#") Create Booking
-      a.navigation-link(href="#") Manage Booking
-      a.navigation-link(href="#") Add Balance
-      a.navigation-link(href="/login") Login
-
-    div.main-content
+      a.navigation-link(href='/') Home
+      a.navigation-link(href='/create-booking') Create Booking
+      a.navigation-link(href='/manage-booking') Manage Booking
+      a.navigation-link(href='/add-balance') Add Balance
+      a.navigation-link(href='/logout') Logout
+    .main-content
       h1 Welcome to CarpPark
-      p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      img(src="https://www.kelburneconstruction.co.uk/wp-content/uploads/2015/09/Kel-003-GSK-Carpark.jpg", alt="Parking")
+      p
+        | Revolutionize your parking experience with our cutting-edge digital car parking system. Say goodbye to the hassle of circling endlessly in search of a spot!
+      p
+        | Our intuitive website allows you to seamlessly book your parking space in advance, guaranteeing convenience and peace of mind. Simply browse, select your desired date and time, and reserve your spot with a few clicks. No more last-minute stress or uncertainty&mdash;your parking space awaits, secured digitally through our platform.
+      p
+        | Whether you&apos;re planning a quick errand or a day-long adventure, our digital booking system ensures a smooth and efficient parking process, leaving you free to focus on what truly matters.
+      // Should fix the css of the images make it look neater
+      img(src='https://www.kelburneconstruction.co.uk/wp-content/uploads/2015/09/Kel-003-GSK-Carpark.jpg' alt='Parking Lot')
+    .main-content
+      img(src='https://www.rivervaleleasing.co.uk/webp/blog/iStock-1344954298-840-0.webp' alt='Parking Lot')
+      img(src='https://reviewed-com-res.cloudinary.com/image/fetch/s--G8_wlaKO--/b_white,c_fill,cs_srgb,f_auto,fl_progressive.strip_profile,g_xy_center,q_auto,w_972,x_2679,y_1066/https://reviewed-production.s3.amazonaws.com/1565282320000/Keep-your-car-cool-hero-1.jpg' alt='Parking Lot')
 
-    div.main-content
-      img(src="https://www.kelburneconstruction.co.uk/wp-content/uploads/2015/09/Kel-003-GSK-Carpark.jpg", alt="Parking")
-      img(src="https://www.kelburneconstruction.co.uk/wp-content/uploads/2015/09/Kel-003-GSK-Carpark.jpg", alt="Parking")

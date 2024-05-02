@@ -1,0 +1,24 @@
+extends layout
+
+block header
+  header
+    img.logo(src='images/Designer.png' alt='Company Logo')
+    .company-name CarpPark - Home
+    .account-balance Account Balance: $XXXX.XX
+
+block content
+  .container
+    nav
+      a.navigation-link(href='/') Home
+      a.navigation-link(href='/create-booking') Create Booking
+      a.navigation-link(href='/manage-booking') Manage Booking
+      a.navigation-link(href='/add-balance') Add Balance
+      a.navigation-link(href='/logout') Logout
+    .main-content
+      label(for='date') Select Date:
+      input#date(type='date' name='date')
+      label(for='time') Select Time:
+      input#time(type='time' name='time')
+      input(type='submit' value='Submit')
+      p Available times:
+      // This is where you would add the available times based on their inputs
