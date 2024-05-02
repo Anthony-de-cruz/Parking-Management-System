@@ -32,7 +32,7 @@ async function checkLogin(username, password) {
     "SELECT password FROM app_user WHERE username = $1;",
     params,
   );
-  if (password === result.rows[0].password) {
+  if (result.rowCount != 0 && password === result.rows[0].password) {
     return true;
   }
   return false;
