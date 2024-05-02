@@ -1,10 +1,10 @@
-# Parking-Management-System 
+# Parking-Management-System
+
 <p align=center>
  <img src="/node/public/images/Designer.png" alt="FISH" width="300" height="300">
 </p>
 
 ### Features
-
 
 - Booking
 - Navigation
@@ -82,6 +82,8 @@ CONTAINER ID   IMAGE                            COMMAND                  CREATED
 c0e6040f0a19   parking-management-system-node   "docker-entrypoint.s…"   About a minute ago   Up 6 seconds   0.0.0.0:8080->8080/tcp   parking-management-system-node-1
 ```
 
+When you want to restart the containers, just use `ctrl-c` on the command. If you want to delete them and completely rebuild, run `docker compose down` before running `docker compose up --build`. Note that this completely wipes any existing data in the database, which gets repopulated by the startup script.
+
 Alternatively, you can do all this in the Docker GUI or even in your editor using the right extensions.
 
 ## Database documentation
@@ -95,4 +97,7 @@ Alternatively, you can do all this in the Docker GUI or even in your editor usin
 Todo docs
 
 ## Development notes
-- Node is setup with nodemon, so things should update as you make changes, without you needing to rebuild anything.
+
+- Node is setup with nodemon, so things should update as you make changes, without you needing to rebuild anything. Currently does not update for server changes. Needs to be looked at again.
+
+- Node is also setup with [this script](/node/wait-for-it.sh) from [here](https://github.com/vishnubob/wait-for-it/tree/master), which has the node container wait for the postgres server to be ready before starting node, timing out at 15 seconds. This prevents crashes when node starts up before docker, since it depends on docker. If you notice node taking a long time to start up, check the logs to make sure the script is still working.
