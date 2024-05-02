@@ -9,7 +9,6 @@ var databaseManager = require("./controllers/databaseManager");
 const { query } = databaseManager;
 
 var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
 var loginRouter = require("./routes/login");
 var createBookingRouter = require("./routes/createBooking");
 var logoutRouter = require("./routes/logout");
@@ -40,7 +39,6 @@ pokeDB();
 
 // routing
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
 app.use("/login", loginRouter);
 app.use("/create-booking", createBookingRouter);
 app.use("/logout", logoutRouter);
