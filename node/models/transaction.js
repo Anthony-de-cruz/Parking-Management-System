@@ -20,3 +20,5 @@ class Transaction {
     this.timestamp = timestamp;
   }
 }
+
+module.exports = Transaction;
