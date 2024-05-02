@@ -1,0 +1,23 @@
+extends layout
+
+block header
+  header
+    img.logo(src='images/Designer.png' alt='Company Logo')
+    .company-name CarpPark - Home
+    .account-balance Account Balance: $XXXX.XX
+
+block content
+  .container
+    nav
+      a.navigation-link(href='/') Home
+      a.navigation-link(href='/create-booking') Create Booking
+      a.navigation-link(href='/manage-booking') Manage Booking
+      a.navigation-link(href='/add-balance') Add Balance
+      a.navigation-link(href='/logout') Logout
+    .main-content
+      h2 Logout
+      p Are you sure you want to logout?
+      form(action='logout.php' method='post')
+        input(type='submit' value='Logout')
+      // Wehn they click the submit button it should make it so they logout and are redirected to the login page
+

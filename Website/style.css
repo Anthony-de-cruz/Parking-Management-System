@@ -7,12 +7,12 @@ body {
 }
 
 header {
-  background-color: #403d39;
+  background-color: #403D39;
   padding: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #0a8754;
+  color: #0A8754;
 }
 
 .company-name {
@@ -33,7 +33,7 @@ header {
 }
 
 nav {
-  background-color: #ccc5b9;
+  background-color: #CCC5B9;
   width: 200px;
   padding: 20px;
   height: 100vh;
@@ -43,7 +43,7 @@ nav {
   display: block;
   margin-bottom: 10px;
   text-decoration: none;
-  color: #403d39;
+  color: #403D39;
   font-weight: bold;
   margin-top: 50px;
 }
@@ -53,7 +53,7 @@ nav {
   color: black;
   text-align: center;
   flex-grow: 1;
-  background-color: #fffcf2;
+  background-color: #FFFCF2;
   flex-direction: column;
   display: flex;
 }
@@ -74,7 +74,7 @@ input[type="month"] {
 
 form {
   width: 300px;
-  margin: 0 auto;
+  margin: 0 auto; 
 }
 
 form label {
@@ -88,9 +88,8 @@ form input[type="month"] {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
-  box-sizing: border-box;
+  box-sizing: border-box; 
 }
 .navigation-link:hover {
-  color: #0a8754; /* Darker color for text when hovered */
+  color: #0A8754; /* Darker color for text when hovered */
 }
-
