@@ -1,31 +1,40 @@
+const ParkingSpace = require("ParkingSpace");
+
+/**
+ * Used to represent a carpark.
+ * A carpark will contain parking spaces, mapped by their id.
+ *
+ */
 class Carpark {
+  /**
+   * @param {string} name - Must be unique
+   * @param {number} carparkID
+   * @param {number} hourlyFare - An integer measured in pence.
+   */
   constructor(carparkID, name, hourlyFare) {
     this.carparkID = carparkID;
-    this.width = name;
+    this.name = name;
     this.hourlyFare = hourlyFare;
     this.parkingSpaces = new Map();
   }
-  addParkingSpace(
-    parkingSpaceID,
-    latitude,
-    longitude,
-    blocked,
-    occupantUsername,
-  ) {
+
+  /**
+   * Create a ParkingSpace type to be stored in the Carpark.
+   *
+   * @param {number} parkingSpaceID
+   * @param {number} latitude - Represent the location
+   * @param {number} latitude - Represent the location
+   * @param {boolean} blocked - Admins can block off parking
+   *                            spaces to stop them being booked
+   * @param {string} occupantUsername
+   *
+   */
+  addParkingSpace(parkingSpaceID, latitude, longitude, blocked) {
     this.parkingSpaces.set(
       parkingSpaceID,
-      new ParkingSpace(latitude, longitude, blocked, occupantUsername),
+      new ParkingSpace(latitude, longitude, blocked, NULL),
     );
   }
 }
 
-class ParkingSpace {
-  constructor(latitude, longitude, blocked, occupantUsername) {
-    this.latitude = latitude;
-    this.longitude = longitude;
-    this.blocked = blocked;
-    this.occupantUsername = occupantUsername;
-  }
-}
-
-modeule.exports = Carpark;
+module.exports = Carpark;
