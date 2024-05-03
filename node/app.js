@@ -29,13 +29,13 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
 
 // TEMPORARY - quickly test the db
-async function pokeDB() {
+async function testDB() {
   console.log("EXECUTING TEST QUERY");
-  const result = await query("SELECT * FROM app_user;");
+  const result = await query("SELECT 1;");
   console.log(result.rows);
 }
 
-pokeDB();
+testDB();
 
 // routing
 app.use("/", indexRouter);
