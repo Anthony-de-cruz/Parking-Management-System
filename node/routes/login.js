@@ -7,7 +7,7 @@ const User = require("../models/user");
 
 /* GET login. */
 router.get("/", function (req, res, next) {
-  res.render("login", { loginResult: "" });
+  res.render("login", {});
 });
 
 router.post("/", async (req, res, next) => {
@@ -16,21 +16,26 @@ router.post("/", async (req, res, next) => {
 
   console.log("Attempted login in as: " + username + "," + password);
 
-  let queryResult = await LoginRegisterController.checkLogin(
-    username,
-    password,
-  );
+  let user;
+  try {
+    user = await User.buildFromDB(username);
+  } catch (exception) {
+    console.error(exception);
+    return res.render("login", { loginResult: "ERR: Username not found" });
+  }
 
-  console.log(queryResult);
+  if (user.isBanned == true) {
+    console.log("ERR: user banned");
+    return res.render("login", { loginResult: "ERR: User is banned" });
+  }
 
-  if (queryResult) {
-    const user = User.buildFromDB(username);
+  if (user.password === password) {
     LoginRegisterController.generateAuthToken(res, user.username, user.isAdmin);
     return res.redirect("/");
   }
 
   console.log("ERR: login not correct");
-  return res.render("login", { loginResult: "ERR: Incorrect Login" });
+  return res.render("login", { loginResult: "ERR: Incorrect password" });
 });
 
 module.exports = router;

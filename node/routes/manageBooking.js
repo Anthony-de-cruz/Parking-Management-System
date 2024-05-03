@@ -1,9 +1,15 @@
 var express = require("express");
 var router = express.Router();
 
+const LoginRegisterController = require("../controllers/loginRegisterController");
+
 /* GET create booking page. */
-router.get("/", function (req, res, next) {
-  res.render("manageBooking", { title: "CarpPark" });
-});
+router.get(
+  "/",
+  LoginRegisterController.checkAuthToken,
+  function (req, res, next) {
+    res.render("manageBooking", { title: "CarpPark" });
+  },
+);
 
 module.exports = router;

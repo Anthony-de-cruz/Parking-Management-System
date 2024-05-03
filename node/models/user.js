@@ -19,7 +19,7 @@ class User {
       username,
     ]);
     if (result.rowCount != 1) {
-      throw new Exception("Invalid username");
+      throw new Error("Username not found in DB");
     }
     const userData = result.rows[0];
 
