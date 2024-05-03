@@ -1,12 +1,13 @@
 var express = require("express");
 var router = express.Router();
+const jwt = require("jsonwebtoken");
 
-var databaseManager = require("../controllers/databaseManager");
-const { query } = databaseManager;
+const LoginRegisterController = require("../controllers/loginRegisterController");
+const User = require("../models/user");
 
 /* GET login. */
 router.get("/", function (req, res, next) {
-  res.render("login", { title: "Login", loginResult: "" });
+  res.render("login", { loginResult: "" });
 });
 
 router.post("/", async (req, res, next) => {
@@ -15,27 +16,21 @@ router.post("/", async (req, res, next) => {
 
   console.log("Attempted login in as: " + username + "," + password);
 
-  let queryResult = await checkLogin(username, password);
-  console.log("" + queryResult);
-  if (queryResult) {
-    console.log("Loading result...");
-    res.render("login", { loginResult: "Login successful!" });
-  } else {
-    console.log("ERR: login not correct");
-    res.render("login", { loginResult: "ERR: Incorrect Login", error: true });
-  }
-});
-
-async function checkLogin(username, password) {
-  const params = [username];
-  const result = await query(
-    "SELECT password FROM app_user WHERE username = $1;",
-    params,
+  let queryResult = await LoginRegisterController.checkLogin(
+    username,
+    password,
   );
-  if (result.rowCount != 0 && password === result.rows[0].password) {
-    return true;
+
+  console.log(queryResult);
+
+  if (queryResult) {
+    const user = User.buildFromDB(username);
+    LoginRegisterController.generateAuthToken(res, user.username, user.isAdmin);
+    return res.redirect("/");
   }
-  return false;
-}
+
+  console.log("ERR: login not correct");
+  return res.render("login", { loginResult: "ERR: Incorrect Login" });
+});
 
 module.exports = router;

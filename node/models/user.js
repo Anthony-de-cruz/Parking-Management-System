@@ -1,9 +1,36 @@
+var databaseManager = require("../controllers/databaseManager");
+const { query } = databaseManager;
+
 class User {
-  constructor(username, password, email, isAdmin) {
+  constructor(username, password, email, isAdmin, isBanned, balance) {
     this.username = username;
     this.password = password;
     this.email = email;
     this.isAdmin = isAdmin;
+    this.isBanned = isBanned;
+    this.balance = balance;
+  }
+
+  /**
+   * Build an instance from a prexisting DB record
+   */
+  static async buildFromDB(username) {
+    const result = await query("SELECT * FROM app_user WHERE username = $1;", [
+      username,
+    ]);
+    if (result.rowCount != 1) {
+      throw new Exception("Invalid username");
+    }
+    const userData = result.rows[0];
+
+    return new User(
+      userData.username,
+      userData.password,
+      userData.email,
+      userData.isAdmin,
+      userData.isBanned,
+      userData.balance,
+    );
   }
 
   //   addUser(username, password, email, isAdmin){
@@ -33,4 +60,3 @@ class User {
 // console.log(usersArray);
 
 module.exports = User;
-
