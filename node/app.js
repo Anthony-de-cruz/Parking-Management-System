@@ -9,7 +9,6 @@ var databaseManager = require("./controllers/databaseManager");
 const { query } = databaseManager;
 
 var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
 var loginRouter = require("./routes/login");
 var createBookingRouter = require("./routes/createBooking");
 var logoutRouter = require("./routes/logout");
@@ -30,17 +29,16 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
 
 // TEMPORARY - quickly test the db
-async function pokeDB() {
+async function testDB() {
   console.log("EXECUTING TEST QUERY");
-  const result = await query("SELECT * FROM app_user;");
+  const result = await query("SELECT 1;");
   console.log(result.rows);
 }
 
-pokeDB();
+testDB();
 
 // routing
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
 app.use("/login", loginRouter);
 app.use("/create-booking", createBookingRouter);
 app.use("/logout", logoutRouter);

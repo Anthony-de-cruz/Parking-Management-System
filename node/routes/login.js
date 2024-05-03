@@ -1,12 +1,13 @@
 var express = require("express");
 var router = express.Router();
+const jwt = require("jsonwebtoken");
 
-var databaseManager = require("../controllers/databaseManager");
-const { query } = databaseManager;
+const LoginRegisterController = require("../controllers/loginRegisterController");
+const User = require("../models/user");
 
 /* GET login. */
 router.get("/", function (req, res, next) {
-  res.render("login", { title: "Login", loginResult: "" });
+  res.render("login", {});
 });
 
 router.post("/", async (req, res, next) => {
@@ -15,27 +16,26 @@ router.post("/", async (req, res, next) => {
 
   console.log("Attempted login in as: " + username + "," + password);
 
-  let queryResult = await checkLogin(username, password);
-  console.log("" + queryResult);
-  if (queryResult) {
-    console.log("Loading result...");
-    res.render("login", { loginResult: "Login successful!" });
-  } else {
-    console.log("ERR: login not correct");
-    res.render("login", { loginResult: "ERR: Incorrect Login", error: true });
+  let user;
+  try {
+    user = await User.buildFromDB(username);
+  } catch (exception) {
+    console.error(exception);
+    return res.render("login", { loginResult: "ERR: Username not found" });
   }
-});
 
-async function checkLogin(username, password) {
-  const params = [username];
-  const result = await query(
-    "SELECT password FROM app_user WHERE username = $1;",
-    params,
-  );
-  if (result.rowCount != 0 && password === result.rows[0].password) {
-    return true;
+  if (user.isBanned == true) {
+    console.log("ERR: user banned");
+    return res.render("login", { loginResult: "ERR: User is banned" });
   }
-  return false;
-}
+
+  if (user.password === password) {
+    LoginRegisterController.generateAuthToken(res, user.username, user.isAdmin);
+    return res.redirect("/");
+  }
+
+  console.log("ERR: login not correct");
+  return res.render("login", { loginResult: "ERR: Incorrect password" });
+});
 
 module.exports = router;
