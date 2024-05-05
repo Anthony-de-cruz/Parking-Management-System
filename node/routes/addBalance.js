@@ -7,8 +7,9 @@ const LoginRegisterController = require("../controllers/loginRegisterController"
 router.get(
   "/",
   LoginRegisterController.checkAuthToken,
+  LoginRegisterController.collectAuthTokenData,
   function (req, res, next) {
-    res.render("addBalance", { title: "CarpPark" });
+    res.render("addBalance", { loggedIn: req.loggedIn, user: req.user });
   },
 );
 
