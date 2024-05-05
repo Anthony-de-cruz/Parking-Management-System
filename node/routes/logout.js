@@ -8,7 +8,7 @@ router.get(
   "/",
   LoginRegisterController.checkAuthToken,
   function (req, res, next) {
-    res.render("logout", { title: "CarpPark" });
+    res.render("logout", { loggedIn: req.loggedIn, user: req.user });
   },
 );
 
