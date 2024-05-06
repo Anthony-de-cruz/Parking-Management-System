@@ -84,7 +84,9 @@ class LoginRegisterController {
       req.user = await User.buildFromDB(decoded.username);
       next();
     } catch (error) {
-      return res.status(401).json({ error: "Invalid token" + error });
+      console.error("Error in collectAuthTokenData: " + error);
+      req.loggedIn = false;
+      next();
     }
   }
 }
