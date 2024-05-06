@@ -56,7 +56,7 @@ class LoginRegisterController {
       const decoded = jwt.verify(token, "super-secret");
       console.log("Checking auth: " + decoded);
       req.loggedIn = true;
-      next();
+      return next();
     } catch (error) {
       return res.status(401).json({ error: "Invalid token" + error });
     }
@@ -74,7 +74,7 @@ class LoginRegisterController {
     if (!token) {
       console.log("No token found");
       req.loggedIn = false;
-      next();
+      return next();
     }
 
     try {
@@ -82,11 +82,11 @@ class LoginRegisterController {
       console.log("Fetching user data for: " + decoded);
       req.loggedIn = true;
       req.user = await User.buildFromDB(decoded.username);
-      next();
+      return next();
     } catch (error) {
       console.error("Error in collectAuthTokenData: " + error);
       req.loggedIn = false;
-      next();
+      return next();
     }
   }
 }
