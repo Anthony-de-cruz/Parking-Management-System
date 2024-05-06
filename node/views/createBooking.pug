@@ -18,10 +18,18 @@ block content
       a.navigation-link(href='/add-balance') Add Balance
       a.navigation-link(href='/logout') Logout
     .main-content
-      label(for='date') Select Date:
-      input#date(type='date' name='date')
-      label(for='time') Select Time:
-      input#time(type='time' name='time')
-      input(type='submit' value='Submit')
-      p Available times:
-      // This is where you would add the available times based on their inputs
+      form(action='/create-booking' method='POST')
+
+        label(for='parkingSpaceID') Parking Space ID:
+        input#parkingSpaceID(type='text' name='parkingSpaceID')
+
+        label(for='start') Start Date:
+        input#start(type='datetime-local' name='start')
+
+        label(for='finish') Finish Date:
+        input#finish(type='datetime-local' name='finish')
+
+        label(for='deposit') Deposit:
+        input#deposit(type='number' name='deposit')
+
+        input(type='submit' value='Book Now')

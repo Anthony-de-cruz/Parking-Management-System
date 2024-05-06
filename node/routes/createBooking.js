@@ -6,11 +6,18 @@ const LoginRegisterController = require("../controllers/loginRegisterController"
 /* GET create booking page. */
 router.get(
   "/",
-  LoginRegisterController.checkAuthToken,
   LoginRegisterController.collectAuthTokenData,
+  LoginRegisterController.checkAuthToken,
   async (req, res, next) => {
     res.render("createBooking", { loggedIn: req.loggedIn, user: req.user });
   },
+);
+
+router.post(
+  "/",
+  LoginRegisterController.collectAuthTokenData, // Attach collectAuthTokenData middleware here
+  LoginRegisterController.checkAuthToken,
+  LoginRegisterController.createBooking
 );
 
 module.exports = router;
