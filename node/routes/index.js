@@ -1,9 +1,15 @@
 var express = require("express");
 var router = express.Router();
 
+const LoginRegisterController = require("../controllers/loginRegisterController");
+
 /* GET home page. */
-router.get("/", function (req, res, next) {
-  res.render("index", { loggedIn: false, balance: 0 });
-});
+router.get(
+  "/",
+  LoginRegisterController.collectAuthTokenData,
+  function (req, res, next) {
+    res.render("index", { loggedIn: req.loggedIn, user: req.user });
+  },
+);
 
 module.exports = router;

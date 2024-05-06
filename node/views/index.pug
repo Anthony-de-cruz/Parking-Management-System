@@ -3,11 +3,9 @@ extends layout
 block header
   header
     img.logo(src='images/Designer.png' alt='Company Logo')
-    .company-name CarpPark
+    .company-name CarpPark - Home
     if loggedIn
-      .account-balance Account Balance: £#{balance}
-    else
-      .account-balance Account Balance: --
+      .account-balance #{user.username} Balance: £#{user.balance * 0.01}
 
 block content
   .container

@@ -7,8 +7,9 @@ const LoginRegisterController = require("../controllers/loginRegisterController"
 router.get(
   "/",
   LoginRegisterController.checkAuthToken,
+  LoginRegisterController.collectAuthTokenData,
   async (req, res, next) => {
-    res.render("createBooking", {});
+    res.render("createBooking", { loggedIn: req.loggedIn, user: req.user });
   },
 );
 

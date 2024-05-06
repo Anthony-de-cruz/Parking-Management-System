@@ -17,17 +17,17 @@
 - Docker
 
 ## Setup
-
-### Prerequisites
-
-- Docker
-
-Docker will handle the dependencies such as PostgreSQL, NodeJS and NPM.
-On Windows/MacOS, I'd recommend installing the Docker GUI, as it also installs all the CLI tools, check the Docker section for more.
-
-If you're unsure about Docker at all, I highly recommend these 2 videos below, they offer most of what you need, very quickly.
-
-[docker in 100 seconds](https://www.youtube.com/watch?v=Gjnup-PuquQ) and [setting up docker](https://www.youtube.com/watch?v=gAkwW2tuIqE)
+> [!IMPORTANT]
+> ### Prerequisites
+>
+> - Docker
+>
+> Docker will handle the dependencies such as PostgreSQL, NodeJS and NPM.
+> On Windows/MacOS, I'd recommend installing the Docker GUI, as it also installs all the CLI tools, check the Docker section for more.
+> 
+> If you're unsure about Docker at all, I highly recommend these 2 videos below, they offer most of what you need, very quickly.
+>
+> [docker in 100 seconds](https://www.youtube.com/watch?v=Gjnup-PuquQ) and [setting up docker](https://www.youtube.com/watch?v=gAkwW2tuIqE)
 
 ### Build and Run
 
@@ -88,16 +88,24 @@ Alternatively, you can do all this in the Docker GUI or even in your editor usin
 
 ## Database documentation
 
-### Overview
-
-[/database/README.md](/database/README.md)
-
 ### Schema
 
-Todo docs
+For an actually accurate understanding of the schema, read [the table build script](/database/scripts/schema/create_tables.sql). Reading the [triggers](/database/scripts/schema/create_triggers.sql) also can help you understand the system.
+
+#### Things to keep in mind
+
+- Money is currently being stored as integers, in pence. So for example, a user balance of 100 is £1. This was chosen as accuracy is not important in the current system's goals, and integers are very simple.
+
+- When you wish to calculate the cost of a booking, just use the already existing `calculate_booking_deposit()` function.
+
+- Costs are calculated by the carpark's hourly fare * the number of hours the booking is for, rounded up.
+
+- When a booking is created, updated or deleted, the user's balance will be automatically updated accordingly.
+
+- Transaction records are generated automatically via the triggers whenever a users's balance is changed. You shouldn't ever need to make any transaction records yourself.
 
 ## Development notes
 
-- Node is setup with nodemon, so things should update as you make changes, without you needing to rebuild anything. Currently does not update for server changes. Needs to be looked at again.
+- Node is setup with nodemon, so things should update as you make changes, without you needing to rebuild anything. Recently fixed so it should be all working now.
 
 - Node is also setup with [this script](/node/wait-for-it.sh) from [here](https://github.com/vishnubob/wait-for-it/tree/master), which has the node container wait for the postgres server to be ready before starting node, timing out at 15 seconds. This prevents crashes when node starts up before docker, since it depends on docker. If you notice node taking a long time to start up, check the logs to make sure the script is still working.
