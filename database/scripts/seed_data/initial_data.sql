@@ -60,3 +60,7 @@ VALUES (2, 'BigDave5', '2045-01-01 00:10', '2045-01-01 06:20');
 
 INSERT INTO booking (parking_space_id, booking_username, start, finish)
 VALUES (3, 'job', '2045-01-01 00:10', '2045-01-01 00:20');
+
+INSERT INTO booking (parking_space_id, booking_username, start, finish)
+VALUES (3, 'BigDave5', '2045-01-01 02:10', '2045-01-01 02:20');
+
