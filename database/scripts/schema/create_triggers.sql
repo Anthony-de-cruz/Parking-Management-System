@@ -6,6 +6,11 @@ CREATE OR REPLACE FUNCTION validate_booking()
 AS
 $$
 BEGIN
+    -- Check if the start time is in the past
+    IF (NEW.start < CURRENT_TIMESTAMP) THEN
+        RAISE EXCEPTION 'Cannot have a booking start in the past';
+    END IF;
+
     -- Check if the finish time is before the start time
     IF (NEW.finish <= NEW.start) THEN
         RAISE EXCEPTION 'Invalid start and finish times.';
