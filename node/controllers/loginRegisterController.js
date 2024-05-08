@@ -8,7 +8,21 @@ const { query } = databaseManager;
 class LoginRegisterController {
   constructor() {}
 
-  static registerUser(username, password) {}
+  /**
+   * Register a new user
+   */
+  static async registerUser(username, password, email) {
+    try {
+      await query(
+        `INSERT INTO app_user (username, password, email, is_admin, is_banned, balance)
+        VALUES ($1, $2, $3, $4, $5, $6)`,
+        [username, password, email, false, false, 0],
+      );
+      console.log(`Inserted new user: ${username}, ${password}, ${email}`);
+    } catch (error) {
+      throw error;
+    }
+  }
 
   /**
    * Generate a new auth token and save it as a cookie
@@ -34,7 +48,7 @@ class LoginRegisterController {
    * Revoke current auth token
    */
   static revokeAuthToken(res) {
-    return res.status(501).json({ error: "Not implemented" });
+    return res.clearCookie("authToken");
   }
 
   /**
