@@ -41,6 +41,18 @@ class UserController {
       return res.status(500).json({ error: "Failed to create booking" });
     }
   }
+  
+  static async showBooking(req, res){
+    const bookingUsername = req.user.username;
+
+    const bookings = await query(
+      `SELECT * FROM booking WHERE booking_username = $1`,
+      [bookingUsername]
+    );
+
+    return res.render("bookings", { bookings: bookings.rows });
+  }
+  
 }
 
 module.exports = UserController;
