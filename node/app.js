@@ -10,6 +10,7 @@ const { query } = databaseManager;
 
 var indexRouter = require("./routes/index");
 var loginRouter = require("./routes/login");
+var registerRouter = require("./routes/register");
 var createBookingRouter = require("./routes/createBooking");
 var logoutRouter = require("./routes/logout");
 var addBalanceRouter = require("./routes/addBalance");
@@ -41,6 +42,7 @@ testDB();
 // routing
 app.use("/", indexRouter);
 app.use("/login", loginRouter);
+app.use("/register", registerRouter);
 app.use("/create-booking", createBookingRouter);
 app.use("/logout", logoutRouter);
 app.use("/add-balance", addBalanceRouter);

@@ -24,8 +24,6 @@ router.post("/", async (req, res, next) => {
     return res.render("login", { loginResult: "ERR: Username not found" });
   }
 
-  console.log("LOGIN HAS: " + JSON.stringify(user));
-
   if (user.isBanned === true) {
     console.log("ERR: user banned");
     return res.render("login", { loginResult: "ERR: User is banned" });

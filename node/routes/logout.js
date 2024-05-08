@@ -14,7 +14,7 @@ router.get(
 );
 
 router.post("/", function (req, res, next) {
-  return res.clearCookie("authToken").redirect("/");
+  return LoginRegisterController.revokeAuthToken(res).redirect("/");
 });
 
 module.exports = router;

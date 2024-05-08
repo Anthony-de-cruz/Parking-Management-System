@@ -83,6 +83,7 @@ form label {
   margin-bottom: 5px;
 }
 
+form input[type="email"],
 form input[type="password"],
 form input[type="text"],
 form input[type="number"],
@@ -95,7 +96,6 @@ form input[type="month"] {
 .navigation-link:hover {
   color: #0a8754; /* Darker color for text when hovered */
 }
-
 
 .login-form-container {
   width: 300px;
@@ -123,3 +123,4 @@ input[type="submit"] {
   border-radius: 5px;
   cursor: pointer;
 }
+
