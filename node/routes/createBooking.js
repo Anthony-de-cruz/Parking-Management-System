@@ -13,11 +13,6 @@ router.get(
   },
 );
 
-router.post(
-  "/",
-  LoginRegisterController.collectAuthTokenData, // Attach collectAuthTokenData middleware here
-  LoginRegisterController.checkAuthToken,
-  LoginRegisterController.createBooking
-);
+router.post("/", LoginRegisterController.createBooking);
 
 module.exports = router;
