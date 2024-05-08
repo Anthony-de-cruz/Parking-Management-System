@@ -3,7 +3,7 @@ var router = express.Router();
 
 const LoginRegisterController = require("../controllers/loginRegisterController");
 
-/* GET create logout page. */
+/* GET create register page. */
 router.get("/", function (req, res, next) {
   res.render("register", {});
 });
