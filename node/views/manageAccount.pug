@@ -1,0 +1,27 @@
+extends layout
+
+block header
+  header    
+    img.logo(src='images/Designer.png' alt='Company Logo')
+    .company-name CarpPark - Home
+    if loggedIn
+      .account-balance #{user.username} Balance: £#{user.balance * 0.01}
+
+block content
+  .container
+    include includes/nav.pug
+    .main-content
+      form(action='/manage-account' method='POST')
+
+        label(for='changeName') Change Name:
+        input#parkingSpaceID(type='text' name='changeName')
+
+        label(for='changePass') Change Password:
+        input#parkingSpaceID(type='text' name='changePass')
+
+        label(for='changeEmail') Change Email:
+        input#parkingSpaceID(type='text' name='changeEmail')
+
+        input(type='submit' value='Book Now')
+
+
