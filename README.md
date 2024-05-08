@@ -109,3 +109,44 @@ For an actually accurate understanding of the schema, read [the table build scri
 - Node is setup with nodemon, so things should update as you make changes, without you needing to rebuild anything. Recently fixed so it should be all working now.
 
 - Node is also setup with [this script](/node/wait-for-it.sh) from [here](https://github.com/vishnubob/wait-for-it/tree/master), which has the node container wait for the postgres server to be ready before starting node, timing out at 15 seconds. This prevents crashes when node starts up before docker, since it depends on docker. If you notice node taking a long time to start up, check the logs to make sure the script is still working.
+
+### Things to do
+
+#### User
+
+- Login/Authentication
+    - [x] Page
+    - [x] Functionality
+
+- Register
+    - [x] Page
+    - [ ] Functionality
+
+- Make Bookings
+    - [x] Page
+    - [ ] Create booking
+    - [ ] Create booking based on location
+
+- Manage Personal Bookings
+    - [x] Page
+    - [ ] View bookings
+    - [ ] Edit
+
+- User Balance
+    - [x] Page
+    - [ ] Functionality
+  
+- User Account
+    - [ ] Page
+    - [ ] Change personal details
+    - [ ] Delete account
+
+#### Admin
+
+- Manage Users
+    - [ ] Page
+    - [ ] Functionality
+  
+- Manage Users
+    - [ ] Page
+    - [ ] Functionality
