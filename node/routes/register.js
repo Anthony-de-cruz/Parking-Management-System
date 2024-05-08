@@ -21,6 +21,7 @@ router.post("/", async (req, res, next) => {
     await LoginRegisterController.registerUser(username, password, email);
     return res.redirect("/login");
   } catch (error) {
+    // Not a particularly understandable error message
     console.log("ERR: Registration failed");
     return res.render("register", {
       registerResult: "ERR: Registration failed",
