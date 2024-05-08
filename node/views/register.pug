@@ -4,7 +4,7 @@ block content
     .login-body-container
         .login-form-container
             h1(style = 'text-align: center;') Welcome to CarpPark
-            h2 Login
+            h2 Register
             form(action='', method='POST')
                 label(for='username')
                 input#username(type='text' name='username' placeholder='Username' required='')
@@ -12,7 +12,10 @@ block content
                 label(for='password')
                 input#password(type='password' name='password' placeholder='Password' required='')
                 br
-                input(type='submit' value='Login')
-            h3 Result: #{loginResult}
+                input#password(type='email' name='email' placeholder='e@mail.com' required='')
+                label(for='email')
+                br
+                input(type='submit' value='Register')
+            h3 Result: #{registerResult}
             p(style = 'text-align: center;')
-                a.navigation-link(href='/register') Register new account
+                a.navigation-link(href='/login') Back to login
