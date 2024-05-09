@@ -15,11 +15,11 @@ block content
         label(for='card_holder_name') Cardholder Name:
         input#card_holder_name(type='text' name='card_holder_name' placeholder='John Doe' required='')
         label(for='card_number') Card Number:
-        input#card_number(type='text' name='card_number' placeholder='xxxx xxxx xxxx xxxx' pattern='\d{4} \d{4} \d{4} \d{4}' title='Please enter a valid 16-digit card number' maxlength='19' required='')
+        input#card_number(type='text' name='card_number' placeholder='xxxx xxxx xxxx xxxx' pattern='\\d{4} ?\\d{4} ?\\d{4} ?\\d{4}' title='Please enter a valid 16-digit card number' maxlength='19' required='')
         label(for='expiry_date') Expiry Date:
         input#expiry_date(type='month' name='expiry_date' required='')
         label(for='cvv') CVV:
-        input#cvv(type='text' name='cvv' placeholder='123' pattern='\d{3}' title='Please enter a valid 3-digit CVV' maxlength='3' required='')
+        input#cvv(type='text' name='cvv' placeholder='123' pattern='\\d{3}' title='Please enter a valid 3-digit CVV' maxlength='3' required='')
         label(for='balance') Balance to add:
         input#balance(type='number' name='balance' placeholder='0.00' step='0.01' min='0' required='')
         input(type='submit' value='Submit')
