@@ -50,7 +50,6 @@ BEGIN
             NEW.start,
             NEW.finish,
             NEW.parking_space_id);
-    RAISE NOTICE 'hi %', new_deposit;
     UPDATE app_user
     SET balance = balance - new_deposit
     WHERE app_user.username = NEW.booking_username;

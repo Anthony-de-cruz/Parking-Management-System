@@ -1,43 +1,12 @@
 -- !psql
 
-CREATE OR REPLACE FUNCTION calculate_booking_deposit(
-    start_in TIMESTAMP,
-    finish_in TIMESTAMP,
-    parking_space_id_in INTEGER
-)
-    RETURNS INTEGER
-    LANGUAGE plpgsql
-AS
-$$
-DECLARE
-    rate INTEGER;
-BEGIN
-    SELECT hourly_fare
-    INTO rate
-    FROM carpark cp
-             JOIN parking_space ps ON
-        cp.carpark_id = ps.carpark_id
-    WHERE ps.parking_space_id = parking_space_id_in;
-
-
-    IF rate ISNULL THEN
-        RAISE EXCEPTION 'Parking space not found.';
-    END IF;
-
-    -- Calculate hourly rate
-    RETURN CEIL(EXTRACT(EPOCH FROM (finish_in - start_in)) / 3600) * rate;
-END ;
-$$;
-
----------------------------- TABLES ----------------------------
-
 CREATE TABLE IF NOT EXISTS app_user
 (
-    username  VARCHAR(20) NOT NULL,
-    password  VARCHAR(20) NOT NULL,
-    email     VARCHAR(30) NOT NULL,
-    is_admin  BOOLEAN        NOT NULL,
-    is_banned BOOLEAN        NOT NULL,
+    username  VARCHAR(20)           NOT NULL,
+    password  VARCHAR(20)           NOT NULL,
+    email     VARCHAR(30)           NOT NULL,
+    is_admin  BOOLEAN               NOT NULL,
+    is_banned BOOLEAN DEFAULT FALSE NOT NULL,
     balance   INTEGER DEFAULT 0,
     PRIMARY KEY (username)
 );
