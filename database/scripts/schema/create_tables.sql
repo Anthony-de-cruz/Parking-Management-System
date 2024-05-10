@@ -33,11 +33,11 @@ $$;
 
 CREATE TABLE IF NOT EXISTS app_user
 (
-    username  VARCHAR(20) NOT NULL,
-    password  VARCHAR(20) NOT NULL,
-    email     VARCHAR(30) NOT NULL,
-    is_admin  BOOLEAN        NOT NULL,
-    is_banned BOOLEAN        NOT NULL,
+    username  VARCHAR(20)           NOT NULL,
+    password  VARCHAR(20)           NOT NULL,
+    email     VARCHAR(30)           NOT NULL,
+    is_admin  BOOLEAN               NOT NULL,
+    is_banned BOOLEAN DEFAULT FALSE NOT NULL,
     balance   INTEGER DEFAULT 0,
     PRIMARY KEY (username)
 );
