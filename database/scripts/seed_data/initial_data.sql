@@ -111,3 +111,13 @@ VALUES (3, 'EvilBob', '2045-01-01 00:10', '2045-01-01 00:20');
 INSERT INTO booking (parking_space_id, booking_username, start, finish)
 VALUES (3, 'BigDave5', '2045-01-01 02:10', '2045-01-01 02:20');
 
+INSERT INTO booking (parking_space_id, booking_username, start, finish)
+VALUES (get_nearest_available_parking_space(
+                52.62196137224319,
+                1.242677832156197,
+                '2055-01-01 02:10',
+                '2055-01-01 02:20'),
+        'bob',
+        '2055-01-01 02:10',
+        '2055-01-01 02:20');
+
