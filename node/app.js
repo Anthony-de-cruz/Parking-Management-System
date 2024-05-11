@@ -16,6 +16,7 @@ var logoutRouter = require("./routes/logout");
 var addBalanceRouter = require("./routes/addBalance");
 var manageBookingRouter = require("./routes/manageBooking");
 var manageAccountRouter = require("./routes/manageAccount");
+var adminDataViewRouter = require("./routes/adminDataView");
 
 var app = express();
 
@@ -48,6 +49,7 @@ app.use("/logout", logoutRouter);
 app.use("/add-balance", addBalanceRouter);
 app.use("/manage-booking", manageBookingRouter);
 app.use("/manage-account", manageAccountRouter);
+app.use("/admin-data-view", adminDataViewRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
