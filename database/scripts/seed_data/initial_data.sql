@@ -113,11 +113,23 @@ VALUES (3, 'BigDave5', '2045-01-01 02:10', '2045-01-01 02:20');
 
 INSERT INTO booking (parking_space_id, booking_username, start, finish)
 VALUES (get_nearest_available_parking_space(
-                52.62196137224319,
                 1.242677832156197,
+                52.62196137224319,
                 '2055-01-01 02:10',
                 '2055-01-01 02:20'),
         'bob',
         '2055-01-01 02:10',
         '2055-01-01 02:20');
 
+-- SELECT get_nearest_available_parking_space(
+--                1.2405095686419425,
+--                52.62118833234374,
+--                '2056-01-01 02:10',
+--                '2056-01-01 02:20')
+--            AS id;
+--
+-- SELECT calculate_booking_deposit(
+--                '2056-01-01 02:10',
+--                '2056-01-01 02:20',
+--                1)
+--            AS deposit;
