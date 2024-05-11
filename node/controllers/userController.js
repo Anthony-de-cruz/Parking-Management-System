@@ -92,15 +92,23 @@ class UserController {
     }
   }
 
-  static async showBooking(req, res) {
-    const bookingUsername = req.user.username;
+  static async showBooking(req, res, next) {
+    try {
+      const bookingUsername = req.user.username;
+  
+      // Fetch bookings from the database
+      const bookings = await query(
+        `SELECT * FROM booking WHERE booking_username = $1`,
+        [bookingUsername],
+      );
+      
+      req.bookings = bookings.rows;
 
-    const bookings = await query(
-      `SELECT * FROM booking WHERE booking_username = $1`,
-      [bookingUsername],
-    );
-
-    return res.render("bookings", { bookings: bookings.rows });
+      return next();
+    } catch (error) {
+      console.error("Error fetching bookings:", error);
+      res.status(500).send("Error fetching bookings");
+    }
   }
 }
 

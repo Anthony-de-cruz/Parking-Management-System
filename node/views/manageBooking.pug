@@ -13,7 +13,6 @@ block content
     .main-content
       table
         thead
-          // I have set the foundations for the table just need to implement the users data from the database and write it out underneath in the table headings
           tr
             th Booking ID
             th Customer Name
@@ -22,4 +21,10 @@ block content
             th Status
             th Modify
         tbody
-          tr
+          each booking in bookings
+            tr
+              td= booking.booking_id
+              td= booking.customer_name
+              td= booking.date
+              td= booking.time
+              td= booking.status
