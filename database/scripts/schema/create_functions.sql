@@ -54,8 +54,8 @@ $$;
 
 
 CREATE OR REPLACE FUNCTION get_parking_spaces_by_distance(
-    latitude_in FLOAT,
-    longitude_in FLOAT
+    longitude_in FLOAT,
+    latitude_in FLOAT
 )
     RETURNS TABLE
             (
