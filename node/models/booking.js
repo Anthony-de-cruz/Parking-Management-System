@@ -26,3 +26,5 @@ class Booking {
     this.deposit = deposit;
   }
 }
+
+module.exports = Booking;
