@@ -7,15 +7,12 @@ const Booking = require("../models/booking");
 class UserController {
   constructor() {}
 
-
-
-
   static async createBooking(req, res, next) {
     console.log("User data in createBooking:", req.user); // Check if req.user is available
 
     try {
       // Extract data from request body
-      const { parkingSpaceID, start, finish} = req.body;
+      const { parkingSpaceID, start, finish } = req.body;
       console.log("Received data:", { parkingSpaceID, start, finish });
 
       // Ensure user data is available
@@ -44,10 +41,6 @@ class UserController {
       return res.status(500).json({ error: "Failed to create booking" });
     }
   }
-
-
-
-
 
   static async calcualteBooking(req, res, next) {
     try {
@@ -110,7 +103,7 @@ class UserController {
   static async showBooking(req, res, next) {
     try {
       const bookingUsername = req.user.username;
-  
+
       // Fetch bookings from the database
       const bookings = await query(
         `SELECT * FROM booking WHERE booking_username = $1`,
@@ -126,9 +119,5 @@ class UserController {
     }
   }
 }
-
-
-
-
 
 module.exports = UserController;
