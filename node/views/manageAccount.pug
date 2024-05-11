@@ -14,14 +14,13 @@ block content
       form(action='/manage-account' method='POST')
 
         label(for='changeName') Change Name:
-        input#parkingSpaceID(type='text' name='changeName')
+        input#username(type='text' name='changeName' value=user.username)
 
         label(for='changePass') Change Password:
-        input#parkingSpaceID(type='text' name='changePass')
+        input#password(type='password' name='changePass')
 
         label(for='changeEmail') Change Email:
-        input#parkingSpaceID(type='text' name='changeEmail')
+        input#email(type='email' name='changeEmail' value=user.email)
 
-        input(type='submit' value='Book Now')
-
+        input(type='submit' value='Update')
 
