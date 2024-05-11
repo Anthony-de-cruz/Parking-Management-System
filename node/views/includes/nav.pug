@@ -4,6 +4,8 @@ nav
   a.navigation-link(href='/manage-booking') Manage Booking
   a.navigation-link(href='/manage-account') Manage Account
   a.navigation-link(href='/add-balance') Add Balance
+  if loggedIn && user.isAdmin
+    a.navigation-link(href='/admin-data-view') Data View
   if loggedIn 
     a.navigation-link(href='/logout') Logout
   else 
