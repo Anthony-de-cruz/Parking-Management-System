@@ -7,12 +7,15 @@ const Booking = require("../models/booking");
 class UserController {
   constructor() {}
 
+
+
+
   static async createBooking(req, res, next) {
     console.log("User data in createBooking:", req.user); // Check if req.user is available
 
     try {
       // Extract data from request body
-      const { parkingSpaceID, start, finish, deposit } = req.body;
+      const { parkingSpaceID, start, finish} = req.body;
       console.log("Received data:", { parkingSpaceID, start, finish });
 
       // Ensure user data is available
@@ -42,6 +45,10 @@ class UserController {
     }
   }
 
+
+
+
+
   static async calcualteBooking(req, res, next) {
     try {
       // Extract data from request body
@@ -50,6 +57,14 @@ class UserController {
 
       // Extract username from user data
       const bookingUsername = req.user.username;
+
+      // Ensure user data is available
+      if (!req.user || !latitude || !longitude) {
+        console.error("User data is missing or invalid");
+        return res
+          .status(401)
+          .json({ error: "User data is missing or invalid" });
+      }
 
       const nearestIDRes = await query(
         `SELECT get_nearest_available_parking_space($1, $2, $3, $4) AS id;`,
@@ -101,7 +116,7 @@ class UserController {
         `SELECT * FROM booking WHERE booking_username = $1`,
         [bookingUsername],
       );
-      
+
       req.bookings = bookings.rows;
 
       return next();
@@ -111,5 +126,9 @@ class UserController {
     }
   }
 }
+
+
+
+
 
 module.exports = UserController;
