@@ -25,4 +25,18 @@ router.get(
   },
 );
 
+router.post(
+  "/",
+  LoginRegisterController.collectAuthTokenData,
+  UserController.updateBooking,
+  async (req, res, next) => {
+    res.render("manageBooking", {
+      loggedIn: req.loggedIn,
+      user: req.user,
+      calculatedBooking: req.calculatedBooking,
+      newBooking: req.newBooking,
+    });
+  },
+);
+
 module.exports = router;

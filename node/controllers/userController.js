@@ -118,6 +118,8 @@ class UserController {
       res.status(500).send("Error fetching bookings");
     }
   }
+
+  static async updateBooking(req, res, next) {}
 }
 
 module.exports = UserController;
