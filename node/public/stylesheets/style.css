@@ -93,6 +93,18 @@ form input[type="month"] {
   margin-bottom: 10px;
   box-sizing: border-box;
 }
+
+form input[type="submit"],
+form input[type="datetime-local"] {
+  padding: 10px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+form input[type="submit"] {
+  font-size: 100%;
+}
+
 .navigation-link:hover {
   color: #0a8754; /* Darker color for text when hovered */
 }
@@ -123,4 +135,3 @@ input[type="submit"] {
   border-radius: 5px;
   cursor: pointer;
 }
-
