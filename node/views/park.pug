@@ -1,0 +1,37 @@
+extends layout
+
+block header
+  header
+    img.logo(src='images/Designer.png' alt='Company Logo')
+    .company-name CarpPark - Home
+    if loggedIn
+      .account-balance #{user.username} Balance: £#{user.balance * 0.01}
+
+block content
+  .container
+    include includes/nav.pug
+    .main-content
+
+      h2 Choose the booking that you wish to park for:
+      form(action='/park' method='POST')
+        input#bookingID(type='text' name='latitude' placeholder='Booking ID')
+
+        input(type='submit' value='Select Booking')
+
+      if !bookingChosen
+        h2 Directions:
+          div(width='100%')
+            iframe(width='80%' height='600px' frameborder='0' scrolling='no' marginheight='0' marginwidth='auto' src='https://maps.google.com/maps?q='+1+','+1+'&t=&z=15&ie=UTF8&iwloc=&output=embed')
+
+        h2 Take your booked spot:
+        form(action='/park/park' method='POST')
+
+          label(for='longitude') Your current position:
+          input#latitude(type='text' name='latitude' placeholder='Latitude')
+          input#longitude(type='text' name='longitude' placeholder='Longitude')
+
+          input(type='submit' formaction='/parking' value='Occupy Parking spot')
+        h4 Result:
+
+      
+      
