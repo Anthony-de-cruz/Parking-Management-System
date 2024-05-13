@@ -33,14 +33,39 @@ class User {
     );
   }
 
-
-static async updateBalance(username, newBalance) {
-  try {
-    await query(`UPDATE app_user SET balance = $1 WHERE username = $2`, [newBalance, username]);
-  } catch (error) {
-    throw new Error("Failed to update user balance: " + error.message);
+  /**
+   * Update password for the user
+   * @param {string} username - Username of the user
+   * @param {string} newPassword - New password
+   */
+  static async updatePassword(username, newPassword) {
+    await query("UPDATE app_user SET password = $1 WHERE username = $2;", [
+      newPassword,
+      username,
+    ]);
   }
-}
-}
+
+  /**
+   * Update email for the user
+   * @param {string} username - Username of the user
+   * @param {string} newEmail - New email
+   */
+  static async updateEmail(username, newEmail) {
+    await query("UPDATE app_user SET email = $1 WHERE username = $2;", [
+      newEmail,
+      username,
+    ]);
+  }
+
+  static async updateBalance(username, newBalance) {
+    try {
+      await query(`UPDATE app_user SET balance = $1 WHERE username = $2`, [newBalance, username]);
+    } catch (error) {
+      throw new Error("Failed to update user balance: " + error.message);
+    }
+  }
+  }
+
+  
 
 module.exports = User;

@@ -11,16 +11,14 @@ block content
   .container
     include includes/nav.pug
     .main-content
-      form(action='/manage-account' method='POST')
-
-        label(for='changeName') Change Name:
-        input#username(type='text' name='changeName' value=user.username)
-
+      form(action='/manage-account/update' method='POST')
+        // Change Password
         label(for='changePass') Change Password:
-        input#password(type='password' name='changePass')
+        input#changePass(type='password' name='changePass' placeholder='Enter new password' required)
 
+        // Change Email
         label(for='changeEmail') Change Email:
-        input#email(type='email' name='changeEmail' value=user.email)
+        input#changeEmail(type='email' name='changeEmail' placeholder='Enter new email' required)
 
-        input(type='submit' value='Update')
-
+        // Submit button
+        input(type='submit' value='Submit' id='submitButton')
