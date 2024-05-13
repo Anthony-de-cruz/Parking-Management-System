@@ -18,6 +18,7 @@ var manageBookingRouter = require("./routes/manageBooking");
 var manageAccountRouter = require("./routes/manageAccount");
 var parkRouter = require("./routes/park");
 var adminDataViewRouter = require("./routes/adminDataView");
+var adminManageParkingRouter = require("./routes/adminManageParking");
 
 var app = express();
 
@@ -52,6 +53,7 @@ app.use("/manage-booking", manageBookingRouter);
 app.use("/manage-account", manageAccountRouter);
 app.use("/park", parkRouter);
 app.use("/admin-data-view", adminDataViewRouter);
+app.use("/admin-manage-parking", adminManageParkingRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
