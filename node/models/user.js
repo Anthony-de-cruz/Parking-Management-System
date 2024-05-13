@@ -56,6 +56,16 @@ class User {
       username,
     ]);
   }
-}
+
+  static async updateBalance(username, newBalance) {
+    try {
+      await query(`UPDATE app_user SET balance = $1 WHERE username = $2`, [newBalance, username]);
+    } catch (error) {
+      throw new Error("Failed to update user balance: " + error.message);
+    }
+  }
+  }
+
+  
 
 module.exports = User;
