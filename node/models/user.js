@@ -64,6 +64,39 @@ class User {
       throw new Error("Failed to update user balance: " + error.message);
     }
   }
+
+  //C
+
+  static async banUser(username, isAdmin) {
+    //if (!isAdmin) {
+      //throw new Error("Only admins can ban users.");
+    //}
+    await query("UPDATE app_user SET is_banned = True WHERE username = $1;", [username]);
+  }
+
+  static async unbanUser(username, isAdmin) {
+    //if (!isAdmin) {
+      //throw new Error("Only admins can unban users.");
+    //}
+    await query("UPDATE app_user SET is_banned = False WHERE username = $1;", [username]);
+  }
+
+  static async deleteUser(username, isAdmin) {
+    //if (!isAdmin) {
+      //throw new Error("Only admins can delete users.");
+    //}
+    await query("DELETE FROM app_user WHERE username = $1;", [username]);
+  }
+
+  static async getUsers() {
+    try {
+      const result = await query("SELECT * FROM app_user;");
+      return result.rows;
+    } catch (error) {
+      throw new Error("Failed to fetch users: " + error.message);
+    }
+  }
+
   }
 
   

@@ -1,0 +1,37 @@
+extends layout
+
+block header
+  header
+    img.logo(src='images/Designer.png' alt='Company Logo')
+    .company-name CarpPark - Home
+    if loggedIn
+      .account-balance #{user.username} Balance: £#{user.balance * 0.01}
+
+
+block content
+
+  .container
+    include includes/nav.pug
+
+    .main-content
+
+      h2 Admin - Manage Users
+
+      table.table.table-bordered.table-striped
+        thead
+          tr
+            th Username
+            th Email
+            th Balance (£)
+            th Actions
+
+        tbody
+          each user in users
+            tr
+              td= user.username
+              td= user.email
+              td= user.balance * 0.1
+              td
+                button.delete-btn(data-username=user.username, onclick="deleteUser('#{user.username}')") Delete
+                // Button to delete user
+                button.ban-btn(data-username=user.username, onclick="banUser('#{user.username}')") Ban
