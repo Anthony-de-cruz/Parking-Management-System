@@ -11,35 +11,82 @@ SET balance = balance + 6000
 WHERE username = 'bob';
 
 INSERT INTO app_user (username, password, email, is_admin, is_banned)
-VALUES ('job', 'password2', 'job@bob.bob', FALSE, FALSE);
+VALUES ('EvilBob', 'password', 'not@bob.bob', FALSE, TRUE);
 
 UPDATE app_user
 SET balance = balance + 600
-WHERE username = 'job';
+WHERE username = 'EvilBob';
 
 INSERT INTO carpark (name, hourly_fare)
-VALUES ('main parking lot', 200);
+VALUES ('Main Carpark', 200);
 
-INSERT INTO parking_space (carpark_id, latitude, longitude)
-VALUES (1, 30, 20);
+DO
+$$
+    DECLARE
+        target_carpark_id INTEGER;
+        initial_latitude  FLOAT := 52.62312425549774;
+        initial_longitude FLOAT := 1.2426033813474213;
+        lat               INTEGER;
+        long              INTEGER;
+        delta_meters      FLOAT := 2.5;
+        latitude_delta    FLOAT :=
+            delta_meters / 111320; -- Convert meters to degrees (latitude)
+        longitude_delta   FLOAT :=
+            delta_meters / (111320 * cos(radians(10))); -- Assuming latitude 10 degrees for simplicity
+    BEGIN
+        SELECT carpark_id
+        INTO target_carpark_id
+        FROM carpark
+        WHERE name = 'Main Carpark';
 
-INSERT INTO parking_space (carpark_id, latitude, longitude)
-VALUES (1, 30, 25);
-
-INSERT INTO parking_space (carpark_id, latitude, longitude)
-VALUES (1, 30, 21.0);
+        FOR lat IN 1..5
+            LOOP
+                FOR long IN 1..5
+                    LOOP
+                        INSERT INTO parking_space (carpark_id, latitude, longitude)
+                        VALUES (target_carpark_id, initial_latitude + (lat * latitude_delta),
+                                initial_longitude + (long * longitude_delta));
+                    END LOOP;
+            END LOOP;
+    END
+$$;
 
 INSERT INTO carpark (name, hourly_fare)
-VALUES ('side parking lot', 300);
+VALUES ('Side Carpark', 300);
 
-INSERT INTO parking_space (carpark_id, latitude, longitude)
-VALUES (2, 30.0, 22.0);
+-- Populate the side carpark
+DO
+$$
+    DECLARE
+        target_carpark_id INTEGER;
+        initial_latitude  FLOAT := 52.62209697654385;
+        initial_longitude FLOAT := 1.234998538040973;
+        lat               INTEGER;
+        long              INTEGER;
+        delta_meters      FLOAT := 2.5;
+        -- Convert meters to degrees (latitude)
+        latitude_delta    FLOAT :=
+            delta_meters / 111320;
+        -- Assuming latitude 10 degrees for simplicity
+        longitude_delta   FLOAT :=
+            delta_meters / (111320 * cos(radians(10)));
+    BEGIN
+        SELECT carpark_id
+        INTO target_carpark_id
+        FROM carpark
+        WHERE name = 'Side Carpark';
 
-INSERT INTO parking_space (carpark_id, latitude, longitude)
-VALUES (2, 20.0, 22.0);
-
-INSERT INTO parking_space (carpark_id, latitude, longitude)
-VALUES (2, 20.0, 21.0);
+        FOR lat IN 1..3
+            LOOP
+                FOR long IN 1..3
+                    LOOP
+                        INSERT INTO parking_space (carpark_id, latitude, longitude)
+                        VALUES (target_carpark_id, initial_latitude + (lat * latitude_delta),
+                                initial_longitude + (long * longitude_delta));
+                    END LOOP;
+            END LOOP;
+    END
+$$;
 
 INSERT INTO booking (parking_space_id, booking_username, start, finish)
 VALUES (2, 'bob', '2044-01-01 00:10', '2044-01-01 00:20');
@@ -59,8 +106,30 @@ INSERT INTO booking (parking_space_id, booking_username, start, finish)
 VALUES (2, 'BigDave5', '2045-01-01 00:10', '2045-01-01 06:20');
 
 INSERT INTO booking (parking_space_id, booking_username, start, finish)
-VALUES (3, 'job', '2045-01-01 00:10', '2045-01-01 00:20');
+VALUES (3, 'EvilBob', '2045-01-01 00:10', '2045-01-01 00:20');
 
 INSERT INTO booking (parking_space_id, booking_username, start, finish)
 VALUES (3, 'BigDave5', '2045-01-01 02:10', '2045-01-01 02:20');
 
+INSERT INTO booking (parking_space_id, booking_username, start, finish)
+VALUES (get_nearest_available_parking_space(
+                1.242677832156197,
+                52.62196137224319,
+                '2055-01-01 02:10',
+                '2055-01-01 02:20'),
+        'bob',
+        '2055-01-01 02:10',
+        '2055-01-01 02:20');
+
+-- SELECT get_nearest_available_parking_space(
+--                1.2405095686419425,
+--                52.62118833234374,
+--                '2056-01-01 02:10',
+--                '2056-01-01 02:20')
+--            AS id;
+--
+-- SELECT calculate_booking_deposit(
+--                '2056-01-01 02:10',
+--                '2056-01-01 02:20',
+--                1)
+--            AS deposit;

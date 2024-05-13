@@ -13,13 +13,17 @@ block content
     .main-content
       table
         thead
-          // I have set the foundations for the table just need to implement the users data from the database and write it out underneath in the table headings
           tr
             th Booking ID
-            th Customer Name
-            th Date
-            th Time
-            th Status
-            th Modify
+            th Parking Space
+            th Start
+            th Finish
+            th Deposit
         tbody
-          tr
+          each booking in bookings
+            tr
+              td= booking.booking_id
+              td= booking.parking_space_id
+              td= booking.start
+              td= booking.finish
+              td= booking.deposit

@@ -10,18 +10,43 @@ block header
 block content
   .container
     include includes/nav.pug
+
     .main-content
-      form(action='/create-booking' method='POST')
 
-        label(for='parkingSpaceID') Parking Space ID:
-        input#parkingSpaceID(type='text' name='parkingSpaceID')
+      h2 Create Booking
 
-        label(for='start') Start Date:
-        input#start(type='datetime-local' name='start')
+      if !calculatedBooking
+        form(action='/create-booking' method='POST')
 
-        label(for='finish') Finish Date:
-        input#finish(type='datetime-local' name='finish')
+          label(for='longitude') Destination:
+          input#latitude(type='text' name='latitude' placeholder='Latitude')
+          input#longitude(type='text' name='longitude' placeholder='Longitude')
 
-        input(type='submit' value='Book Now')
+          label(for='start') Start Date:
+          input#start(type='datetime-local' name='start')
+
+          label(for='finish') Finish Date:
+          input#finish(type='datetime-local' name='finish')
+
+          input(type='submit' value='Check Cost & Availability')
+
+      else
+        form(action='/create-booking' method='POST')
+
+          label(for='parkingSpaceID') Parking Space ID:
+          input#parkingSpaceID(type='text' name='parkingSpaceID' placeholder='Parking Space ID' value=''+newBooking.parkingSpaceID)
+
+          label(for='start') Start Date:
+          input#start(type='datetime-local' name='start' value=''+newBooking.start)
+
+          label(for='finish') Finish Date:
+          input#finish(type='datetime-local' name='finish' value=''+newBooking.finish)
+
+          h4 Cost: £#{newBooking.deposit * 0.01}
+
+          input(type='submit' formaction='/create-booking/book' value='Book Now')
+
+      div(width='100%')
+        iframe(width='80%' height='600px' frameborder='0' scrolling='no' marginheight='0' marginwidth='auto' src='https://maps.google.com/maps?width=100%25&height=600&hl=en&q=Research%20Park,%20Norwich%20NR4%207TJ+(UEA)&t=&z=17&ie=UTF8&iwloc=B&output=embed')
 
 

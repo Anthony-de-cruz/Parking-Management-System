@@ -120,12 +120,12 @@ For an actually accurate understanding of the schema, read [the table build scri
 
 - Register
     - [x] Page
-    - [ ] Functionality
+    - [x] Functionality
 
 - Make Bookings
     - [x] Page
-    - [ ] Create booking
-    - [ ] Create booking based on location
+    - [x] Create booking
+    - [x] Create booking based on location
 
 - Manage Personal Bookings
     - [x] Page
