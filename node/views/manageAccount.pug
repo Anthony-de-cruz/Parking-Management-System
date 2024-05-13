@@ -11,17 +11,14 @@ block content
   .container
     include includes/nav.pug
     .main-content
-      form(action='/manage-account' method='POST')
-
-        label(for='changeName') Change Name:
-        input#parkingSpaceID(type='text' name='changeName')
-
+      form(action='/manage-account/update' method='POST')
+        // Change Password
         label(for='changePass') Change Password:
-        input#parkingSpaceID(type='text' name='changePass')
+        input#changePass(type='password' name='changePass' placeholder='Enter new password' required)
 
+        // Change Email
         label(for='changeEmail') Change Email:
-        input#parkingSpaceID(type='text' name='changeEmail')
+        input#changeEmail(type='email' name='changeEmail' placeholder='Enter new email' required)
 
-        input(type='submit' value='Book Now')
-
-
+        // Submit button
+        input(type='submit' value='Submit' id='submitButton')
