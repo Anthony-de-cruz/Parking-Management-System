@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS parking_space
     longitude         FLOAT  NOT NULL,
     blocked           BOOLEAN DEFAULT false,
     occupant_username VARCHAR(20),
+    status            VARCHAR(20) DEFAULT 'active',
     PRIMARY KEY (parking_space_id),
     FOREIGN KEY (carpark_id) REFERENCES carpark (carpark_id)
         ON DELETE RESTRICT,
@@ -49,8 +50,6 @@ CREATE TABLE IF NOT EXISTS booking
     FOREIGN KEY (booking_username) REFERENCES app_user (username)
         ON DELETE RESTRICT
 );
-
-ALTER TABLE booking ADD COLUMN status VARCHAR(20) DEFAULT 'active';
 
 CREATE TABLE IF NOT EXISTS transaction
 (
