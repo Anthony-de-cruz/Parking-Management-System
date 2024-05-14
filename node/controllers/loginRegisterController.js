@@ -38,7 +38,7 @@ class LoginRegisterController {
     console.log(`Assigning user: ${username} the token: ${token}`);
     res.cookie("authToken", token, {
       path: "/", // Cookie is accessible from all paths
-      expires: new Date(Date.now() + 3600000), // Cookie expires in 1 hour
+      expires: new Date(Date.now() + 3600000 * 3), // Cookie expires in 3 hours
       secure: false, // Cookie will only be sent over HTTPS
       httpOnly: false, // Cookie cannot be accessed via client-side scripts
     });
