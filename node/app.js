@@ -6,7 +6,9 @@ var logger = require("morgan");
 var favicon = require("serve-favicon");
 
 var databaseManager = require("./controllers/databaseManager");
-const { query } = databaseManager;
+const { testDB } = databaseManager;
+
+testDB();
 
 var indexRouter = require("./routes/index");
 var loginRouter = require("./routes/login");
@@ -35,15 +37,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
-
-// TEMPORARY - quickly test the db
-async function testDB() {
-  console.log("EXECUTING TEST QUERY");
-  const result = await query("SELECT 1;");
-  console.log(result.rows);
-}
-
-testDB();
 
 // routing
 app.use("/", indexRouter);
