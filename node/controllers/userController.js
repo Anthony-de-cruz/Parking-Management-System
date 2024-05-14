@@ -169,38 +169,109 @@ class UserController {
 
   static async selectBooking(req, res, next) {
     const { bookingID } = req.body;
+    const username = req.user.username;
 
     console.log(req.user.username);
 
     try {
       const bookingQuery = await query(
-        `SELECT COUNT(1) AS exists
-FROM booking
-WHERE booking_username = $1
-  AND booking_id = $2;`,
-        [req.user.username, bookingID],
+        `
+          SELECT latitude,
+                 longitude,
+                 carpark.name AS carpark_name,
+                 booking.parking_space_id
+          FROM booking
+                   JOIN parking_space
+                        ON booking.booking_id = $1 AND
+                           booking.booking_username = $2 AND
+                           parking_space.parking_space_id = booking.parking_space_id
+                   JOIN carpark
+                        ON carpark.carpark_id = parking_space.carpark_id;
+        `,
+        [bookingID, username],
       );
 
-      if (Number(bookingQuery.rows[0].exists)) {
-        req.bookingID = bookingID;
-      } else {
+      if (bookingQuery.rowCount != 1) {
         req.errorMsg = "Booking not found";
+        return next();
       }
 
-      return next();
+      const bookingData = bookingQuery.rows[0];
+
+      req.bookingSelected = true;
+      req.targetLatitude = bookingData.latitude;
+      req.targetLongitude = bookingData.longitude;
+      req.targetCarpark = bookingData.carpark_name;
+      req.targetParkingSpace = bookingData.parking_space_id;
     } catch (error) {
       console.log(error);
       req.errorMsg = "Internal server error";
-
-      return next();
     }
+    return next();
   }
 
-  static deselectBooking(req, res, next) {}
-
   static async park(req, res, next) {
+    const {
+      targetLatitude,
+      targetLongitude,
+      targetParkingSpace,
+      targetCarpark,
+      currentLatitude,
+      currentLongitude,
+    } = req.body;
+    const username = req.user.username;
+
+    req.targetLatitude = targetLatitude;
+    req.targetLongitude = targetLongitude;
+    req.targetCarpark = targetCarpark;
+    req.targetParkingSpace = targetParkingSpace;
+
     try {
-    } catch (error) {}
+      const distanceQuery = await query(
+        `
+        SELECT distance
+        FROM get_parking_spaces_by_distance($1, $2)
+        WHERE parking_space_id = $3;
+      `,
+        [currentLongitude, currentLatitude, targetParkingSpace],
+      );
+
+      if (distanceQuery.rowCount != 1) {
+        req.errorMsg = "Invalid booking";
+        return next();
+      }
+
+      const distance = distanceQuery.rows[0].distance;
+      console.log(distanceQuery);
+      console.log(distance);
+
+      if (distance > 5) {
+        req.errorMsg =
+          "You are " + (distance - 5) + "m away from the parking space";
+        return next();
+      }
+
+      // Check if space can be parked in
+      // if () {
+      //   req.errorMsg = "This space cannot be parked in";
+      //   return next();
+      // }
+
+      await query(
+        `
+        UPDATE parking_space
+        SET occupant_username = $1
+        WHERE parking_space_id = $2;
+        `,
+        [username, targetParkingSpace],
+      );
+
+      req.parkSuccessMsg = "You have parked!";
+    } catch (error) {
+      console.log(error);
+      req.errorMsg = "Internal server error";
+    }
+    return next();
   }
 }
 

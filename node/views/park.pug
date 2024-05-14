@@ -2,7 +2,7 @@ extends layout
 
 block header
   header
-    img.logo(src='images/Designer.png' alt='Company Logo')
+    img.logo(src='/images/Designer.png' alt='Company Logo')
     .company-name CarpPark - Home
     if loggedIn
       .account-balance #{user.username} Balance: £#{user.balance * 0.01}
@@ -21,12 +21,11 @@ block content
 
           input(type='submit' value='Select Booking')
         if errorMsg
-          h2 Error: #{errorMsg}
+          p Error: #{errorMsg}
 
       else
         h2 Directions
-        p Car park: #{targetCarpark}
-        p Parking space: #{targetParkingSpace}
+        p #{targetCarpark}, parking space: #{targetParkingSpace}
         p #{targetLatitude}, #{targetLongitude}
         div(width='100%')
           iframe(width='60%' height='450px' frameborder='0' scrolling='no' marginheight='0' marginwidth='auto' src='https://maps.google.com/maps?q='+targetLatitude+','+targetLongitude+'&t=&z=17&ie=UTF8&iwloc=&output=embed')
@@ -35,17 +34,22 @@ block content
         p You must be within 5 metres of your assigned spot.
         form(action='/park/park' method='POST')
 
-          label(for='longitude') Your current position:
-          label(for='longitude') Longitude:
-          input#latitude(type='text' name='latitude' placeholder='Latitude')
-          label(for='Latitude') Latitude:
-          input#longitude(type='text' name='longitude' placeholder='Longitude')
+          input(type='hidden' name='targetParkingSpace' value=''+targetParkingSpace)
+          input(type='hidden' name='targetCarpark' value=''+targetCarpark)
+          input(type='hidden' name='targetLatitude' value=''+targetLatitude)
+          input(type='hidden' name='targetLongitude' value=''+targetLongitude)
+
+          label(for='currentLatitude') Your current position
+          label(for='currentLatitude') Latitude:
+          input#currentLatitude(type='text' name='currentLatitude' placeholder='Latitude')
+          label(for='currentLongitude') Longitude:
+          input#currentLongitude(type='text' name='currentLongitude' placeholder='Longitude')
 
           input(type='submit' value='Occupy Parking spot')
         if parkSuccessMsg
-          h2 #{parkSuccessMsg}
+          p #{parkSuccessMsg}
         else if errorMsg
-          h2 Error: #{errorMsg}
+          p #{errorMsg}
         
 
 
