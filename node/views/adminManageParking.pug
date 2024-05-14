@@ -15,4 +15,31 @@ block content
 
 
     .main-content
-      h2 Admin - Manage Parking 
+      h2 Admin - Manage Parking
+      table
+        thead
+          tr
+            th Parking Space ID
+            th Start
+            th Finish
+            th Username
+            th Status
+            th Actions
+        tbody
+          each booking in bookings
+            tr
+              td #{booking.parking_space_id}
+              td #{booking.start}
+              td #{booking.finish}
+              td #{booking.booking_username}
+              td #{booking.status}
+              td.actions
+                form(action='/admin-manage-parking/remove' method='post')
+                  input(type='hidden' name='booking_id' value=booking.booking_id)
+                  button(type='submit') Remove
+                form(action='/admin-manage-parking/toggle-block' method='post')
+                  input(type='hidden' name='booking_id' value=booking.booking_id)
+                  button(type='submit') #{booking.status === 'blocked' ? 'Release' : 'Block'}
+                form(action='/admin-manage-parking/reserve' method='post')
+                  input(type='hidden' name='booking_id' value=booking.booking_id)
+                  button(type='submit') Reserve
