@@ -28,6 +28,21 @@ class UserController {
       // Extract username from user data
       const bookingUsername = req.user.username;
 
+            // Check the status of the selected parking space
+      const parkingSpaceStatusRes = await query(
+        `SELECT status FROM parking_space WHERE parking_space_id = $1`,
+        [parkingSpaceID]
+      );
+
+      const parkingSpaceStatus = parkingSpaceStatusRes.rows[0]?.status;
+      if (!parkingSpaceStatus) {
+        return res.status(400).json({ error: "Invalid parking space ID" });
+      }
+
+      if (parkingSpaceStatus === 'blocked' || parkingSpaceStatus === 'reserved') {
+        return res.status(400).json({ error: "The selected parking space is currently blocked or reserved." });
+      }
+
       // Insert the booking into the database
       await query(
         `INSERT INTO booking (parking_space_id, booking_username, start, finish) 

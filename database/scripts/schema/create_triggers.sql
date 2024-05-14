@@ -27,6 +27,13 @@ BEGIN
         RAISE EXCEPTION 'The space is already booked for this time.';
     END IF;
 
+    IF EXISTS (SELECT 1
+               FROM parking_space
+               WHERE parking_space_id = NEW.parking_space_id
+                 AND status IN ('blocked', 'reserved')) THEN
+        RAISE EXCEPTION 'The parking space is currently blocked or reserved.';
+    END IF;
+
     RETURN NEW;
 END;
 $$;
