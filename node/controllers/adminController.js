@@ -101,6 +101,32 @@ class AdminController {
       res.status(500).send(`Error reserving booking: ${error.message}`);
     }
   }
+
+  static async banUser(username) {
+    await query("UPDATE app_user SET is_banned = True WHERE username = $1;", [username]);
+  }
+
+  static async unbanUser(username) {
+    await query("UPDATE app_user SET is_banned = False WHERE username = $1;", [username]);
+  }
+
+  static async deleteUser(username) {
+    try {
+      await query("DELETE FROM booking WHERE booking_username = $1;", [username]);
+      await query("DELETE FROM app_user WHERE username = $1;", [username]);
+    } catch (error) {
+      throw new Error("Failed to delete user: " + error.message);
+    }
+  }
+  
+  static async getUsers() {
+    try {
+      const result = await query("SELECT * FROM app_user;");
+      return result.rows;
+    } catch (error) {
+      throw new Error("Failed to fetch users: " + error.message);
+    }
+  }
 }
 
 module.exports = AdminController;
