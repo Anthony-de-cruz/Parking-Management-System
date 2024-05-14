@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS booking
     start            TIMESTAMP         NOT NULL,
     finish           TIMESTAMP         NOT NULL,
     deposit          INTEGER DEFAULT 0 NOT NULL,
+    approved         BOOLEAN DEFAULT FALSE NOT NULL,
     PRIMARY KEY (booking_id),
     FOREIGN KEY (parking_space_id) REFERENCES parking_space (parking_space_id)
         ON DELETE RESTRICT,

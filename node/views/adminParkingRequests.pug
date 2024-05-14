@@ -13,3 +13,30 @@ block content
 
     .main-content
       h2 Admin - Parking Requests
+      if bookingRequests.length
+        table
+          thead
+            tr
+              th Booking ID
+              th Parking ID
+              th Username
+              th Start Time
+              th Finish Time
+              th Action
+          tbody
+            each request in bookingRequests
+              tr
+                td #{request.booking_id}
+                td #{request.parking_space_id}
+                td #{request.booking_username}
+                td #{request.start}
+                td #{request.finish}
+                td 
+                  form(action="/admin-parking-requests/approve" method="post")
+                    input(type="hidden" name="bookingID" value=request.booking_id)
+                    button(type="submit") Approve
+                  form(action="/admin-parking-requests/deny" method="post")
+                    input(type="hidden" name="bookingID" value=request.booking_id)
+                    button(type="submit") Deny
+      else
+        p No booking requests available.

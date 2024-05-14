@@ -46,11 +46,11 @@ class UserController {
         });
       }
 
-      // Insert the booking into the database
+      // Insert the booking request into the database with approved flag set to false
       await query(
-        `INSERT INTO booking (parking_space_id, booking_username, start, finish) 
-         VALUES ($1, $2, $3, $4)`,
-        [parkingSpaceID, bookingUsername, start, finish],
+        `INSERT INTO booking (parking_space_id, booking_username, start, finish, approved) 
+          VALUES ($1, $2, $3, $4, $5)`,
+        [parkingSpaceID, bookingUsername, start, finish, false],
       );
 
       // Return success response
@@ -124,7 +124,7 @@ class UserController {
 
       // Fetch bookings from the database
       const bookings = await query(
-        `SELECT * FROM booking WHERE booking_username = $1`,
+        `SELECT * FROM booking WHERE booking_username = $1 AND approved = TRUE`,
         [bookingUsername],
       );
 

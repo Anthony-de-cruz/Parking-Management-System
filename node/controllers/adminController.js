@@ -143,6 +143,44 @@ class AdminController {
       res.status(500).send('Error getting parking space status');
     }
   }
+
+  static async getBookingRequests(req, res, next) {
+    try {
+      const result = await query(
+        `SELECT booking_id, parking_space_id, booking_username, start, finish 
+         FROM booking 
+         WHERE approved = FALSE`
+      );
+      req.bookingRequests = result.rows;
+      next();
+    } catch (error) {
+      console.error("Error fetching booking requests:", error);
+      res.status(500).send("Error fetching booking requests");
+    }
+  }
+
+  static async approveBookingRequest(req, res) {
+    const { bookingID } = req.body;
+    try {
+      await query(`UPDATE booking SET approved = TRUE WHERE booking_id = $1`, [bookingID]);
+      res.redirect('/admin-parking-requests');
+    } catch (error) {
+      console.error("Error approving booking request:", error);
+      res.status(500).send("Error approving booking request");
+    }
+  }
+
+  static async denyBookingRequest(req, res) {
+    const { bookingID } = req.body;
+    try {
+      await query(`DELETE FROM booking WHERE booking_id = $1`, [bookingID]);
+      res.redirect('/admin-parking-requests');
+    } catch (error) {
+      console.error("Error denying booking request:", error);
+      res.status(500).send("Error denying booking request");
+    }
+  }
 }
+
 
 module.exports = AdminController;
