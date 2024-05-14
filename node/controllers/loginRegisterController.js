@@ -88,6 +88,7 @@ class LoginRegisterController {
     if (!token) {
       console.log("No token found");
       req.loggedIn = false;
+      req.user = null;
       return next();
     }
 
@@ -100,6 +101,7 @@ class LoginRegisterController {
     } catch (error) {
       console.error("Error in collectAuthTokenData: " + error);
       req.loggedIn = false;
+      req.user = null;
       return next();
     }
   }
