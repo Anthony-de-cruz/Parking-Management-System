@@ -24,61 +24,25 @@ router.post(
   "/add",
   LoginRegisterController.checkAuthToken,
   LoginRegisterController.collectAuthTokenData,
-  AdminController.addParkingSpace,
-  AdminController.getParkingSpaces, // Fetch updated parking spaces
-  async function (req, res, next) {
-    res.render("adminManageParking", {
-      loggedIn: req.loggedIn,
-      user: req.user,
-      parkingSpaces: req.parkingSpaces,
-      errorMessage: req.query.errorMessage // To handle error message
-    });
-  }
+  AdminController.addParkingSpace
 );
 
 router.post(
   "/remove",
   LoginRegisterController.checkAuthToken,
-  AdminController.removeParkingSpace,
-  AdminController.getParkingSpaces, // Fetch updated parking spaces
-  async function (req, res, next) {
-    res.render("adminManageParking", {
-      loggedIn: req.loggedIn,
-      user: req.user,
-      parkingSpaces: req.parkingSpaces,
-      errorMessage: req.query.errorMessage // To handle error message
-    });
-  }
+  AdminController.removeParkingSpace
 );
 
 router.post(
   "/toggle-block",
   LoginRegisterController.checkAuthToken,
-  AdminController.toggleBlock,
-  AdminController.getParkingSpaces, // Fetch updated parking spaces
-  async function (req, res, next) {
-    res.render("adminManageParking", {
-      loggedIn: req.loggedIn,
-      user: req.user,
-      parkingSpaces: req.parkingSpaces,
-      errorMessage: req.query.errorMessage // To handle error message
-    });
-  }
+  AdminController.toggleBlock
 );
 
 router.post(
   "/reserve",
   LoginRegisterController.checkAuthToken,
-  AdminController.reserve,
-  AdminController.getParkingSpaces, // Fetch updated parking spaces
-  async function (req, res, next) {
-    res.render("adminManageParking", {
-      loggedIn: req.loggedIn,
-      user: req.user,
-      parkingSpaces: req.parkingSpaces,
-      errorMessage: req.query.errorMessage // To handle error message
-    });
-  }
+  AdminController.reserve
 );
 
 module.exports = router;

@@ -5,7 +5,7 @@ class AdminController {
 
   static async getParkingSpaces(req, res, next) {
     try {
-      const result = await query(`SELECT parking_space_id, status FROM parking_space ORDER BY parking_space_id`);
+      const result = await query(`SELECT parking_space_id, status FROM parking_space`);
       req.parkingSpaces = result.rows;
       next();
     } catch (error) {
@@ -32,7 +32,7 @@ class AdminController {
       }
   
       // Re-fetch parking spaces to pass to the view
-      const result = await query(`SELECT parking_space_id, status FROM parking_space ORDER BY parking_space_id`);
+      const result = await query(`SELECT parking_space_id, status FROM parking_space`);
       req.parkingSpaces = result.rows;
   
       res.render("adminManageParking", { 
