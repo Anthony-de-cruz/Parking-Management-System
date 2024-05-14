@@ -16,7 +16,8 @@ var logoutRouter = require("./routes/logout");
 var addBalanceRouter = require("./routes/addBalance");
 var manageBookingRouter = require("./routes/manageBooking");
 var manageAccountRouter = require("./routes/manageAccount");
-var parkRouter = require("./routes/park");
+var parkSelectRouter = require("./routes/parkSelect");
+var parkCheckRouter = require("./routes/parkCheck");
 var adminDataViewRouter = require("./routes/adminDataView");
 var adminManageParkingRouter = require("./routes/adminManageParking");
 var adminManageUsersRouter = require("./routes/adminManageUsers");
@@ -54,13 +55,13 @@ app.use("/logout", logoutRouter);
 app.use("/add-balance", addBalanceRouter);
 app.use("/manage-booking", manageBookingRouter);
 app.use("/manage-account", manageAccountRouter);
-app.use("/park", parkRouter);
+app.use("/park-select", parkSelectRouter);
+app.use("/park-check", parkCheckRouter);
 app.use("/admin-data-view", adminDataViewRouter);
 app.use("/admin-manage-parking", adminManageParkingRouter);
 app.use("/admin-manage-users", adminManageUsersRouter);
 app.use("/admin-manage-parking", adminManageParkingRouter);
 app.use("/admin-parking-requests", adminParkingRequestsRouter);
-
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -1,0 +1,53 @@
+extends layout
+
+block header
+  header
+    img.logo(src='images/Designer.png' alt='Company Logo')
+    .company-name CarpPark - Home
+    if loggedIn
+      .account-balance #{user.username} Balance: £#{user.balance * 0.01}
+
+block content
+  .container
+    include includes/nav.pug
+    .main-content
+
+      if !bookingSelected
+        h2 Choose the booking that you wish to park for:
+        form(action='/park/select-booking' method='POST')
+
+          label(for='bookingID') Booking ID:
+          input#bookingID(type='number' name='bookingID' placeholder='Booking ID')
+
+          input(type='submit' value='Select Booking')
+        if errorMsg
+          h2 Error: #{errorMsg}
+
+      else
+        h2 Directions
+        p Car park: #{targetCarpark}
+        p Parking space: #{targetParkingSpace}
+        p #{targetLatitude}, #{targetLongitude}
+        div(width='100%')
+          iframe(width='60%' height='450px' frameborder='0' scrolling='no' marginheight='0' marginwidth='auto' src='https://maps.google.com/maps?q='+targetLatitude+','+targetLongitude+'&t=&z=17&ie=UTF8&iwloc=&output=embed')
+
+        h2 Take your booked spot:
+        p You must be within 5 metres of your assigned spot.
+        form(action='/park/park' method='POST')
+
+          label(for='longitude') Your current position:
+          label(for='longitude') Longitude:
+          input#latitude(type='text' name='latitude' placeholder='Latitude')
+          label(for='Latitude') Latitude:
+          input#longitude(type='text' name='longitude' placeholder='Longitude')
+
+          input(type='submit' value='Occupy Parking spot')
+        if parkSuccessMsg
+          h2 #{parkSuccessMsg}
+        else if errorMsg
+          h2 Error: #{errorMsg}
+        
+
+
+      
+      
