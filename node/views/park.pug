@@ -12,13 +12,14 @@ block content
     include includes/nav.pug
     .main-content
 
-      h2 Choose the booking that you wish to park for:
-      form(action='/park' method='POST')
-        input#bookingID(type='text' name='latitude' placeholder='Booking ID')
-
-        input(type='submit' value='Select Booking')
-
       if !bookingChosen
+        h2 Choose the booking that you wish to park for:
+        form(action='/park' method='POST')
+          input#bookingID(type='text' name='latitude' placeholder='Booking ID')
+
+          input(type='submit' value='Select Booking')
+
+      else
         h2 Directions:
           div(width='100%')
             iframe(width='80%' height='600px' frameborder='0' scrolling='no' marginheight='0' marginwidth='auto' src='https://maps.google.com/maps?q='+1+','+1+'&t=&z=15&ie=UTF8&iwloc=&output=embed')
