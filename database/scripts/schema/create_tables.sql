@@ -50,6 +50,8 @@ CREATE TABLE IF NOT EXISTS booking
         ON DELETE RESTRICT
 );
 
+ALTER TABLE booking ADD COLUMN status VARCHAR(20) DEFAULT 'active';
+
 CREATE TABLE IF NOT EXISTS transaction
 (
     transaction_id      SERIAL,
