@@ -1,0 +1,52 @@
+extends layout
+
+block header
+  header
+    img.logo(src='images/Designer.png' alt='Company Logo')
+    .company-name CarpPark - Home
+    if loggedIn
+      .account-balance #{user.username} Balance: £#{user.balance * 0.01}
+
+block content
+  .container
+    include includes/nav.pug
+
+    .main-content
+      h2 Admin - Manage Users
+
+      if error
+        .alert.alert-danger #{error}
+
+      table.table.table-bordered.table-striped
+        thead
+          tr
+            th Username
+            th Email
+            th Balance (£)
+            th Banned
+            th Actions
+
+        tbody
+          if users && users.length
+            each user in users
+              tr
+                td= user.username
+                td= user.email
+                td= user.balance * 0.01
+                td= user.is_banned ? 'Yes' : 'No'
+                td
+                  form(action='/admin-manage-users/update' method='post')
+                    input(type='hidden' name='username' value=user.username)
+                    if !user.is_banned
+                      input(type='hidden' name='action' value='ban')
+                      button(type='submit') Ban
+                    else
+                      input(type='hidden' name='action' value='unban')
+                      button(type='submit') Unban
+                  form(action='/admin-manage-users/update' method='post')
+                    input(type='hidden' name='username' value=user.username)
+                    input(type='hidden' name='action' value='delete')
+                    button(type='submit') Delete
+          else
+            tr
+              td(colspan='5') No users found

@@ -19,7 +19,7 @@ router.post(
   LoginRegisterController.checkAuthToken,
   LoginRegisterController.collectAuthTokenData,
   async function (req, res, next) {
-    const { changePass, changeEmail } = req.body;
+    const { changePass, changeEmail} = req.body;
     const username = req.user.username;
     try {
       // Code to update password in the database...
@@ -32,6 +32,7 @@ router.post(
       if (changeEmail) {
         await User.updateEmail(username, changeEmail);
       }
+
       // Redirect back to the manageAccount page with a success message
       res.redirect('/manage-account?success=true');
     } catch (error) {

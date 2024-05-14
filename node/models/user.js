@@ -64,8 +64,6 @@ class User {
       throw new Error("Failed to update user balance: " + error.message);
     }
   }
-  }
 
-  
-
+}
 module.exports = User;
