@@ -7,8 +7,6 @@ const Booking = require("../models/booking");
 class UserController {
   constructor() {}
 
-
-
   static async createBooking(req, res, next) {
     console.log("User data in createBooking:", req.user); // Check if req.user is available
 
@@ -28,10 +26,10 @@ class UserController {
       // Extract username from user data
       const bookingUsername = req.user.username;
 
-            // Check the status of the selected parking space
+      // Check the status of the selected parking space
       const parkingSpaceStatusRes = await query(
         `SELECT status FROM parking_space WHERE parking_space_id = $1`,
-        [parkingSpaceID]
+        [parkingSpaceID],
       );
 
       const parkingSpaceStatus = parkingSpaceStatusRes.rows[0]?.status;
@@ -39,8 +37,13 @@ class UserController {
         return res.status(400).json({ error: "Invalid parking space ID" });
       }
 
-      if (parkingSpaceStatus === 'blocked' || parkingSpaceStatus === 'reserved') {
-        return res.status(400).json({ error: "The selected parking space is currently blocked or reserved." });
+      if (
+        parkingSpaceStatus === "blocked" ||
+        parkingSpaceStatus === "reserved"
+      ) {
+        return res.status(400).json({
+          error: "The selected parking space is currently blocked or reserved.",
+        });
       }
 
       // Insert the booking into the database
@@ -58,8 +61,6 @@ class UserController {
       return res.status(500).json({ error: "Failed to create booking" });
     }
   }
-
-
 
   static async calcualteBooking(req, res, next) {
     try {
@@ -110,14 +111,12 @@ class UserController {
         "Booking cost calculated as: " + nearestID + ", " + bookingCost,
       );
       return next();
-
     } catch (error) {
       // Handle any errors
       console.error("Error checking booking:", error);
       return res.status(500).json({ error: "Failed to check booking cost" });
     }
   }
-
 
   static async showBooking(req, res, next) {
     try {
@@ -138,31 +137,142 @@ class UserController {
     }
   }
 
-
   static async updateBookingDetails(req, res, next) {
     try {
       const { bookingID, parkingSpaceID, start, finish } = req.body;
-      console.log("Received data:", { bookingID, parkingSpaceID, start, finish });
-  
+      console.log("Received data:", {
+        bookingID,
+        parkingSpaceID,
+        start,
+        finish,
+      });
+
       await query(
         `UPDATE booking 
          SET parking_space_id = $1, start = $2, finish = $3 
          WHERE booking_id = $4`,
-        [parkingSpaceID, start, finish, bookingID]
+        [parkingSpaceID, start, finish, bookingID],
       );
-      
 
       // Return success response
-      return res.status(200).json({ message: "Booking details updated successfully" });
+      return res
+        .status(200)
+        .json({ message: "Booking details updated successfully" });
     } catch (error) {
       // Handle any errors
       console.error("Error updating booking details:", error);
-      return res.status(500).json({ error: "Failed to update booking details" });
+      return res
+        .status(500)
+        .json({ error: "Failed to update booking details" });
     }
   }
-  
 
+  static async selectBooking(req, res, next) {
+    const { bookingID } = req.body;
+    const username = req.user.username;
 
+    console.log(req.user.username);
+
+    try {
+      const bookingQuery = await query(
+        `
+          SELECT latitude,
+                 longitude,
+                 carpark.name AS carpark_name,
+                 booking.parking_space_id
+          FROM booking
+                   JOIN parking_space
+                        ON booking.booking_id = $1 AND
+                           booking.booking_username = $2 AND
+                           parking_space.parking_space_id = booking.parking_space_id
+                   JOIN carpark
+                        ON carpark.carpark_id = parking_space.carpark_id;
+        `,
+        [bookingID, username],
+      );
+
+      if (bookingQuery.rowCount != 1) {
+        req.errorMsg = "Booking not found";
+        return next();
+      }
+
+      const bookingData = bookingQuery.rows[0];
+
+      req.bookingSelected = true;
+      req.targetLatitude = bookingData.latitude;
+      req.targetLongitude = bookingData.longitude;
+      req.targetCarpark = bookingData.carpark_name;
+      req.targetParkingSpace = bookingData.parking_space_id;
+    } catch (error) {
+      console.log(error);
+      req.errorMsg = "Internal server error";
+    }
+    return next();
+  }
+
+  static async park(req, res, next) {
+    const {
+      targetLatitude,
+      targetLongitude,
+      targetParkingSpace,
+      targetCarpark,
+      currentLatitude,
+      currentLongitude,
+    } = req.body;
+    const username = req.user.username;
+
+    req.targetLatitude = targetLatitude;
+    req.targetLongitude = targetLongitude;
+    req.targetCarpark = targetCarpark;
+    req.targetParkingSpace = targetParkingSpace;
+
+    try {
+      const distanceQuery = await query(
+        `
+        SELECT distance
+        FROM get_parking_spaces_by_distance($1, $2)
+        WHERE parking_space_id = $3;
+      `,
+        [currentLongitude, currentLatitude, targetParkingSpace],
+      );
+
+      if (distanceQuery.rowCount != 1) {
+        req.errorMsg = "Invalid booking";
+        return next();
+      }
+
+      const distance = distanceQuery.rows[0].distance;
+      console.log(distanceQuery);
+      console.log(distance);
+
+      if (distance > 5) {
+        req.errorMsg =
+          "You are " + (distance - 5) + "m away from the parking space";
+        return next();
+      }
+
+      // Check if space can be parked in
+      // if () {
+      //   req.errorMsg = "This space cannot be parked in";
+      //   return next();
+      // }
+
+      await query(
+        `
+        UPDATE parking_space
+        SET occupant_username = $1
+        WHERE parking_space_id = $2;
+        `,
+        [username, targetParkingSpace],
+      );
+
+      req.parkSuccessMsg = "You have parked!";
+    } catch (error) {
+      console.log(error);
+      req.errorMsg = "Internal server error";
+    }
+    return next();
+  }
 }
 
 module.exports = UserController;
