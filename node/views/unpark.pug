@@ -1,0 +1,25 @@
+extends layout
+
+block header
+  header
+    img.logo(src='/images/Designer.png' alt='Company Logo')
+    .company-name CarpPark - Home
+    if loggedIn
+      .account-balance #{user.username} Balance: £#{user.balance * 0.01}
+
+block content
+  .container
+    include includes/nav.pug
+    .main-content
+
+      h2 Select where you want to unpark from
+      form(action='/unpark' method='POST')
+
+        label(for='parkingSpaceID') Parking Space ID:
+        input#parkingSpaceID(type='number' name='parkingSpaceID' placeholder='Parking Space ID')
+
+        input(type='submit' value='Unpark')
+
+      if resultMsg
+        p #{resultMsg}
+      
