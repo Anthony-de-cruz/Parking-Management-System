@@ -11,7 +11,7 @@ block content
   .container
     include includes/nav.pug
     .main-content
-      table
+      table.booking-table
         thead
           tr
             th Booking ID
@@ -19,11 +19,24 @@ block content
             th Start
             th Finish
             th Deposit
+            th Update Booking
         tbody
           each booking in bookings
             tr
-              td= booking.booking_id
-              td= booking.parking_space_id
-              td= booking.start
-              td= booking.finish
-              td= booking.deposit
+              td.booking-id= booking.booking_id
+              td.parking-space-id= booking.parking_space_id
+              td.start-time= booking.start
+              td.finish-time= booking.finish
+              td.deposit= booking.deposit
+
+              td
+                form.booking-form(action=`/manage-booking`, method='POST')
+                  input(type='hidden', name='_method', value='PUT')
+                  input(type='hidden', name='bookingID', value=booking.booking_id)
+                  label(for='parkingSpaceID') Parking Space ID:
+                  input(type='text', name='parkingSpaceID', value=booking.parking_space_id)
+                  label(for='start') Start Time:
+                  input(type='datetime-local', name='start', value=booking.start)
+                  label(for='finish') Finish Time:
+                  input(type='datetime-local', name='finish', value=booking.finish)
+                  button(type='submit') Update

@@ -7,6 +7,8 @@ const Booking = require("../models/booking");
 class UserController {
   constructor() {}
 
+
+
   static async createBooking(req, res, next) {
     console.log("User data in createBooking:", req.user); // Check if req.user is available
 
@@ -42,6 +44,8 @@ class UserController {
     }
   }
 
+
+
   static async calcualteBooking(req, res, next) {
     try {
       // Extract data from request body
@@ -65,7 +69,6 @@ class UserController {
       );
 
       const nearestID = nearestIDRes.rows[0].id;
-
       console.log("id: " + nearestID);
 
       const costRes = await query(
@@ -74,7 +77,6 @@ class UserController {
       );
 
       const bookingCost = costRes.rows[0].cost;
-
       console.log("cost: " + bookingCost);
 
       const newBooking = new Booking(
@@ -93,12 +95,14 @@ class UserController {
         "Booking cost calculated as: " + nearestID + ", " + bookingCost,
       );
       return next();
+
     } catch (error) {
       // Handle any errors
       console.error("Error checking booking:", error);
       return res.status(500).json({ error: "Failed to check booking cost" });
     }
   }
+
 
   static async showBooking(req, res, next) {
     try {
@@ -119,7 +123,31 @@ class UserController {
     }
   }
 
-  static async updateBooking(req, res, next) {}
+
+  static async updateBookingDetails(req, res, next) {
+    try {
+      const { bookingID, parkingSpaceID, start, finish } = req.body;
+      console.log("Received data:", { bookingID, parkingSpaceID, start, finish });
+  
+      await query(
+        `UPDATE booking 
+         SET parking_space_id = $1, start = $2, finish = $3 
+         WHERE booking_id = $4`,
+        [parkingSpaceID, start, finish, bookingID]
+      );
+      
+
+      // Return success response
+      return res.status(200).json({ message: "Booking details updated successfully" });
+    } catch (error) {
+      // Handle any errors
+      console.error("Error updating booking details:", error);
+      return res.status(500).json({ error: "Failed to update booking details" });
+    }
+  }
+  
+
+
 }
 
 module.exports = UserController;

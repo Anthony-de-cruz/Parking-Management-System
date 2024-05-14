@@ -13,4 +13,18 @@ router.get(
   },
 );
 
+router.post(
+  "/",
+  LoginRegisterController.collectAuthTokenData,
+  //UserController.PARKFUNCTION,  INSERT userController PARK FUNCTION HERE
+  async (req, res, next) => {
+    res.render("park", {
+      loggedIn: req.loggedIn,
+      user: req.user,
+      calculatedBooking: req.calculatedBooking,
+      newBooking: req.newBooking,
+    });
+  },
+);
+
 module.exports = router;
