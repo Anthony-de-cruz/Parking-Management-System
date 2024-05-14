@@ -1,20 +1,22 @@
-var express = require("express");
+var express = require('express');
 var router = express.Router();
 
-const LoginRegisterController = require("../controllers/loginRegisterController");
-const UserController = require("../controllers/userController");
+const LoginRegisterController = require('../controllers/loginRegisterController');
+const AdminController = require('../controllers/adminController');
 
-/* GET manage booking page. */
+/* GET admin data view page. */
 router.get(
-  "/",
+  '/',
   LoginRegisterController.checkAuthToken,
   LoginRegisterController.collectAuthTokenData,
-  async function (req, res, next) {
-    res.render("adminDataView", {
+  AdminController.getParkingSpaceStatus,
+  function (req, res, next) {
+    res.render('adminDataView', {
       loggedIn: req.loggedIn,
       user: req.user,
+      status: req.parkingSpaceStatus
     });
-  },
+  }
 );
 
 module.exports = router;

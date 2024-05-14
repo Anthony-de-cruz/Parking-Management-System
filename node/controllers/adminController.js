@@ -123,6 +123,26 @@ class AdminController {
       throw new Error("Failed to fetch users: " + error.message);
     }
   }
+
+  static async getParkingSpaceStatus(req, res, next) {
+    try {
+      const result = await query(`
+        SELECT 
+          COUNT(*) AS total_spaces,
+          COUNT(*) FILTER (WHERE status = 'active') AS available_spaces,
+          COUNT(*) FILTER (WHERE status = 'occupied') AS occupied_spaces,
+          COUNT(*) FILTER (WHERE status = 'reserved') AS reserved_spaces,
+          COUNT(*) FILTER (WHERE status = 'blocked') AS blocked_spaces
+        FROM parking_space;
+      `);
+
+      req.parkingSpaceStatus = result.rows[0];
+      next();
+    } catch (error) {
+      console.error('Error getting parking space status:', error);
+      res.status(500).send('Error getting parking space status');
+    }
+  }
 }
 
 module.exports = AdminController;

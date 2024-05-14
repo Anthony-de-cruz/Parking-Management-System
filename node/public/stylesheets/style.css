@@ -199,3 +199,14 @@ input[type="submit"] {
 .parking-space-id {
   font-weight: bold;
 }
+
+.parking-status-graph {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.parking-status-list{
+  list-style-type: none;
+}
+

@@ -12,4 +12,47 @@ block content
     include includes/nav.pug
 
     .main-content
-      h2 Data View
+      h2 Admin Data View
+
+      .parking-status-numbers
+        h3 Parking Space Status
+        ul.parking-status-list
+          li Total Spaces: #{status.total_spaces}
+          li Available Spaces: #{status.available_spaces}
+          li Occupied Spaces: #{status.occupied_spaces}
+          li Reserved Spaces: #{status.reserved_spaces}
+          li Blocked Spaces: #{status.blocked_spaces}
+
+      .parking-status-graph
+        canvas#parkingSpaceChart(width='400' height='400')
+
+block scripts
+  script(src='https://cdn.jsdelivr.net/npm/chart.js')
+  script.
+    document.addEventListener('DOMContentLoaded', function() {
+      var ctx = document.getElementById('parkingSpaceChart').getContext('2d');
+      var chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: ['Available', 'Occupied', 'Reserved', 'Blocked'],
+          datasets: [{
+            label: 'Parking Space Status',
+            data: [#{status.available_spaces}, #{status.occupied_spaces}, #{status.reserved_spaces}, #{status.blocked_spaces}],
+            backgroundColor: ['#4CAF50', '#FF6384', '#FFCE56', '#E7E9ED'],
+            hoverOffset: 4
+          }]
+        },
+        options: {
+          responsive: false,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            title: {
+              display: true,
+              text: 'Parking Space Usage'
+            }
+          }
+        }
+      });
+    });
