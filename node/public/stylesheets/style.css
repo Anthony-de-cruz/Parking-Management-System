@@ -36,7 +36,7 @@ nav {
   background-color: #ccc5b9;
   width: 200px;
   padding: 20px;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .navigation-link {
