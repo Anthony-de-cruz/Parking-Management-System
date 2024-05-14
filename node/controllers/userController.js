@@ -273,6 +273,38 @@ class UserController {
     }
     return next();
   }
+
+  static async unpark(req, res, next) {
+    const { parkingSpaceID } = req.body;
+    const username = req.user.username;
+
+    try {
+      queryResult = await query(
+        `
+          UPDATE parking_space
+          SET occupant_username = NULL
+          WHERE parking_space_id = $1
+            AND occupant_username = $2;
+        `,
+        [parkingSpaceID, username],
+      );
+
+      if (queryResult.rowCount != 1) {
+        req.resultMsg = "Invalid parking space id";
+        return next();
+      }
+
+      req.resultMsg = "Successful";
+      console.log(
+        "Removed user " + username + " from parking space " + parkingSpaceID,
+      );
+    } catch (error) {
+      req.resultMsg = "Invalid parking space id";
+      console.log("Invalid unparking: " + error);
+    }
+
+    return next();
+  }
 }
 
 module.exports = UserController;

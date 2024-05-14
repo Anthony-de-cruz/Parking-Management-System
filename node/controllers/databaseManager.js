@@ -18,4 +18,11 @@ const query = async (text, params) => {
   return res;
 };
 
-module.exports = { query };
+async function testDB() {
+  console.log("EXECUTING TEST QUERY");
+  const result = await query("SELECT 1;");
+  console.log(result.rows);
+}
+
+module.exports = { query, testDB };
+

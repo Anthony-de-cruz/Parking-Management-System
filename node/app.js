@@ -6,7 +6,9 @@ var logger = require("morgan");
 var favicon = require("serve-favicon");
 
 var databaseManager = require("./controllers/databaseManager");
-const { query } = databaseManager;
+const { testDB } = databaseManager;
+
+testDB();
 
 var indexRouter = require("./routes/index");
 var loginRouter = require("./routes/login");
@@ -17,6 +19,7 @@ var addBalanceRouter = require("./routes/addBalance");
 var manageBookingRouter = require("./routes/manageBooking");
 var manageAccountRouter = require("./routes/manageAccount");
 var parkRouter = require("./routes/park");
+var unparkRouter = require("./routes/unpark");
 var adminDataViewRouter = require("./routes/adminDataView");
 var adminManageParkingRouter = require("./routes/adminManageParking");
 var adminManageUsersRouter = require("./routes/adminManageUsers");
@@ -36,15 +39,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
 
-// TEMPORARY - quickly test the db
-async function testDB() {
-  console.log("EXECUTING TEST QUERY");
-  const result = await query("SELECT 1;");
-  console.log(result.rows);
-}
-
-testDB();
-
 // routing
 app.use("/", indexRouter);
 app.use("/login", loginRouter);
@@ -55,6 +49,7 @@ app.use("/add-balance", addBalanceRouter);
 app.use("/manage-booking", manageBookingRouter);
 app.use("/manage-account", manageAccountRouter);
 app.use("/park", parkRouter);
+app.use("/unpark", unparkRouter);
 app.use("/admin-data-view", adminDataViewRouter);
 app.use("/admin-manage-parking", adminManageParkingRouter);
 app.use("/admin-manage-users", adminManageUsersRouter);

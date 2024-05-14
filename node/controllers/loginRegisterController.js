@@ -32,7 +32,7 @@ class LoginRegisterController {
       { username: username, isAdmin: isAdmin },
       "super-secret",
       {
-        expiresIn: "1h",
+        expiresIn: "3h",
       },
     );
     console.log(`Assigning user: ${username} the token: ${token}`);
@@ -72,7 +72,9 @@ class LoginRegisterController {
       req.loggedIn = true;
       return next();
     } catch (error) {
-      return res.status(401).json({ error: "Invalid token" + error });
+      console.log("Error: Invalid token " + error);
+      res.clearCookie("authToken");
+      return res.redirect("/login");
     }
   }
 
