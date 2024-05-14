@@ -32,7 +32,7 @@ class LoginRegisterController {
       { username: username, isAdmin: isAdmin },
       "super-secret",
       {
-        expiresIn: "1h",
+        expiresIn: "3h",
       },
     );
     console.log(`Assigning user: ${username} the token: ${token}`);
