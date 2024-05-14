@@ -2,105 +2,101 @@ var databaseManager = require("../controllers/databaseManager");
 const { query } = databaseManager;
 
 class AdminController {
-  static async getParkingBookings(req, res, next) {
+
+  static async getParkingSpaces(req, res, next) {
     try {
-      const result = await query(
-        `SELECT booking.booking_id, booking.parking_space_id, booking.start, booking.finish, booking.booking_username, ps.blocked, booking.status
-         FROM booking
-         JOIN parking_space ps ON booking.parking_space_id = ps.parking_space_id`
-      );
-      req.bookings = result.rows;
+      const result = await query(`SELECT parking_space_id, status FROM parking_space ORDER BY parking_space_id`);
+      req.parkingSpaces = result.rows;
       next();
     } catch (error) {
-      console.error("Error fetching parking bookings:", error);
-      res.status(500).send("Error fetching parking bookings");
+      console.error("Error fetching parking spaces:", error);
+      res.status(500).send("Error fetching parking spaces");
     }
   }
 
-  static async removeBooking(req, res) {
-    const { booking_id } = req.body;
+  static async addParkingSpace(req, res) {
+    const { parking_space_id, latitude, longitude, carpark_id } = req.body;
     try {
-      await query(`DELETE FROM booking WHERE booking_id = $1`, [booking_id]);
+      await query(`INSERT INTO parking_space (parking_space_id, carpark_id, latitude, longitude, status) VALUES ($1, $2, $3, $4, 'active')`, [parking_space_id, carpark_id, latitude, longitude]);
       res.redirect('/admin-manage-parking');
     } catch (error) {
-      console.error("Error removing booking:", error);
-      res.status(500).send("Error removing booking");
+      console.error("Error adding parking space:", error);
+  
+      let errorMessage;
+      if (error.code === '23505') { // PostgreSQL error code for unique violation
+        errorMessage = 'Parking space ID is already occupied.';
+      } else if (error.code === '23503') { // PostgreSQL error code for foreign key violation
+        errorMessage = 'The specified Carpark ID does not exist.';
+      } else {
+        errorMessage = 'Error adding parking space.';
+      }
+  
+      // Re-fetch parking spaces to pass to the view
+      const result = await query(`SELECT parking_space_id, status FROM parking_space ORDER BY parking_space_id`);
+      req.parkingSpaces = result.rows;
+  
+      res.render("adminManageParking", { 
+        loggedIn: req.loggedIn, 
+        user: req.user, 
+        parkingSpaces: req.parkingSpaces, 
+        errorMessage 
+      });
+    }
+  }
+  
+  static async removeParkingSpace(req, res) {
+    const { parking_space_id } = req.body;
+    try {
+      await query(`DELETE FROM parking_space WHERE parking_space_id = $1`, [parking_space_id]);
+      res.redirect('/admin-manage-parking');
+    } catch (error) {
+      console.error("Error removing parking space:", error);
+      res.status(500).send("Error removing parking space");
     }
   }
 
   static async toggleBlock(req, res) {
-    const { booking_id } = req.body;
+    const { parking_space_id } = req.body;
     try {
-      const result = await query(
-        `SELECT parking_space_id FROM booking WHERE booking_id = $1`,
-        [booking_id]
-      );
-      const booking = result.rows[0];
-      if (!booking) {
-        throw new Error("Booking not found");
-      }
-  
-      const parkingSpaceResult = await query(
-        `SELECT blocked FROM parking_space WHERE parking_space_id = $1`,
-        [booking.parking_space_id]
-      );
-      const parkingSpace = parkingSpaceResult.rows[0];
+      const result = await query(`SELECT status FROM parking_space WHERE parking_space_id = $1`, [parking_space_id]);
+      const parkingSpace = result.rows[0];
       if (!parkingSpace) {
         throw new Error("Parking space not found");
       }
-  
-      const isBlocked = parkingSpace.blocked;
-  
-      if (isBlocked) {
-        await query(
-          `UPDATE parking_space SET blocked = false WHERE parking_space_id = $1`,
-          [booking.parking_space_id]
-        );
-        await query(
-          `UPDATE booking SET status = 'active' WHERE booking_id = $1`,
-          [booking_id]
-        );
-      } else {
-        await query(
-          `UPDATE parking_space SET blocked = true WHERE parking_space_id = $1`,
-          [booking.parking_space_id]
-        );
-        await query(
-          `UPDATE booking SET status = 'blocked' WHERE booking_id = $1`,
-          [booking_id]
-        );
-      }
-  
+
+      const isBlocked = parkingSpace.status === 'blocked';
+      const newStatus = isBlocked ? 'active' : 'blocked';
+      
+      await query(`UPDATE parking_space SET status = $1 WHERE parking_space_id = $2`, [newStatus, parking_space_id]);
+      
       res.redirect('/admin-manage-parking');
     } catch (error) {
       console.error("Error toggling block:", error.message);
       res.status(500).send(`Error toggling block: ${error.message}`);
     }
   }
-  
 
   static async reserve(req, res) {
-    const { booking_id } = req.body;
+    const { parking_space_id } = req.body;
     try {
-      const result = await query(
-        `SELECT booking_username FROM booking WHERE booking_id = $1`,
-        [booking_id]
-      );
-      const booking = result.rows[0];
-      if (!booking) {
-        throw new Error("Booking not found");
+      const result = await query(`SELECT status FROM parking_space WHERE parking_space_id = $1`, [parking_space_id]);
+      const parkingSpace = result.rows[0];
+      if (!parkingSpace) {
+        throw new Error("Parking space not found");
       }
-
-      await query(
-        `UPDATE booking SET status = 'reserve' WHERE booking_id = $1`,
-        [booking_id]
-      );
+  
+      const isReserved = parkingSpace.status === 'reserved';
+      const newStatus = isReserved ? 'active' : 'reserved';
+      
+      await query(`UPDATE parking_space SET status = $1 WHERE parking_space_id = $2`, [newStatus, parking_space_id]);
+      
       res.redirect('/admin-manage-parking');
     } catch (error) {
-      console.error("Error reserving booking:", error.message);
-      res.status(500).send(`Error reserving booking: ${error.message}`);
+      console.error("Error toggling reserve:", error.message);
+      res.status(500).send(`Error toggling reserve: ${error.message}`);
     }
   }
+
 
   static async banUser(username) {
     await query("UPDATE app_user SET is_banned = True WHERE username = $1;", [username]);

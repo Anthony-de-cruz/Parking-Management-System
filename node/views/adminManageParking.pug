@@ -7,39 +7,39 @@ block header
     if loggedIn
       .account-balance #{user.username} Balance: £#{user.balance * 0.01}
 
-
 block content
-
   .container
     include includes/nav.pug
 
-
     .main-content
       h2 Admin - Manage Parking
+      if errorMessage
+        .error-message #{errorMessage}
       table
         thead
           tr
             th Parking Space ID
-            th Start
-            th Finish
-            th Username
             th Status
             th Actions
         tbody
-          each booking in bookings
+          each parkingSpace in parkingSpaces
             tr
-              td #{booking.parking_space_id}
-              td #{booking.start}
-              td #{booking.finish}
-              td #{booking.booking_username}
-              td #{booking.status}
+              td #{parkingSpace.parking_space_id}
+              td #{parkingSpace.status}
               td.actions
-                form(action='/admin-manage-parking/remove' method='post')
-                  input(type='hidden' name='booking_id' value=booking.booking_id)
-                  button(type='submit') Remove
                 form(action='/admin-manage-parking/toggle-block' method='post')
-                  input(type='hidden' name='booking_id' value=booking.booking_id)
-                  button(type='submit') #{booking.status === 'blocked' ? 'Release' : 'Block'}
+                  input(type='hidden' name='parking_space_id' value=parkingSpace.parking_space_id)
+                  button(type='submit') #{parkingSpace.status === 'blocked' ? 'Release' : 'Block'}
                 form(action='/admin-manage-parking/reserve' method='post')
-                  input(type='hidden' name='booking_id' value=booking.booking_id)
-                  button(type='submit') Reserve
+                  input(type='hidden' name='parking_space_id' value=parkingSpace.parking_space_id)
+                  button(type='submit') #{parkingSpace.status === 'reserved' ? 'Unreserve' : 'Reserve'}
+                form(action='/admin-manage-parking/remove' method='post')
+                  input(type='hidden' name='parking_space_id' value=parkingSpace.parking_space_id)
+                  button(type='submit') Remove
+      form(action='/admin-manage-parking/add' method='post')
+        input(type='text' name='parking_space_id' placeholder='New Parking Space ID')
+        input(type='text' name='latitude' placeholder='Latitude')
+        input(type='text' name='longitude' placeholder='Longitude')
+        input(type='text' name='carpark_id' placeholder='Carpark ID')
+        button(type='submit') Add
+
