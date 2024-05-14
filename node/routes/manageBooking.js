@@ -25,18 +25,25 @@ router.get(
   },
 );
 
+
 router.post(
   "/",
   LoginRegisterController.collectAuthTokenData,
-  UserController.updateBooking,
+  UserController.updateBookingDetails,
   async (req, res, next) => {
-    res.render("manageBooking", {
-      loggedIn: req.loggedIn,
-      user: req.user,
-      calculatedBooking: req.calculatedBooking,
-      newBooking: req.newBooking,
-    });
-  },
+    try {
+      res.render("manage-booking", {
+        loggedIn: req.loggedIn,
+        user: req.user,
+        calculatedBooking: req.calculatedBooking,
+        newBooking: req.newBooking,
+      });
+    } catch (error) {
+      console.error("Error updating booking details:", error);
+      res.status(500).send("Error updating booking details");
+    }
+  }
 );
+
 
 module.exports = router;

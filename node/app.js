@@ -18,6 +18,7 @@ var manageBookingRouter = require("./routes/manageBooking");
 var manageAccountRouter = require("./routes/manageAccount");
 var parkRouter = require("./routes/park");
 var adminDataViewRouter = require("./routes/adminDataView");
+var adminManageParkingRouter = require("./routes/adminManageParking");
 
 var adminManageUsersRouter = require("./routes/adminManageUsers");
 var adminManageParkingRouter = require("./routes/adminManageParking");
@@ -55,6 +56,7 @@ app.use("/manage-booking", manageBookingRouter);
 app.use("/manage-account", manageAccountRouter);
 app.use("/park", parkRouter);
 app.use("/admin-data-view", adminDataViewRouter);
+app.use("/admin-manage-parking", adminManageParkingRouter);
 
 app.use("/admin-manage-users", adminManageUsersRouter);
 app.use("/admin-manage-parking", adminManageParkingRouter);
