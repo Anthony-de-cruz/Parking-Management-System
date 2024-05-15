@@ -223,10 +223,12 @@ class UserController {
     try {
       const distanceQuery = await query(
         `
-        SELECT distance
-        FROM get_parking_spaces_by_distance($1, $2)
-        WHERE parking_space_id = $3;
-      `,
+          SELECT distance
+          FROM get_parking_spaces_by_distance($1, $2) AS sorted
+                   JOIN booking
+                        ON booking.parking_space_id = sorted.parking_space_id
+          WHERE sorted.parking_space_id = $3
+            AND booking.approved = true;`,
         [currentLongitude, currentLatitude, targetParkingSpace],
       );
 
@@ -245,20 +247,23 @@ class UserController {
         return next();
       }
 
-      // Check if space can be parked in
-      // if () {
-      //   req.errorMsg = "This space cannot be parked in";
-      //   return next();
-      // }
-
-      await query(
+      const queryResult = await query(
         `
-        UPDATE parking_space
-        SET occupant_username = $1
-        WHERE parking_space_id = $2;
+          UPDATE parking_space
+          SET occupant_username = $1,
+              status            = 'occupied'
+          WHERE parking_space_id = $2
+            AND occupant_username IS NULL
+            AND  status = 'active'
+          RETURNING status;
         `,
         [username, targetParkingSpace],
       );
+
+      if (queryResult.rowCount != 1) {
+        req.errorMsg = "Space unavailable";
+        return next();
+      }
 
       req.parkSuccessMsg = "You have parked!";
     } catch (error) {
@@ -276,7 +281,8 @@ class UserController {
       queryResult = await query(
         `
           UPDATE parking_space
-          SET occupant_username = NULL
+          SET occupant_username = NULL,
+              status = 'active'
           WHERE parking_space_id = $1
             AND occupant_username = $2;
         `,

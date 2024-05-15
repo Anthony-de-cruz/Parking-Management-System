@@ -121,57 +121,11 @@ VALUES (get_nearest_available_parking_space(
         '2055-01-01 02:10',
         '2055-01-01 02:20');
 
--- SELECT get_nearest_available_parking_space(
---                1.2405095686419425,
---                52.62118833234374,
---                '2056-01-01 02:10',
---                '2056-01-01 02:20')
---            AS id;
---
--- SELECT calculate_booking_deposit(
---                '2056-01-01 02:10',
---                '2056-01-01 02:20',
---                1)
---            AS deposit;
 
-
-SELECT latitude,
-       longitude,
-       carpark.name AS carpark_name,
-       booking.parking_space_id
-FROM booking
-         JOIN parking_space
-              ON booking.booking_id = 2 AND
-                 booking.booking_username = 'BigDave5' AND
-                 parking_space.parking_space_id = booking.parking_space_id
-         JOIN carpark
-              ON carpark.carpark_id = parking_space.carpark_id;
-
-SELECT COUNT(1) AS exists
-FROM booking
-WHERE booking_username = 'BigDave5'
-  AND booking_id = 2;
-
-
-SELECT start,
-       finish,
-       status,
-       occupant_username,
-       latitude,
-       longitude,
-       carpark_id,
-       booking.parking_space_id
-FROM booking
-         JOIN parking_space
-              ON booking.booking_id = 2 AND
-                 booking.booking_username = 'BigDave5' AND
-                 parking_space.parking_space_id = booking.parking_space_id;
 
 SELECT distance
-FROM get_parking_spaces_by_distance(1.2427174024815264, 52.623146713277116)
-WHERE parking_space_id = 5;
-
-
-UPDATE parking_space
-SET occupant_username = 'bob'
-WHERE parking_space_id = 16;
+FROM get_parking_spaces_by_distance(1.0, 1.0) AS sorted
+         JOIN booking
+              ON booking.parking_space_id = sorted.parking_space_id
+WHERE sorted.parking_space_id = 5
+  AND booking.approved = true;
