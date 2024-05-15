@@ -11,7 +11,7 @@ router.get(
   LoginRegisterController.collectAuthTokenData,
   function (req, res, next) {
     res.render("manageAccount", { loggedIn: req.loggedIn, user: req.user });
-  },
+  }
 );
 
 router.post(
@@ -19,16 +19,15 @@ router.post(
   LoginRegisterController.checkAuthToken,
   LoginRegisterController.collectAuthTokenData,
   async function (req, res, next) {
-    const { changePass, changeEmail} = req.body;
+    const { changePass, changeEmail } = req.body;
     const username = req.user.username;
     try {
-      // Code to update password in the database...
+      // Update password if provided
       if (changePass) {
         await User.updatePassword(username, changePass);
       }
 
-
-      // Code to update email in the database...
+      // Update email if provided
       if (changeEmail) {
         await User.updateEmail(username, changeEmail);
       }
@@ -41,7 +40,5 @@ router.post(
     }
   }
 );
-
-module.exports = router;
 
 module.exports = router;
