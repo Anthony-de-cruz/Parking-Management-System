@@ -16,6 +16,8 @@ block content
       h2 Create Booking
 
       if !calculatedBooking
+        if resultMsg
+          p #{resultMsg}
         form(action='/create-booking' method='POST')
 
           label(for='longitude') Destination:
@@ -31,6 +33,8 @@ block content
           input(type='submit' value='Check Cost & Availability')
 
       else
+        if resultMsg
+          p #{resultMsg}
         form(action='/create-booking' method='POST')
 
           label(for='parkingSpaceID') Parking Space ID:

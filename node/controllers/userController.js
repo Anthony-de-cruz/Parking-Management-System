@@ -54,11 +54,13 @@ class UserController {
       );
 
       // Return success response
-      return res.status(200).json({ message: "Booking created successfully" });
+      req.resultMsg = "Booking created successfully";
+      return next();
     } catch (error) {
       // Handle any errors
       console.error("Error creating booking:", error);
-      return res.status(500).json({ error: "Failed to create booking" });
+      req.resultMsg = "Failed to create booking";
+      return next();
     }
   }
 
@@ -70,14 +72,6 @@ class UserController {
 
       // Extract username from user data
       const bookingUsername = req.user.username;
-
-      // Ensure user data is available
-      if (!req.user || !latitude || !longitude) {
-        console.error("User data is missing or invalid");
-        return res
-          .status(401)
-          .json({ error: "User data is missing or invalid" });
-      }
 
       const nearestIDRes = await query(
         `SELECT get_nearest_available_parking_space($1, $2, $3, $4) AS id;`,
@@ -113,8 +107,8 @@ class UserController {
       return next();
     } catch (error) {
       // Handle any errors
-      console.error("Error checking booking:", error);
-      return res.status(500).json({ error: "Failed to check booking cost" });
+      req.resultMsg = "Failed to calculate booking";
+      return next();
     }
   }
 

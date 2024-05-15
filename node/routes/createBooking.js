@@ -29,6 +29,7 @@ router.post(
       user: req.user,
       calculatedBooking: req.calculatedBooking,
       newBooking: req.newBooking,
+      resultMsg: req.resultMsg,
     });
   },
 );
@@ -37,6 +38,15 @@ router.post(
   "/book",
   LoginRegisterController.collectAuthTokenData,
   UserController.createBooking,
+  async (req, res, next) => {
+    res.render("createBooking", {
+      loggedIn: req.loggedIn,
+      user: req.user,
+      calculatedBooking: req.calculatedBooking,
+      newBooking: req.newBooking,
+      resultMsg: req.resultMsg,
+    });
+  },
 );
 
 module.exports = router;
