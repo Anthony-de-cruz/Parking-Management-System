@@ -23,24 +23,27 @@ block content
             th Update Booking
 
             h3 If your parking space is not here, it may not have been approved yet!
+              if resultMsg
+                        h2 #{resultMsg}
         tbody
-          each booking in bookings
-            tr
-              td.booking-id= booking.booking_id
-              td.parking-space-id= booking.parking_space_id
-              td.start-time= booking.start
-              td.finish-time= booking.finish
-              td.deposit= booking.deposit
-              td.approved= booking.approved
-
-              td
-                form.booking-form(action=`/manage-booking`, method='POST')
-                  input(type='hidden', name='_method', value='PUT')
-                  input(type='hidden', name='bookingID', value=booking.booking_id)
-                  label(for='parkingSpaceID') Parking Space ID:
-                  input(type='text', name='parkingSpaceID', value=booking.parking_space_id)
-                  label(for='start') Start Time:
-                  input(type='datetime-local', name='start', value=booking.start)
-                  label(for='finish') Finish Time:
-                  input(type='datetime-local', name='finish', value=booking.finish)
-                  button(type='submit') Update
+          if bookings.length
+            each booking in bookings
+              tr
+                td.booking-id= booking.booking_id
+                td.parking-space-id= booking.parking_space_id
+                td.start-time= booking.start
+                td.finish-time= booking.finish
+                td.deposit= booking.deposit
+                td.approved= booking.approved
+                td
+                  form.booking-form(action=`/manage-booking`, method='POST')
+                    input(type='hidden', name='bookingID', value=booking.booking_id)
+                    label(for='parkingSpaceID') Parking Space ID:
+                    input(type='text', name='parkingSpaceID', value=booking.parking_space_id)
+                    label(for='start') Start Time:
+                    input(type='datetime-local', name='start', value=booking.start)
+                    label(for='finish') Finish Time:
+                    input(type='datetime-local', name='finish', value=booking.finish)
+                    button(type='submit') Update
+                    
+          
