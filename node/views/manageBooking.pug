@@ -19,7 +19,10 @@ block content
             th Start
             th Finish
             th Deposit
+            th Approved
             th Update Booking
+
+            h3 If your parking space is not here, it may not have been approved yet!
         tbody
           each booking in bookings
             tr
@@ -28,6 +31,7 @@ block content
               td.start-time= booking.start
               td.finish-time= booking.finish
               td.deposit= booking.deposit
+              td.approved= booking.approved
 
               td
                 form.booking-form(action=`/manage-booking`, method='POST')

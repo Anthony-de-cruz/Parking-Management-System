@@ -118,7 +118,7 @@ class UserController {
 
       // Fetch bookings from the database
       const bookings = await query(
-        `SELECT * FROM booking WHERE booking_username = $1 AND approved = TRUE`,
+        `SELECT * FROM booking WHERE booking_username = $1 AND approved = true`,        
         [bookingUsername],
       );
 
@@ -151,7 +151,7 @@ class UserController {
       // Return success response
       return res
         .status(200)
-        .json({ message: "Booking details updated successfully" });
+
     } catch (error) {
       // Handle any errors
       console.error("Error updating booking details:", error);
