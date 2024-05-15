@@ -180,7 +180,38 @@ class AdminController {
       res.status(500).send("Error denying booking request");
     }
   }
-}
 
+  static async adminAlertLate(req, res, next) {
+    const { bookingID } = req.body;
+    try {
+        const result = await query('SELECT * FROM booking WHERE booking_id = $1 AND (finish + interval \'1 second\') < NOW()', [bookingID]);
+        if (result.rows.length > 0) {
+            req.resultMsg = "There are bookings that are late!";
+        } else {
+            req.resultMsg = "No late bookings!";
+        }
+
+    } catch (error) {
+        console.error("Error checking for late bookings:", error);
+        req.resultMsg = "Failed to check for late bookings!";
+    }
+
+    return next();
+}
+  static async generateAlert(req, res, next){
+    const result = await query('SELECT * FROM booking WHERE late  insert into alert table');
+    try{
+    if (result.rows.length > 0) {
+      req.resultMsg = "There are bookings that are late!";
+  } else {
+      req.resultMsg = "No late bookings!";
+  }        
+} catch (error) {
+  console.error("Error checking for late bookings:", error);
+  req.resultMsg = "Failed to check for late bookings!";
+  }
+  return next();
+  }
+}
 
 module.exports = AdminController;

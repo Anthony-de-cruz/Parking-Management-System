@@ -64,6 +64,7 @@ class UserController {
     }
   }
 
+
   static async calcualteBooking(req, res, next) {
     try {
       // Extract data from request body

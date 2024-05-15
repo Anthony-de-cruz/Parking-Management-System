@@ -8,6 +8,7 @@ var favicon = require("serve-favicon");
 var databaseManager = require("./controllers/databaseManager");
 const { testDB } = databaseManager;
 
+
 testDB();
 
 var indexRouter = require("./routes/index");
@@ -25,6 +26,8 @@ var adminManageParkingRouter = require("./routes/adminManageParking");
 var adminManageUsersRouter = require("./routes/adminManageUsers");
 var adminManageParkingRouter = require("./routes/adminManageParking");
 var adminParkingRequestsRouter = require("./routes/adminParkingRequests");
+var adminAlertRouter = require("./routes/adminAlert");
+
 
 var app = express();
 
@@ -55,6 +58,8 @@ app.use("/admin-manage-parking", adminManageParkingRouter);
 app.use("/admin-manage-users", adminManageUsersRouter);
 app.use("/admin-manage-parking", adminManageParkingRouter);
 app.use("/admin-parking-requests", adminParkingRequestsRouter);
+app.use("/admin-alert", adminAlertRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
