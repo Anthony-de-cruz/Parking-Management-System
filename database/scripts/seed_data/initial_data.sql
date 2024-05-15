@@ -121,11 +121,5 @@ VALUES (get_nearest_available_parking_space(
         '2055-01-01 02:10',
         '2055-01-01 02:20');
 
-
-
-SELECT distance
-FROM get_parking_spaces_by_distance(1.0, 1.0) AS sorted
-         JOIN booking
-              ON booking.parking_space_id = sorted.parking_space_id
-WHERE sorted.parking_space_id = 5
-  AND booking.approved = true;
+INSERT INTO booking (parking_space_id, booking_username, start, finish)
+VALUES(20, 'admin1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '1 hour');
