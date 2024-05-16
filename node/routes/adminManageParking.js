@@ -15,7 +15,8 @@ router.get(
       loggedIn: req.loggedIn, 
       user: req.user, 
       parkingSpaces: req.parkingSpaces,
-      errorMessage: req.query.errorMessage // To handle error message
+      errorMessage: req.query.errorMessage, // To handle error message
+      successMessage: req.query.successMessage // To handle success message
     });
   }
 );
@@ -30,19 +31,30 @@ router.post(
 router.post(
   "/remove",
   LoginRegisterController.checkAuthToken,
-  AdminController.removeParkingSpace
+  AdminController.removeParkingSpace,
+  async function (req, res) {
+    res.redirect('/admin-manage-parking?successMessage=' + encodeURIComponent('Successfully removed parking space.'));
+  }
 );
 
 router.post(
   "/toggle-block",
   LoginRegisterController.checkAuthToken,
-  AdminController.toggleBlock
+  AdminController.toggleBlock,
+  async function (req, res) {
+    const successMessage = req.body.originalStatus === 'blocked' ? 'Successfully released parking space.' : 'Successfully blocked parking space.';
+    res.redirect('/admin-manage-parking?successMessage=' + encodeURIComponent(successMessage));
+  }
 );
 
 router.post(
   "/reserve",
   LoginRegisterController.checkAuthToken,
-  AdminController.reserve
+  AdminController.reserve,
+  async function (req, res) {
+    const successMessage = req.body.originalStatus === 'reserved' ? 'Successfully unreserved parking space.' : 'Successfully reserved parking space.';
+    res.redirect('/admin-manage-parking?successMessage=' + encodeURIComponent(successMessage));
+  }
 );
 
 module.exports = router;

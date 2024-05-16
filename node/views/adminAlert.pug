@@ -3,7 +3,7 @@ extends layout
 block header
   header
     img.logo(src='/images/Designer.png' alt='Company Logo')
-    .company-name CarpPark - Home
+    .company-name CarpPark - Admin Alerts
     if loggedIn
       .account-balance #{user.username} Balance: £#{user.balance * 0.01}
 
@@ -12,4 +12,19 @@ block content
     include includes/nav.pug
     .main-content
       if resultMsg
-                h2 #{resultMsg}
+        h2 #{resultMsg}
+      if alerts.length
+        table.booking-table
+          thead
+            tr
+              th Alert ID
+              th Message
+              th Timestamp
+          tbody
+            each alert in alerts
+              tr
+                td= alert.alert_id
+                td= alert.message
+                td= alert.timestamp
+      else
+        p No alerts available.

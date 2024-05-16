@@ -52,20 +52,20 @@ class AdminController {
     }
   }
 
-  static async removeParkingSpace(req, res) {
+  static async removeParkingSpace(req, res, next) {
     const { parking_space_id } = req.body;
     try {
       await query(`DELETE FROM parking_space WHERE parking_space_id = $1`, [
         parking_space_id,
       ]);
-      res.redirect("/admin-manage-parking");
+      next(); // Call next middleware
     } catch (error) {
       console.error("Error removing parking space:", error);
-      res.status(500).send("Error removing parking space");
+      next(error); // Pass error to next middleware
     }
   }
 
-  static async toggleBlock(req, res) {
+  static async toggleBlock(req, res, next) {
     const { parking_space_id } = req.body;
     try {
       const result = await query(
@@ -77,22 +77,24 @@ class AdminController {
         throw new Error("Parking space not found");
       }
 
-      const isBlocked = parkingSpace.status === "blocked";
-      const newStatus = isBlocked ? "active" : "blocked";
+      const originalStatus = parkingSpace.status;
+      const newStatus = originalStatus === "blocked" ? "active" : "blocked";
 
       await query(
         `UPDATE parking_space SET status = $1 WHERE parking_space_id = $2`,
         [newStatus, parking_space_id],
       );
 
-      res.redirect("/admin-manage-parking");
+      req.body.originalStatus = originalStatus;
+      req.body.newStatus = newStatus;
+      next(); // Call next middleware
     } catch (error) {
       console.error("Error toggling block:", error.message);
-      res.status(500).send(`Error toggling block: ${error.message}`);
+      next(error); // Pass error to next middleware
     }
   }
 
-  static async reserve(req, res) {
+  static async reserve(req, res, next) {
     const { parking_space_id } = req.body;
     try {
       const result = await query(
@@ -104,18 +106,20 @@ class AdminController {
         throw new Error("Parking space not found");
       }
 
-      const isReserved = parkingSpace.status === "reserved";
-      const newStatus = isReserved ? "active" : "reserved";
+      const originalStatus = parkingSpace.status;
+      const newStatus = originalStatus === "reserved" ? "active" : "reserved";
 
       await query(
         `UPDATE parking_space SET status = $1 WHERE parking_space_id = $2`,
         [newStatus, parking_space_id],
       );
 
-      res.redirect("/admin-manage-parking");
+      req.body.originalStatus = originalStatus;
+      req.body.newStatus = newStatus;
+      next(); // Call next middleware
     } catch (error) {
       console.error("Error toggling reserve:", error.message);
-      res.status(500).send(`Error toggling reserve: ${error.message}`);
+      next(error); // Pass error to next middleware
     }
   }
 
@@ -211,18 +215,21 @@ class AdminController {
   }
 
   static async getAdminAlerts(req, res, next) {
-    const { bookingID } = req.body;
     try {
       const result = await query(`
         SELECT alert_id, message, timestamp
         FROM alert
         WHERE read = false;`);
+
+      let alerts = [];
       await query(`CALL read_alerts();`);
       if (result.rows.length > 0) {
         req.resultMsg = "Your alerts";
       } else {
         req.resultMsg = "No alerts";
       }
+
+      req.alerts = alerts;
     } catch (error) {
       console.error("Error checking for alerts:", error);
       req.resultMsg = "Failed to check for alerts!";
@@ -230,6 +237,7 @@ class AdminController {
 
     return next();
   }
+
   static async generateAlert(req, res, next) {
     const result = await query("CALL generate_alerts();");
     try {
