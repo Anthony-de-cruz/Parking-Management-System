@@ -49,13 +49,12 @@ BEGIN
     END IF;
 
     -- Check if space is available
-    IF EXISTS(SELECT 1 FROM parking_space WHERE status != 'active') THEN
+    IF EXISTS(SELECT * FROM parking_space WHERE status != 'active') THEN
         RETURN false;
     END IF;
     RETURN true;
 END;
 $$;
-
 
 CREATE OR REPLACE FUNCTION get_parking_spaces_by_distance(
     longitude_in FLOAT,
