@@ -22,12 +22,12 @@ router.post(
     const { changePass, changeEmail } = req.body;
     const username = req.user.username;
     try {
-      // Update password if provided
+      // Update password
       if (changePass) {
         await User.updatePassword(username, changePass);
       }
 
-      // Update email if provided
+      // Update email
       if (changeEmail) {
         await User.updateEmail(username, changeEmail);
       }
