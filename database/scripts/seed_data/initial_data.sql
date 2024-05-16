@@ -124,7 +124,7 @@ VALUES (get_nearest_available_parking_space(
 
 -- Overstayed booking
 INSERT INTO booking (parking_space_id, booking_username, start, finish)
-VALUES (20, 'admin1', CURRENT_TIMESTAMP + INTERVAL '5 second', CURRENT_TIMESTAMP + INTERVAL '1 minute');
+VALUES (20, 'admin1', CURRENT_TIMESTAMP + INTERVAL '5 second', CURRENT_TIMESTAMP + INTERVAL '6 seconds');
 
 UPDATE parking_space
 SET occupant_username = 'admin1',
