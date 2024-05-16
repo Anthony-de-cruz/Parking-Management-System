@@ -16,7 +16,8 @@
     "nodemailer": "^6.9.13",
     "pg": "^8.11.5",
     "pug": "2.0.0-beta11",
-    "serve-favicon": "2.5.0"
+    "serve-favicon": "2.5.0",
+    "twilio": "^4.5.0"
   },
   "devDependencies": {
     "nodemon": "3.1.0"
