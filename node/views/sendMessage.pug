@@ -1,0 +1,20 @@
+extends layout
+
+block header
+  header
+    img.logo(src='/images/Designer.png' alt='Company Logo')
+    .company-name CarpPark - Home
+    if loggedIn
+      .account-balance #{user.username} Balance: £#{user.balance * 0.01}
+
+block content
+  .container
+    include includes/nav.pug
+
+    .main-content
+      h2 Send Message
+      form(action='/send-message', method='POST')
+        label(for='message') Message:
+        textarea#message(name='message' required)
+        br
+        input(type='submit' value='Send')

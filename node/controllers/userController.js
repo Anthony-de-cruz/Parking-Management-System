@@ -297,6 +297,12 @@ class UserController {
 
     return next();
   }
+
+  static async getUsers() {
+    const result = await query("SELECT username FROM app_user WHERE is_banned = FALSE;");
+    return result.rows;
+  }
+  
 }
 
 module.exports = UserController;
