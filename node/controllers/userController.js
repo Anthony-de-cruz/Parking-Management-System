@@ -64,6 +64,7 @@ class UserController {
     }
   }
 
+
   static async calcualteBooking(req, res, next) {
     try {
       // Extract data from request body
@@ -134,33 +135,24 @@ class UserController {
   static async updateBookingDetails(req, res, next) {
     try {
       const { bookingID, parkingSpaceID, start, finish } = req.body;
-      console.log("Received data:", {
-        bookingID,
-        parkingSpaceID,
-        start,
-        finish,
-      });
 
-      await query(
+        await query(
         `UPDATE booking 
          SET parking_space_id = $1, start = $2, finish = $3 
          WHERE booking_id = $4`,
         [parkingSpaceID, start, finish, bookingID],
       );
-
-      // Return success response
-      return res
-        .status(200)
-
+  
+      // Set success message
+      req.resultMsg = "Booking details updated successfully";
     } catch (error) {
-      // Handle any errors
+      // Set error message
       console.error("Error updating booking details:", error);
-      return res
-        .status(500)
-        .json({ error: "Failed to update booking details" });
+      req.resultMsg = "Failed to update booking details";
     }
+    next();
   }
-
+  
   static async selectBooking(req, res, next) {
     const { bookingID } = req.body;
     const username = req.user.username;

@@ -63,3 +63,10 @@ CREATE TABLE IF NOT EXISTS transaction
     FOREIGN KEY (transactor_username) REFERENCES app_user (username)
         ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS alerts (
+    alert_id SERIAL,
+    message VARCHAR(256) NOT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    PRIMARY KEY (alert_id)
+);
