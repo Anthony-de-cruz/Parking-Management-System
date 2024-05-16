@@ -64,6 +64,7 @@ nav {
   height: auto;
 }
 
+input[type="tel"],
 input[type="email"],
 input[type="password"],
 input[type="text"],
@@ -85,7 +86,7 @@ form label {
   margin-bottom: 5px;
 }
 
-form input[type="email"],
+form input[type="tel"],
 form input[type="email"],
 form input[type="password"],
 form input[type="text"],
@@ -210,3 +211,23 @@ input[type="submit"] {
   list-style-type: none;
 }
 
+textarea {
+  width: 70%;
+  height: 150px; /* Adjust the height as needed */
+  padding: 10px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.response-message {
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.response-message.success {
+  color: green;
+}
+
+.response-message.error {
+  color: red;
+}

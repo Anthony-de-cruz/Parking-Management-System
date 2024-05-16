@@ -1,17 +1,17 @@
 -- !psql
 
-INSERT INTO app_user (username, password, email, is_admin, is_banned, balance)
-VALUES ('admin1', 'password', 'example@email.com', TRUE, FALSE, 7000);
+INSERT INTO app_user (username, password, email, phone_number, is_admin, is_banned, balance)
+VALUES ('admin1', 'password', 'example@email.com', '+447532742960', TRUE, FALSE, 7000);
 
-INSERT INTO app_user (username, password, email, is_admin, is_banned)
-VALUES ('user1', 'password', 'example@email.com', FALSE, FALSE);
+INSERT INTO app_user (username, password, email, phone_number, is_admin, is_banned)
+VALUES ('user1', 'password', 'example@email.com', '+447532742960', FALSE, FALSE);
 
 UPDATE app_user
 SET balance = balance + 6000
 WHERE username = 'user1';
 
-INSERT INTO app_user (username, password, email, is_admin, is_banned)
-VALUES ('bannedUser1', 'password', 'example@email.com', FALSE, TRUE);
+INSERT INTO app_user (username, password, email, phone_number, is_admin, is_banned)
+VALUES ('bannedUser1', 'password', 'example@email.com','+447532742960', FALSE, TRUE);
 
 UPDATE app_user
 SET balance = balance + 600
@@ -122,10 +122,21 @@ VALUES (get_nearest_available_parking_space(
         '2055-01-01 02:20');
 
 
+-- Overstayed booking
+INSERT INTO booking (parking_space_id, booking_username, start, finish)
+VALUES (20, 'admin1', CURRENT_TIMESTAMP + INTERVAL '5 second', CURRENT_TIMESTAMP + INTERVAL '1 minute');
 
-SELECT distance
-FROM get_parking_spaces_by_distance(1.0, 1.0) AS sorted
-         JOIN booking
-              ON booking.parking_space_id = sorted.parking_space_id
-WHERE sorted.parking_space_id = 5
-  AND booking.approved = true;
+UPDATE parking_space
+SET occupant_username = 'admin1',
+    status            = 'occupied'
+WHERE parking_space_id = 20
+  AND occupant_username IS NULL
+  AND status = 'active';
+
+UPDATE booking
+SET visited = true
+WHERE booking_id = 7;
+
+-- Late to booking
+INSERT INTO booking (parking_space_id, booking_username, start, finish)
+VALUES (21, 'admin1', CURRENT_TIMESTAMP + INTERVAL '5 second', CURRENT_TIMESTAMP + INTERVAL '12 hour');

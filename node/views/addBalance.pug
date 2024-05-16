@@ -11,6 +11,10 @@ block content
   .container
     include includes/nav.pug
     .main-content
+      if success
+        .alert.alert-success #{success}
+      if error
+        .alert.alert-danger #{error}
       form(method='POST' action='/add-balance')
         label(for='card_holder_name') Cardholder Name:
         input#card_holder_name(type='text' name='card_holder_name' placeholder='John Doe' required='')

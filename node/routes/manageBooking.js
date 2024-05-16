@@ -30,20 +30,17 @@ router.post(
   "/",
   LoginRegisterController.collectAuthTokenData,
   UserController.updateBookingDetails,
-  async (req, res, next) => {
-    try {
-      res.render("manage-booking", {
-        loggedIn: req.loggedIn,
-        user: req.user,
-        calculatedBooking: req.calculatedBooking,
-        newBooking: req.newBooking,
-      });
-    } catch (error) {
-      console.error("Error updating booking details:", error);
-      res.status(500).send("Error updating booking details");
-    }
+  UserController.showBooking,
+  async (req, res) => {
+    res.render("manageBooking", {
+      loggedIn: req.loggedIn,
+      user: req.user,
+      bookings: req.bookings,
+      resultMsg: req.resultMsg,
+    });
   }
 );
+
 
 
 module.exports = router;

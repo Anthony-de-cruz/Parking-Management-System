@@ -12,8 +12,11 @@ block content
                 label(for='password')
                 input#password(type='password' name='password' placeholder='Password' required='')
                 br
-                input#password(type='email' name='email' placeholder='e@mail.com' required='')
                 label(for='email')
+                input#password(type='email' name='email' placeholder='e@mail.com' required='')
+                br
+                label(for='phone_number')
+                input#phone_number(type='tel' name='phone_number' placeholder='Phone Number' required='')
                 br
                 input(type='submit' value='Register')
             h3 Result: #{registerResult}

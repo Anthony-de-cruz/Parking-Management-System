@@ -3,6 +3,7 @@ const { query } = databaseManager;
 
 const User = require("../models/user");
 const Booking = require("../models/booking");
+const MessageController = require("./messageController");
 
 class UserController {
   constructor() {}
@@ -63,6 +64,7 @@ class UserController {
       return next();
     }
   }
+
 
   static async calcualteBooking(req, res, next) {
     try {
@@ -134,33 +136,24 @@ class UserController {
   static async updateBookingDetails(req, res, next) {
     try {
       const { bookingID, parkingSpaceID, start, finish } = req.body;
-      console.log("Received data:", {
-        bookingID,
-        parkingSpaceID,
-        start,
-        finish,
-      });
 
-      await query(
+        await query(
         `UPDATE booking 
          SET parking_space_id = $1, start = $2, finish = $3 
          WHERE booking_id = $4`,
         [parkingSpaceID, start, finish, bookingID],
       );
-
-      // Return success response
-      return res
-        .status(200)
-
+  
+      // Set success message
+      req.resultMsg = "Booking details updated successfully";
     } catch (error) {
-      // Handle any errors
+      // Set error message
       console.error("Error updating booking details:", error);
-      return res
-        .status(500)
-        .json({ error: "Failed to update booking details" });
+      req.resultMsg = "Failed to update booking details";
     }
+    next();
   }
-
+  
   static async selectBooking(req, res, next) {
     const { bookingID } = req.body;
     const username = req.user.username;
@@ -265,6 +258,9 @@ class UserController {
         return next();
       }
 
+      const message = `${username} has parked in (${targetLongitude},${targetLatitude})`;
+      await MessageController.sendMessageToAdmin(req.user, message);
+
       req.parkSuccessMsg = "You have parked!";
     } catch (error) {
       console.log(error);
@@ -298,6 +294,10 @@ class UserController {
       console.log(
         "Removed user " + username + " from parking space " + parkingSpaceID,
       );
+      
+      const message = `${username} has left the car park`;
+      await MessageController.sendMessageToAdmin(req.user, message);
+
     } catch (error) {
       req.resultMsg = "Invalid parking space id";
       console.log("Invalid unparking: " + error);
@@ -305,6 +305,12 @@ class UserController {
 
     return next();
   }
+
+  static async getUsers() {
+    const result = await query("SELECT username FROM app_user WHERE is_banned = FALSE;");
+    return result.rows;
+  }
+  
 }
 
 module.exports = UserController;

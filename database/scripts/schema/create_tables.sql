@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS app_user
     username  VARCHAR(20)           NOT NULL,
     password  VARCHAR(20)           NOT NULL,
     email     VARCHAR(30)           NOT NULL,
+    phone_number  VARCHAR(15)       NOT NULL,
     is_admin  BOOLEAN               NOT NULL,
     is_banned BOOLEAN DEFAULT FALSE NOT NULL,
     balance   INTEGER DEFAULT 0,
@@ -26,7 +27,7 @@ CREATE TABLE IF NOT EXISTS parking_space
     carpark_id        SERIAL NOT NULL,
     latitude          FLOAT  NOT NULL,
     longitude         FLOAT  NOT NULL,
-    blocked           BOOLEAN DEFAULT false,
+    blocked           BOOLEAN     DEFAULT false,
     occupant_username VARCHAR(20),
     status            VARCHAR(20) DEFAULT 'active',
     PRIMARY KEY (parking_space_id),
@@ -39,11 +40,12 @@ CREATE TABLE IF NOT EXISTS parking_space
 CREATE TABLE IF NOT EXISTS booking
 (
     booking_id       SERIAL,
-    parking_space_id INTEGER           NOT NULL,
-    booking_username CHAR(20)          NOT NULL,
-    start            TIMESTAMP         NOT NULL,
-    finish           TIMESTAMP         NOT NULL,
-    deposit          INTEGER DEFAULT 0 NOT NULL,
+    parking_space_id INTEGER               NOT NULL,
+    booking_username CHAR(20)              NOT NULL,
+    start            TIMESTAMP             NOT NULL,
+    finish           TIMESTAMP             NOT NULL,
+    deposit          INTEGER DEFAULT 0     NOT NULL,
+    visited          BOOLEAN DEFAULT FALSE NOT NULL,
     approved         BOOLEAN DEFAULT FALSE NOT NULL,
     PRIMARY KEY (booking_id),
     FOREIGN KEY (parking_space_id) REFERENCES parking_space (parking_space_id)
@@ -61,4 +63,12 @@ CREATE TABLE IF NOT EXISTS transaction
     PRIMARY KEY (transaction_id),
     FOREIGN KEY (transactor_username) REFERENCES app_user (username)
         ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS alert
+(
+    alert_id  SERIAL,
+    message   VARCHAR(256)                        NOT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    PRIMARY KEY (alert_id)
 );

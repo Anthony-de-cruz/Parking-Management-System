@@ -6,6 +6,8 @@ services:
     volumes:
       - ./node:/node
       - /node/node_modules # Remove this if you have pure JS dependencies
+    env_file:
+      - .env
     ports:
       - "8080:8080"
   db:

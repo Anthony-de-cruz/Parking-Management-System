@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
@@ -7,6 +9,7 @@ var favicon = require("serve-favicon");
 
 var databaseManager = require("./controllers/databaseManager");
 const { testDB } = databaseManager;
+
 
 testDB();
 
@@ -20,11 +23,15 @@ var manageBookingRouter = require("./routes/manageBooking");
 var manageAccountRouter = require("./routes/manageAccount");
 var parkRouter = require("./routes/park");
 var unparkRouter = require("./routes/unpark");
+var sendMessageRouter = require("./routes/sendMessage");
 var adminDataViewRouter = require("./routes/adminDataView");
 var adminManageParkingRouter = require("./routes/adminManageParking");
 var adminManageUsersRouter = require("./routes/adminManageUsers");
 var adminManageParkingRouter = require("./routes/adminManageParking");
 var adminParkingRequestsRouter = require("./routes/adminParkingRequests");
+var adminSendMessageRouter = require("./routes/adminSendMessage");
+var adminAlertRouter = require("./routes/adminAlert");
+
 
 var app = express();
 
@@ -50,11 +57,15 @@ app.use("/manage-booking", manageBookingRouter);
 app.use("/manage-account", manageAccountRouter);
 app.use("/park", parkRouter);
 app.use("/unpark", unparkRouter);
+app.use("/send-message", sendMessageRouter);
 app.use("/admin-data-view", adminDataViewRouter);
 app.use("/admin-manage-parking", adminManageParkingRouter);
 app.use("/admin-manage-users", adminManageUsersRouter);
 app.use("/admin-manage-parking", adminManageParkingRouter);
 app.use("/admin-parking-requests", adminParkingRequestsRouter);
+app.use("/admin-send-message", adminSendMessageRouter);
+app.use("/admin-alert", adminAlertRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
