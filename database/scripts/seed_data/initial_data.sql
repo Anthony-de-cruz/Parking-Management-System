@@ -121,5 +121,17 @@ VALUES (get_nearest_available_parking_space(
         '2055-01-01 02:10',
         '2055-01-01 02:20');
 
+
 INSERT INTO booking (parking_space_id, booking_username, start, finish)
-VALUES(20, 'admin1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '1 hour');
+VALUES (20, 'admin1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '1 hour');
+
+UPDATE parking_space
+SET occupant_username = 'admin1',
+    status            = 'occupied'
+WHERE parking_space_id = 20
+  AND occupant_username IS NULL
+  AND status = 'active'
+RETURNING status;
+
+INSERT INTO booking (parking_space_id, booking_username, start, finish)
+VALUES (20, 'admin1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '1 hour');
