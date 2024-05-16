@@ -1,17 +1,17 @@
 -- !psql
 
-INSERT INTO app_user (username, password, email, is_admin, is_banned, balance)
-VALUES ('admin1', 'password', 'example@email.com', TRUE, FALSE, 7000);
+INSERT INTO app_user (username, password, email, phone_number, is_admin, is_banned, balance)
+VALUES ('admin1', 'password', 'example@email.com', '+447532742960', TRUE, FALSE, 7000);
 
-INSERT INTO app_user (username, password, email, is_admin, is_banned)
-VALUES ('user1', 'password', 'example@email.com', FALSE, FALSE);
+INSERT INTO app_user (username, password, email, phone_number, is_admin, is_banned)
+VALUES ('user1', 'password', 'example@email.com', '+447532742960', FALSE, FALSE);
 
 UPDATE app_user
 SET balance = balance + 6000
 WHERE username = 'user1';
 
-INSERT INTO app_user (username, password, email, is_admin, is_banned)
-VALUES ('bannedUser1', 'password', 'example@email.com', FALSE, TRUE);
+INSERT INTO app_user (username, password, email, phone_number, is_admin, is_banned)
+VALUES ('bannedUser1', 'password', 'example@email.com','+447532742960', FALSE, TRUE);
 
 UPDATE app_user
 SET balance = balance + 600

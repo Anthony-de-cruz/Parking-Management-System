@@ -3,6 +3,7 @@ const { query } = databaseManager;
 
 const User = require("../models/user");
 const Booking = require("../models/booking");
+const MessageController = require("./messageController");
 
 class UserController {
   constructor() {}
@@ -257,6 +258,9 @@ class UserController {
         return next();
       }
 
+      const message = `${username} has parked in (${targetLongitude},${targetLatitude})`;
+      await MessageController.sendMessageToAdmin(req.user, message);
+
       req.parkSuccessMsg = "You have parked!";
     } catch (error) {
       console.log(error);
@@ -290,6 +294,10 @@ class UserController {
       console.log(
         "Removed user " + username + " from parking space " + parkingSpaceID,
       );
+      
+      const message = `${username} has left the car park`;
+      await MessageController.sendMessageToAdmin(req.user, message);
+
     } catch (error) {
       req.resultMsg = "Invalid parking space id";
       console.log("Invalid unparking: " + error);
@@ -297,6 +305,12 @@ class UserController {
 
     return next();
   }
+
+  static async getUsers() {
+    const result = await query("SELECT username FROM app_user WHERE is_banned = FALSE;");
+    return result.rows;
+  }
+  
 }
 
 module.exports = UserController;
