@@ -116,21 +116,29 @@ class UserController {
   static async showBooking(req, res, next) {
     try {
       const bookingUsername = req.user.username;
-
+      var bookings;
       // Fetch bookings from the database
-      const bookings = await query(
-        `SELECT * FROM booking WHERE booking_username = $1 AND approved = true`,
-        [bookingUsername],
-      );
+      if(req.user.isAdmin){
+       bookings = await query(
+        `SELECT * FROM booking WHERE approved = true`,
+      )
 
+    }  else{
+      bookings = await query(
+       `SELECT * FROM booking WHERE booking_username = $1 AND approved = true`,
+       [bookingUsername],
+     );}
       req.bookings = bookings.rows;
-
+    
+    
       return next();
     } catch (error) {
       console.error("Error fetching bookings:", error);
       res.status(500).send("Error fetching bookings");
     }
   }
+
+  
 
   static async updateBookingDetails(req, res, next) {
     try {

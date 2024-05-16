@@ -14,6 +14,7 @@ block content
       table.booking-table
         thead
           tr
+            th Username
             th Booking ID
             th Parking Space
             th Start
@@ -29,6 +30,7 @@ block content
           if bookings.length
             each booking in bookings
               tr
+                td= booking.booking_username
                 td.booking-id= booking.booking_id
                 td.parking-space-id= booking.parking_space_id
                 td.start-time= booking.start
