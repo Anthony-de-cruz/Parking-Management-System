@@ -1,9 +1,9 @@
-// services/emailService.js
+
 const nodemailer = require('nodemailer');
 
-// Create a transporter object using SMTP
+// Create a transporter object
 const transporter = nodemailer.createTransport({
-  service: 'Gmail', // You can use other services
+  service: 'Gmail', 
   auth: {
     user: 'carppark13@gmail.com',
     pass: 'ebvh fszl adau fuhe'
