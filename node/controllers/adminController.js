@@ -215,22 +215,28 @@ class AdminController {
   }
 
   static async getAdminAlerts(req, res, next) {
-    const { bookingID } = req.body;
     try {
-      const result = await query("SELECT * FROM alert;");
-      if (result.rows.length > 0) {
-        req.resultMsg = "Your alerts";
-      } else {
-        req.resultMsg = "No alerts";
-      }
-      // MAKE THE TABLE HERE
+        const result = await query("SELECT * FROM alert;");
+        let alerts = [];
+
+        if (result.rows.length > 0) {
+            req.resultMsg = "Your alerts";
+            alerts = result.rows;
+        } else {
+            req.resultMsg = "No alerts";
+        }
+
+        req.alerts = alerts;
     } catch (error) {
-      console.error("Error checking for alerts:", error);
-      req.resultMsg = "Failed to check for alerts!";
+        console.error("Error checking for alerts:", error);
+        req.resultMsg = "Failed to check for alerts!";
     }
 
     return next();
-  }
+}
+
+
+
   static async generateAlert(req, res, next) {
     const result = await query("CALL generate_alerts();");
     try {

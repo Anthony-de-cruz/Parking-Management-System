@@ -16,6 +16,7 @@ router.get(
       loggedIn: req.loggedIn,
       user: req.user,
       resultMsg: req.resultMsg,
+      alerts: req.alerts,
     });
   },
 );
