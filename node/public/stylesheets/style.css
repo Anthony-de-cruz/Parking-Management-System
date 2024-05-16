@@ -64,6 +64,7 @@ nav {
   height: auto;
 }
 
+input[type="tel"],
 input[type="email"],
 input[type="password"],
 input[type="text"],
@@ -85,7 +86,7 @@ form label {
   margin-bottom: 5px;
 }
 
-form input[type="email"],
+form input[type="tel"],
 form input[type="email"],
 form input[type="password"],
 form input[type="text"],
