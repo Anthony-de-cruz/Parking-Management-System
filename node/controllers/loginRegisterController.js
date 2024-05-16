@@ -11,14 +11,14 @@ class LoginRegisterController {
   /**
    * Register a new user
    */
-  static async registerUser(username, password, email) {
+  static async registerUser(username, password, email, phone_number) {
     try {
       await query(
-        `INSERT INTO app_user (username, password, email, is_admin, is_banned, balance)
-        VALUES ($1, $2, $3, $4, $5, $6)`,
-        [username, password, email, false, false, 0],
+        `INSERT INTO app_user (username, password, email, phone_number, is_admin, is_banned, balance)
+        VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+        [username, password, email, phone_number, false, false, 0],
       );
-      console.log(`Inserted new user: ${username}, ${password}, ${email}`);
+      console.log(`Inserted new user: ${username}, ${password}, ${email}, ${phone_number}`);
     } catch (error) {
       throw error;
     }

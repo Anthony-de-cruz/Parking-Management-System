@@ -11,14 +11,15 @@ router.get("/", function (req, res, next) {
 router.post("/", async (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
-  const email = req.body.email;
+  const email = req.body.email
+  const phone_number = req.body.phone_number;
 
   console.log(
-    "Attempted register as: " + username + "," + password + "," + email,
+    "Attempted register as: " + username + "," + password + "," + email + "," + phone_number,
   );
 
   try {
-    await LoginRegisterController.registerUser(username, password, email);
+    await LoginRegisterController.registerUser(username, password, email, phone_number);
     return res.redirect("/login");
   } catch (error) {
     // Not a particularly understandable error message
