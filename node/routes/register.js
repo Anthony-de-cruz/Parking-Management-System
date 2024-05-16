@@ -16,7 +16,7 @@ router.post("/", async (req, res, next) => {
   const phone_number = req.body.phone_number;
 
   console.log(
-    "Attempted register as: " + username + "," + password + "," + email,
+    "Attempted register as: " + username + "," + password + "," + email, + "," + phone_number,
   );
 
   try {
