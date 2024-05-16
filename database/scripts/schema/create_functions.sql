@@ -39,6 +39,8 @@ CREATE OR REPLACE FUNCTION check_if_available(
     LANGUAGE plpgsql
 AS
 $$
+DECLARE
+    available INTEGER;
 BEGIN
     -- Check if the space is taken in another booking
     IF EXISTS (SELECT
@@ -49,11 +51,12 @@ BEGIN
     END IF;
 
     -- Check if space is available
-    IF EXISTS(SELECT * FROM parking_space WHERE status != 'active') THEN
-        RETURN false;
+    SELECT COUNT(1) INTO available FROM parking_space WHERE status = 'active';
+    IF (available > 0) THEN
+        RETURN true;
     END IF;
-    RETURN true;
-END;
+    RETURN false;
+END ;
 $$;
 
 CREATE OR REPLACE FUNCTION get_parking_spaces_by_distance(
