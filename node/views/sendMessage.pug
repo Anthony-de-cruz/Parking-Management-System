@@ -13,6 +13,8 @@ block content
 
     .main-content
       h2 Send Message
+      if message
+        .response-message(class=messageType) #{message}
       form(action='/send-message', method='POST')
         label(for='message') Message:
         textarea#message(name='message' required)

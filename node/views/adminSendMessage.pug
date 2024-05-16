@@ -13,11 +13,14 @@ block content
 
     .main-content
       h2 Admin - Send Message
+      if message
+        .response-message(class=messageType) #{message}
       form(action='/admin-send-message', method='POST')
         label(for='username') Select User:
         select(name='username' required)
           each user in users
             option(value=user.username) #{user.username}
+        br
         br
         label(for='message') Message:
         textarea#message(name='message' required)

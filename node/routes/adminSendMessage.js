@@ -5,31 +5,34 @@ var userController = require("../controllers/userController");
 var MessageController = require("../controllers/messageController");
 
 router.get(
-    "/", 
-    loginRegisterController.checkAuthToken, 
-    loginRegisterController.collectAuthTokenData, 
-    async function (req, res, next) {
+  "/", 
+  loginRegisterController.checkAuthToken, 
+  loginRegisterController.collectAuthTokenData, 
+  async function (req, res, next) {
     const users = await userController.getUsers();
     res.render("adminSendMessage", {
-        loggedIn: req.loggedIn,
-        user: req.user,
-        users: users
+      loggedIn: req.loggedIn,
+      user: req.user,
+      users: users,
+      message: req.query.message,
+      messageType: req.query.messageType
     });
-});
+  }
+);
 
 router.post(
-    "/", 
-    loginRegisterController.checkAuthToken, 
-    loginRegisterController.collectAuthTokenData, 
-    async function (req, res, next) {
+  "/", 
+  loginRegisterController.checkAuthToken, 
+  loginRegisterController.collectAuthTokenData, 
+  async function (req, res, next) {
     const { username, message } = req.body;
 
     try {
-    await MessageController.sendMessageToUser(username, message);
-    res.send('Message sent!');
+      await MessageController.sendMessageToUser(username, message);
+      res.redirect('/admin-send-message?message=Message sent!&messageType=success');
     } catch (error) {
-    console.error(error);
-    res.status(500).send('Failed to send message.');
+      console.error(error);
+      res.redirect('/admin-send-message?message=Failed to send message.&messageType=error');
     }
 });
 
