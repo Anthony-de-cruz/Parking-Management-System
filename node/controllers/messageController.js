@@ -6,6 +6,7 @@ const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = twilio(accountSid, authToken);
 
+
 class MessageController {
   static async sendMessageToAdmin(user, message) {
     const adminPhoneNumber = await MessageController.getAdminPhoneNumber();
