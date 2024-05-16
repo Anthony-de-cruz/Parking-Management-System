@@ -122,16 +122,21 @@ VALUES (get_nearest_available_parking_space(
         '2055-01-01 02:20');
 
 
+-- Overstayed booking
 INSERT INTO booking (parking_space_id, booking_username, start, finish)
-VALUES (20, 'admin1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '1 hour');
+VALUES (20, 'admin1', CURRENT_TIMESTAMP + INTERVAL '5 second', CURRENT_TIMESTAMP + INTERVAL '1 minute');
 
 UPDATE parking_space
 SET occupant_username = 'admin1',
     status            = 'occupied'
 WHERE parking_space_id = 20
   AND occupant_username IS NULL
-  AND status = 'active'
-RETURNING status;
+  AND status = 'active';
 
+UPDATE booking
+SET visited = true
+WHERE booking_id = 7;
+
+-- Late to booking
 INSERT INTO booking (parking_space_id, booking_username, start, finish)
-VALUES (20, 'admin1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '1 hour');
+VALUES (21, 'admin1', CURRENT_TIMESTAMP + INTERVAL '5 second', CURRENT_TIMESTAMP + INTERVAL '12 hour');
