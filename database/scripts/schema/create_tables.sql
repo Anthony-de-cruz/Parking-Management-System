@@ -70,6 +70,5 @@ CREATE TABLE IF NOT EXISTS alert
     alert_id  SERIAL,
     message   VARCHAR(256)                        NOT NULL,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    read      BOOLEAN   DEFAULT FALSE             NOT NULL,
     PRIMARY KEY (alert_id)
 );

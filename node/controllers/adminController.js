@@ -217,14 +217,12 @@ class AdminController {
   static async getAdminAlerts(req, res, next) {
     try {
       const result = await query(`
-        SELECT alert_id, message, timestamp
-        FROM alert
-        WHERE read = false;`);
-
+        SELECT *
+        FROM alert;`);
       let alerts = [];
-      await query(`CALL read_alerts();`);
       if (result.rows.length > 0) {
         req.resultMsg = "Your alerts";
+        alerts = result.rows;
       } else {
         req.resultMsg = "No alerts";
       }
