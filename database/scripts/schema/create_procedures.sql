@@ -5,11 +5,8 @@ CREATE OR REPLACE PROCEDURE generate_alerts()
 AS
 $$
 DECLARE
-    row      booking%rowtype;
+    row booking%rowtype;
 BEGIN
-    -- Remove old alerts
-    TRUNCATE TABLE alert;
-
     -- For when a user is an hour late
     FOR row IN SELECT *
                FROM booking
@@ -26,8 +23,8 @@ BEGIN
     -- For when a user has not left their parking space an hour after their booking
     FOR row IN SELECT *
                FROM booking
-               JOIN parking_space
-               ON booking.parking_space_id = parking_space.parking_space_id
+                        JOIN parking_space
+                             ON booking.parking_space_id = parking_space.parking_space_id
                WHERE visited = true
                  AND occupant_username = booking.booking_username
                  -- AND finish + INTERVAL '1 hour' < CURRENT_TIMESTAMP
@@ -40,3 +37,17 @@ END;
 $$;
 
 CALL generate_alerts();
+
+CREATE OR REPLACE PROCEDURE read_alerts()
+    LANGUAGE plpgsql
+AS
+$$
+DECLARE
+BEGIN
+    -- Set to read
+    UPDATE alert
+    SET read = true
+    WHERE true;
+
+END;
+$$;

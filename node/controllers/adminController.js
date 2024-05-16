@@ -213,13 +213,16 @@ class AdminController {
   static async getAdminAlerts(req, res, next) {
     const { bookingID } = req.body;
     try {
-      const result = await query("SELECT * FROM alert;");
+      const result = await query(`
+        SELECT alert_id, message, timestamp
+        FROM alert
+        WHERE read = false;`);
+      await query(`CALL read_alerts();`);
       if (result.rows.length > 0) {
         req.resultMsg = "Your alerts";
       } else {
         req.resultMsg = "No alerts";
       }
-      // MAKE THE TABLE HERE
     } catch (error) {
       console.error("Error checking for alerts:", error);
       req.resultMsg = "Failed to check for alerts!";
